@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- 声明文档使用的字符编码 -->
+    <meta charset='utf-8'>
+    <!-- 优先使用 IE 最新版本和 Chrome -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <!-- 页面描述 -->
+    <meta name="description" content="不超过150个字符"/>
+    <!-- 页面关键词 -->
+    <meta name="keywords" content=""/>
+    <!-- 网页作者 -->
+    <meta name="author" content="name, email@gmail.com"/>
+    <!-- 搜索引擎抓取 -->
+    <meta name="robots" content="index,follow"/>
+    <!-- 为移动设备添加 viewport -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+    <!-- `width=device-width` 会导致 iPhone 5 添加到主屏后以 WebApp 全屏模式打开页面时出现黑边 http://bigc.at/ios-webapp-viewport-meta.orz -->
+ 
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="test" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="white-translucent" />
+    <title>music_app</title>
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/blue.png"/> 
+    <link rel="stylesheet" href="/css/sui.min.css" type='text/css'>
+     
+  </head>
+
+  <body>
+
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script type='text/javascript' src='/js/zepto.min.js' charset='utf-8'></script>
+
+	<script type='text/javascript'>
+		//关闭SUI的路由功能
+    $.config = {
+			router: false
+		}
+
+    function preventDefault(ev) {
+      ev.preventDefault()
+    }
+
+    //document.body.addEventListener('touchstart', preventDefault, false)
+
+    function isScroller(el) {
+      // 判断元素是否为 scroller
+      return el.classList.contains('scroller')
+    }
+
+    /*document.body.addEventListener('touchmove', function (ev) {
+      var target = ev.target
+      //alert(target.className)
+      if (target.className != 'scroller') {
+        document.body.removeEventListener('touchstart', preventDefault, false)
+      }
+    }, false)*/
+
+	</script>
+
+    <script type='text/javascript' src='/js/sm.min.js' charset='utf-8'></script>
+  </body>
+</html>
