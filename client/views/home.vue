@@ -102,7 +102,7 @@
 	      		let self = this
 	      		/*let url = this.url+'/data/student/tasks'*/
 	      		self.loading = true
-		        self.$http.get('http://localhost:3000/server/student/tasks?date='+this.date)
+		        self.$http.get('http://192.168.1.101:3000/server/student/tasks?date='+this.date)
 		      	.then((response) => {
 		      		//success
 		      		self.loading = false
@@ -149,5 +149,5 @@
 	}
 </script>
 
-<style lang='scss' src='../../static/css/timeline.scss'>
+<style lang='scss' src='../../static/css/timeline.scss' scoped>
 </style>

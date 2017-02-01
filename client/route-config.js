@@ -35,7 +35,11 @@ export const routes = [
         require(['./views/more'], resolve) }
   },
   { path: '/chat', component(resolve){
-        require(['./views/chat'], resolve) }
+        require(['./views/chatroom'], resolve) }
+  },
+  { path: '/chatwindow/:id', 
+    name: 'chatwindow', component(resolve){
+        require(['./views/chatwindow'], resolve)}
   },
   { path: '/shopCart', component(resolve){
         require(['./views/shopCart'], resolve) }

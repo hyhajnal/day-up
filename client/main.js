@@ -6,7 +6,7 @@ import store from './store'
 import App from './App'
 import { routes } from './route-config'
 
-import { getAllMessages } from './store/chat/actions'
+import { getAllMsgs } from './store/chatroom/actions'
 
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
@@ -23,6 +23,7 @@ const router = new VueRouter({
   	routes 
 })
 
+//全局通用filter
 Vue.filter('time', timestamp => {
   return new Date(timestamp).toLocaleTimeString()
 })
@@ -36,7 +37,7 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-getAllMessages(store)
+getAllMsgs(store)
 
 
 

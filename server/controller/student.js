@@ -1,4 +1,4 @@
-/**
+/*
  * bluebird 代替mongoose的Promise
  * eventproxy 控制异步事件流程
  */
@@ -31,7 +31,8 @@ module.exports = {
 		var n = 0
 
 		Task.aggregateAsync(
-				{$match: {s_date:{$gt:new Date(date[0], date[1], date[2]),$lt: new Date(date[0], date[1], date[2]+1)}}},
+				/*{$match: {s_date:{$gt:new Date(date[0], date[1], date[2]),$lt: new Date(date[0], date[1], date[2]+1)}}},*/
+				{$match: {s_date:{$lt: new Date(date[0], date[1], date[2])}}},
 				{$group: {_id: '$type', items: {$push: "$$ROOT"}}}
 			)
 			.then(function(tasks){

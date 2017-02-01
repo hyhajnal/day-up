@@ -12,6 +12,7 @@ var log4js = require('log4js')
 var Promise = require('bluebird')
 
 var routes = require("./routes/index")
+var sockets = require('./socket/index')
 
 var db = 'mongodb://localhost/example'
 
@@ -30,6 +31,15 @@ var port = process.env.PORT || config.dev.port
 var proxyTable = config.dev.proxyTable
 
 var app = express()
+
+
+//socket.io
+/*var server = app.listen(3000)
+var io = require('socket.io').listen(server)
+
+sockets(io)*/
+
+
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -96,20 +106,9 @@ Object.keys(proxyTable).forEach(function (context) {
 app.use(require('connect-history-api-fallback')())
 
 
-// serve webpack bundle output
-//app.use(devMiddleware)
+app.use(express.static(path.join(__dirname, '../static')))
 
-// enable hot-reload and state-preserving
-// compilation error display
-//app.use(hotMiddleware)
-
-// serve pure static assets
-// var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
-// app.use(staticPath, express.static('./static'))
-
-app.use(express.static(path.join(__dirname, '../static')));
-
-module.exports = app.listen(port, function (err) {
+var server = app.listen(port, function (err) {
   if (err) {
     console.log(err)
     return
@@ -118,3 +117,12 @@ module.exports = app.listen(port, function (err) {
   console.log('Listening at ' + uri + '\n')
   opn(uri)
 })
+
+
+//socket.io
+/*var server = app.listen(3000)*/
+var io = require('socket.io').listen(server)
+
+sockets(io)
+
+module.exports = server

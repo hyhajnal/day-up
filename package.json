@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "mint-ui": "^2.0.5",
+    "socket.io": "^1.7.2",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0",
@@ -38,7 +39,9 @@
     "http-proxy-middleware": "^0.17.2",
     "json-loader": "^0.5.4",
     "log4js": "^1.0.1",
+    "mockjs": "^1.0.1-beta3",
     "mongoose": "^4.6.2",
+    "node-sass": "^4.3.0",
     "opn": "^4.0.2",
     "ora": "^0.3.0",
     "sass-loader": "^4.0.2",

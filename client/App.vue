@@ -4,7 +4,7 @@
       <!-- <header class="bar bar-nav">
         <h1 class="title"><span class="icon icon-menu open-panel" data-panel='#panel-left'></span></h1>
       </header> -->
-      <span class="icon icon-menu open-panel" data-panel='#panel-left'></span>
+      <!-- <span class="icon icon-menu open-panel" data-panel='#panel-left'></span> -->
       <transition name="slide-fade">
         <router-view class="childPage" id="childPage"></router-view>
       </transition>
@@ -30,8 +30,13 @@ export default {
   name: 'App',
   data () {
     return {
-      isIndex: true/*,
+      /*
       transitionName: 'slide-left'*/
+    }
+  },
+  computed: {
+    isIndex () {
+      return this.$store.state.navbar
     }
   },
   /*watch: {
@@ -55,6 +60,7 @@ export default {
   .childPage{
     height: 100%;
     overflow-y: auto;
+    overflow-x: hidden; 
   }
   .childPage:after{
     content:'';
