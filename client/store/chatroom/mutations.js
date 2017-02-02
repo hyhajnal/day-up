@@ -1,8 +1,8 @@
-import { set } from 'vue'
+import { set , delete as del} from 'vue'
 import * as types from './mutation-types'
 
 export default {
-	[types.RECEIVE_ALL] (state, { msgs }) {
+	/*[types.RECEIVE_ALL] (state, { msgs }) {
 		msgs.forEach(msg => {
 			if(!state.rooms[msg.roomId]){
 				createRoom(state, msg.roomId)
@@ -11,6 +11,22 @@ export default {
 			addMsg(state, msg)
 
 		})
+	},*/
+	[types.LOGIN] (state, { msg }) {
+		addMsg(state, msg )
+		login(state, msg )
+	},
+
+	[types.ADD_ROOM] (state, { room }){
+		createRoom(state, room)
+	},
+
+	[types.LOGOUT] (state, { msg }) {
+		if(localStorage.getItem('usrName') != msg.owner){
+			addMsg(state, msg)
+		}
+		//addMsg(state, msg)
+		logout(state, msg)
 	},
 
 	[types.SEND_MSG] (state, { msg }) {
@@ -19,30 +35,21 @@ export default {
 
 	[types.CHANGE_ROOM] (state, { id }) {
 		changeRoom(state, id)
-	},
-
-	[types.LOGIN] (state, { msg }) {
-		addMsg(state, msg )
-		login(state, msg )
-	},
-
-	[types.LOGOUT] (state, { msg }) {
-		addMsg(state, msg)
-		logout(state, msg)
 	}
 }
 
 /*Vue.set(object,key,value)*/
 
-function createRoom(state, id){
-	set(state.rooms, id, {
+function createRoom(state, room){
+	/*set(state.rooms, id, {
 		id,
 		name: "n" + id,
 		msgs: [],
 		usr: [],
 		lastMsg: null,
 		unreadNum: 0
-	})
+	})*/
+	set(state.rooms, room.id, room)
 }
 function addMsg(state, msg){
 	set(state.msgs, msg.id, msg)
@@ -66,20 +73,24 @@ function changeRoom(state, roomId){
 }
 
 function login(state, msg){
-	const usr = {
-		id: localStorage.getItem('usrId'),
-		name: localStorage.getItem('usrName')
-	}
+	const usr = localStorage.getItem('usrName')
 	state.rooms[msg.roomId].usr.push(usr)
 
 }
 
 function logout(state, msg){
-	const usrId = localStorage.getItem('usrId')
+
+	const usr = localStorage.getItem('usrName')
 	const usrList = state.rooms[msg.roomId].usr
-	console.log(usrList)
+
 	const index = usrList.findIndex(function(usr, index, arr){
-		return usr.id = usrId
+		return usr.id == usr
 	})
 	usrList.splice(index, 1)
+
+	if(localStorage.getItem('usrName') == msg.owner){
+		/*Vue.delete( object, key )*/
+		del(state.rooms, msg.roomId)
+	}
+
 }

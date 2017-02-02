@@ -1,38 +1,46 @@
 import io from 'socket.io-client'
 import store from '../store'
 
-let socket = null
-const usrId = localStorage.getItem('usrId')
-const usrName = localStorage.getItem('usrName')
-const usrAvator = localStorage.getItem('usrAvator')
+let socket,usrId,usrName,usrAvator
 
-export function init( roomId ){
-	//连接
-	/*socket = io.connect('http://192.168.137.1:3000/')*/
-	socket = io.connect('http://192.168.1.101:3000')
+export function init(){
+	socket = io.connect('http://192.200.204.88:3000')
+}
 
+export function setInfo() {
+	usrId = localStorage.getItem('usrId')
+	usrName = localStorage.getItem('usrName')
+	usrAvator = localStorage.getItem('usrAvator')
+}
 
-	//监听后台传来的消息
-	//
+//监听后台传来的消息
+export function listen_login( roomId ){
+	
 	socket.on('login' + roomId, function(obj){
 		/*谁谁加入了聊天室*/
 		store.dispatch('login', { 
-			id: obj.id, 
-			name: obj.name, 
-			roomId 
+			name: obj.usrName, 
+			content: obj.usrName + "加入了聊天室",
+			roomId,
+			type: 3
 		})
 	})
 
+}
+
+export function listen_logout(roomId){
 	socket.on('logout' + roomId, function(obj){
 		/*谁谁退出了聊天室*/
-		//socket.discount()
 		store.dispatch('logout', {
-		 	id: obj.id, 
-		 	name: obj.name, 
-		 	roomId 
+		 	name: obj.usrName, 
+		 	content: obj.usrName + "退出了聊天室",
+		 	roomId ,
+		 	type: 4
 		})
 	})
+}
 
+export function listen_msg(roomId){
 	socket.on('sendMsg' + roomId, function(obj){
 		/*谁谁说了什么*/
 		store.dispatch('sendMsg', { 
@@ -42,19 +50,20 @@ export function init( roomId ){
 			type: usrName == obj.usrName ? 0 : 1
 		})
 	})
-
 }
 
 //向后台发送消息
 export function login( roomId ){
+	setInfo()
 	socket.emit('login', { usrId: usrId, usrName: usrName, roomId: roomId })
 }
 
 export function logout( roomId ){
-	console.log('logout_before')
+	setInfo()
 	socket.emit('logout', { usrId: usrId, usrName: usrName, roomId: roomId })
 }
 
 export function sendMsg( content, roomId, type){
+	setInfo()
 	socket.emit('sendMsg', { usrId: usrId, usrName: usrName, roomId: roomId, content: content})
 }

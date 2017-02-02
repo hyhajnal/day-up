@@ -1,103 +1,19 @@
 <template>
 	<div>
 	  <header class="bar bar-nav">
-	    <a class="button button-link button-nav pull-left back" @click.prevent="clear">
+	    <a class="button button-link button-nav pull-left back" >
 	      <span class="icon icon-friends" @click="popupVisible = true"></span>
 	    </a>
 	    <h1 class="title">聊天室</h1>
 	  </header>
 	  <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="mint-popup" >
 			<ul class="add_container">
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
+				<li class="add_item" v-for="room in rooms_all">
 					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
+						<img src="/images/panda.png" width="30" height="30">
+						<div class="room_title">{{ room.name }}</div>
 					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
-				</li>
-				<li class="add_item">
-					<img src="/images/panda.png" width="30" height="30">
-					<div class="room">
-						<div class="room_title">聊天室</div>
-						<mt-button size="small" type="primary">加入</mt-button>
-					</div>
+					<mt-button size="small" type="primary" @click="addRoom(room, $event)" >加入</mt-button>
 				</li>
 			</ul>
 	  </mt-popup>
@@ -127,6 +43,7 @@
 	import { mapGetters } from 'vuex'
 	import { MessageBox } from 'mint-ui'
 	import * as Csocket from '../api/socket'
+	import { roomData } from '../api/chatData'
 	export default {
 		mounted() {
 		    if(!localStorage.getItem('usrId')){
@@ -137,10 +54,12 @@
 		      		console.log(cancle)
 		      	})
 		    }
+		    Csocket.init()
 	    },
 	    data() {
 	    	return {
-	    		popupVisible: false
+	    		popupVisible: false,
+	    		rooms_all: roomData.rooms
 	    	}
 	    },
 		methods: {
@@ -150,11 +69,19 @@
 			},
 			logout(roomId, name){
 				MessageBox.confirm('确定要退出'+name+'聊天室么?').then(action => {
-				  Csocket.init(roomId)
 				  Csocket.logout(roomId)
+				  //this.$store.dispatch('remove_room',{ roomId })
 				}).catch( (cancle) => {
 					//console.log(cancle)
 				})
+			},
+			addRoom(room, e){
+				e.target.className = 'added'
+				e.target.innerText = '已加入'
+				Csocket.listen_login(room.id) //监听加入
+				Csocket.listen_logout(room.id) //监听退出
+				Csocket.login(room.id)
+				this.$store.dispatch('add_room',room)
 			}
 		},
 		computed: {
@@ -178,13 +105,17 @@
 		border-radius: 50%;
 	}
 
+	#childPage .mint-cell-wrapper{
+		padding:10px;
+	}
+
 	.mint-popup {
         width: 14rem;
         height:16rem;
         overflow-y:auto;
         -webkit-overflow-scrolling : touch; 
         border-radius: 8px;
-        padding: 1rem;
+        padding: .2rem;
         transform: translate(-50%, -8rem);
         h1 {
           font-size: 20px;
@@ -196,7 +127,7 @@
       }
 
       .add_container{
-      	font-size: .1rem;
+      	font-size: .5rem;
       	margin:0;
       	padding: 0;
       	width: 100%;
@@ -206,6 +137,7 @@
       	justify-content: center;
 
   		li{
+  			text-align: center;
   			box-sizing: border-box;
 			background: #fff;
 			flex: 0 0 50%;
@@ -220,6 +152,33 @@
 				.mint-button--small{
 					padding: .1rem .3rem;
 					height:auto;
+					transition:all 1s;
+					animation: bounceIn_custom 0.6s ease-in-out;
+				}
+
+				@keyframes bounceIn_custom {
+					 0% {
+					 transform: scale(1);
+					}
+					 50% {
+					 	transform: scale(1.2);
+					}
+					 100% {
+					 	transform: scale(1);
+					}
+				}
+
+				.room_title{  /* 超过截断 */
+					width:35px;
+					white-space: nowrap;  
+					overflow: hidden;  
+					text-overflow:ellipsis;      /*兼容IE*/  
+				}
+
+				.added{
+					background-color: #fff;
+					border: 1px solid #26a2ff;
+					color:#26a2ff;
 				}
   		}
       }

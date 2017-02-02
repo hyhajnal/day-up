@@ -2,13 +2,13 @@ import * as api from '../../api/chatroom'
 import * as types from './mutation-types'
 
 //mock数据
-export const getAllMsgs = ({ commit }) => {
+/*export const getAllMsgs = ({ commit }) => {
 	api.getAllMsgs(msgs => {
 		commit(types.RECEIVE_ALL, {
 			msgs
 		})
 	})
-}
+}*/
 
 //如果不在当前房间，未读消息+1
 //更改lastMsg
@@ -27,6 +27,15 @@ export const changeRoom = ({ commit }, payload) => {
 	commit(types.CHANGE_ROOM, payload)
 }
 
+
+export const add_room = ({ commit }, payload) => {
+	api.createRoom(payload, room => {
+		commit(types.ADD_ROOM, {
+			room
+		})
+	})
+}
+
 //推送消息
 //usrList增加此人
 export const login = ({ commit }, payload) => {
@@ -37,6 +46,7 @@ export const login = ({ commit }, payload) => {
 		})
 	})
 }
+
 
 //推送消息
 //usrList删去此人

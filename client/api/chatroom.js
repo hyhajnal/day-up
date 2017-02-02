@@ -18,3 +18,19 @@ export function createMsg ({name, content, roomId, type}, cb) {
 
 	cb(msg)
 }
+
+export function createRoom ({id, name, usr}, cb) {
+	const room = {
+		id,
+		name,
+		usr,
+		msgs: [],
+		lastMsg: {
+			owner: '',
+			content: ''
+		},
+		unreadNum: 0
+	}
+
+	cb(room)
+}

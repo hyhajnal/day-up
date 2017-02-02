@@ -10,12 +10,12 @@
 		<div class="content" ref="list">
         <div class="chat_wrap" v-for="msg in msgs" >
           <mt-badge size="small" type="primary" color="#ccc"
-                    v-if = "msg.type == 2" class="sys_tip">
-            <strong>{{ msg.owner }}</strong> 加入了群聊
+                    v-if = "msg.type == 3 || msg.type == 4" class="sys_tip">
+            <strong>{{ msg.content }}
           </mt-badge>
           <div :class="{ 'item me': msg.type == 0, 
                          'item other' : msg.type == 1}" 
-            v-if = "msg.type != 2">
+            v-if = "msg.type != 3 && msg.type != 4">
             <div class="avator">
               <div class="name"><strong>{{ msg.owner }}</strong></div>
               <img src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" alt="avator" width='50' height='50'>
@@ -45,7 +45,7 @@
 	export default{
     mounted() {
       this.$store.commit('setNavbar', 0)
-      Csocket.init(this.room.id)
+      Csocket.listen_msg(this.room.id)
     },
     methods: {
       sendMsg (e) {

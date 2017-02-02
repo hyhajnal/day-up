@@ -3,7 +3,7 @@ export const chatData =
     Mock.mock({
       "msgs|10":[
         {
-          "id|1-10":"m",
+          "id|+1":1,
           "name|1-10":"n",
           "owner":"hajnal",
           "content":"guess",
@@ -14,4 +14,16 @@ export const chatData =
       ]
     })
 
-//console.log(chatData)
+export const roomData = 
+  Mock.mock({
+    "rooms|10":[
+      {
+        "id|+1":1,
+        "name|1-10":"n",
+        "usr":['hajnal','Mark'],
+        "type":0
+      }
+    ]
+  })
+
+//room type 群聊0 单聊1
