@@ -1,12 +1,14 @@
 <template>
-	<div>
-	  <header class="bar bar-nav">
-	    <a class="button button-link button-nav pull-left back" >
-	      <span class="icon icon-friends" @click="popupVisible = true"></span>
-	    </a>
-	    <h1 class="title">聊天室</h1>
-	  </header>
-	  <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="mint-popup" >
+	<div class="content content_bottom">
+
+	    <mt-header fixed title="聊天室">
+			<router-link to="" slot="left">
+		    <mt-button  @click="popupVisible = true">加入</mt-button>
+			</router-link>
+			<mt-button icon="more" slot="right"></mt-button>
+	    </mt-header>
+
+	    <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="mint-popup" >
 			<ul class="add_container">
 				<li class="add_item" v-for="room in rooms_all">
 					<div class="room">
@@ -16,8 +18,8 @@
 					<mt-button size="small" type="primary" @click="addRoom(room, $event)" >加入</mt-button>
 				</li>
 			</ul>
-	  </mt-popup>
-	  <div class="content">
+	    </mt-popup>
+	    <div>
 			<mt-cell-swipe
 			  v-for="room in rooms"
 			  :title= "room.name"
@@ -34,8 +36,7 @@
 			  		<mt-badge size="small" type="primary">{{ room.unreadNum }}</mt-badge>
 					<img slot="icon" src="/images/panda.png" width="50" height="50">
 			</mt-cell-swipe>
-
-	  </div>
+	    </div>
 	</div>
 </template>
 

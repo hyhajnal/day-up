@@ -1,48 +1,97 @@
 <template>
-  <div class="page-indexlist">
-    <p class="page-indexlist-desc">此例请使用手机查看</p>
-    <div class="page-indexlist-wrapper">
-      <mt-index-list>
-        <mt-index-section v-for="item in alphabet" :index="item.initial">
-          <mt-cell v-for="cell in item.cells" :title="cell"></mt-cell>
-        </mt-index-section>
-      </mt-index-list>
-    </div>
-  </div>
+  <div class="content content_bottom">
+
+    <mt-search
+      v-model="value"
+      cancel-text="取消"
+      placeholder="搜索">
+    </mt-search>
+
+    <mt-swipe :auto="4000">
+      <mt-swipe-item>
+        <img src="/images/1.jpg" alt="1">
+      </mt-swipe-item>
+      <mt-swipe-item>
+        <img src="/images/2.jpg" alt="2">
+      </mt-swipe-item>
+      <mt-swipe-item>
+        <img src="/images/3.jpg" alt="3">
+      </mt-swipe-item>
+    </mt-swipe>
+    
+    <div class="spinner"><mt-spinner color="#26a2ff" type="snake"></mt-spinner></div>
+
+    <card title="为你推荐">
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+    </card>
+
+    <card title="TV">
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+    </card>
+
+    <card title="学校活动">
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
+    </card>
+    
 </template>
 
-<style>
-  @component-namespace page {
-    @component indexlist {
-      @descendent desc {
-        text-align: center;
-        color: #666;
-        padding-bottom: 5px;
-      }
-      @descendent wrapper {
-        width: 100%;
-        border-top: solid 1px #ddd;
-      }
-    }
-  }
-</style>
+<script>
+import Card from '../components/Card/Card'
+import CardItem from'../components/Card/CardItem' 
 
-<script type="text/babel">
-  const NAMES = ['Aaron', 'Alden', 'Austin', 'Baldwin', 'Braden', 'Carl', 'Chandler', 'Clyde', 'David', 'Edgar', 'Elton', 'Floyd', 'Freeman', 'Gavin', 'Hector', 'Henry', 'Ian', 'Jason', 'Joshua', 'Kane', 'Lambert', 'Matthew', 'Morgan', 'Neville', 'Oliver', 'Oscar', 'Perry', 'Quinn', 'Ramsey', 'Scott', 'Seth', 'Spencer', 'Timothy', 'Todd', 'Trevor', 'Udolf', 'Victor', 'Vincent', 'Walton', 'Willis', 'Xavier', 'Yvonne', 'Zack', 'Zane'];
-  export default {
-    data() {
-      return {
-        alphabet: []
-      };
-    },
-    created() {
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(initial => {
-        let cells = NAMES.filter(name => name[0] === initial);
-        this.alphabet.push({
-          initial,
-          cells
-        });
-      });
+export default {
+  name: 'Find',
+  data (){
+    return {
+
     }
-  };
+  },
+  components: {
+    Card,
+    CardItem
+  }
+}
 </script>
+
+<style lang='scss'>
+.spinner{
+  padding-top: 1rem;
+  text-align: center;
+  span{
+    display: inline-block;
+  }
+}
+.mint-swipe{
+  width:100%;
+  height: 35%;
+  margin:0 auto;
+  img{
+    width:100%;
+  }
+}
+
+.mint-search{
+  width:100%;
+  height:auto;
+  position: absolute;
+  top:0;
+  color: #fff;
+
+  .mint-searchbar, .mint-searchbar-inner,input{
+    background-color: rgba(0,0,0,0.5);
+  }
+  input{
+    background-color: rgba(0,0,0,0);
+  }
+}
+
+</style>

@@ -21,10 +21,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="test" />
     <meta name="apple-mobile-web-app-status-bar-style" content="white-translucent" />
-    <title>music_app</title>
+    <title>vue_app</title>
     <link rel="shortcut icon" href="/images/favicon.ico">
     <link rel="apple-touch-icon" href="/images/blue.png"/> 
-    <link rel="stylesheet" href="/css/sui.min.css" type='text/css'>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_bw39ss52k18xgvi.css" type='text/css'>
      
   </head>
 
@@ -32,35 +32,6 @@
 
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <script type='text/javascript' src='/js/zepto.min.js' charset='utf-8'></script>
-
-	<script type='text/javascript'>
-		//关闭SUI的路由功能
-    $.config = {
-			router: false
-		}
-
-    function preventDefault(ev) {
-      ev.preventDefault()
-    }
-
-    //document.body.addEventListener('touchstart', preventDefault, false)
-
-    function isScroller(el) {
-      // 判断元素是否为 scroller
-      return el.classList.contains('scroller')
-    }
-
-    /*document.body.addEventListener('touchmove', function (ev) {
-      var target = ev.target
-      //alert(target.className)
-      if (target.className != 'scroller') {
-        document.body.removeEventListener('touchstart', preventDefault, false)
-      }
-    }, false)*/
-
-	</script>
-
-    <script type='text/javascript' src='/js/sm.min.js' charset='utf-8'></script>
+    <script src="https://hammerjs.github.io/dist/hammer.js"></script>
   </body>
 </html>

@@ -9,6 +9,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "fastclick": "^1.0.6",
     "mint-ui": "^2.0.5",
     "socket.io": "^1.7.2",
     "vue": "^2.0.1",

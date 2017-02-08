@@ -10,6 +10,19 @@ export default{
 	
 }
 </script>
-<style scoped>
-	
+<style lang="scss">
+@import "../../static/css/help/base.scss";
+.bar {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom:0;
+  z-index: 10;
+  background-color: #f7f7f8;
+  height: $bar-tab-height;
+
+}
 </style>

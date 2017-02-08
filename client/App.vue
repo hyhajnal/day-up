@@ -1,30 +1,26 @@
 <template>
   <div id="app">
-    <div class="page page-current">
-      <!-- <header class="bar bar-nav">
-        <h1 class="title"><span class="icon icon-menu open-panel" data-panel='#panel-left'></span></h1>
-      </header> -->
-      <!-- <span class="icon icon-menu open-panel" data-panel='#panel-left'></span> -->
+    <div class="page">
       <transition name="slide-fade">
-        <router-view class="childPage" id="childPage"></router-view>
+        <router-view></router-view>
       </transition>
       <bar v-if="isIndex">
-        <bar-item path="/home" label="首页" icon="home"></bar-item>
-        <bar-item path="/chat" label="班级" icon="search"></bar-item>
-        <bar-item path="/shopCart" label="发现" icon="app"></bar-item>
-        <bar-item path="/me" label="我" icon="me"></bar-item>
+        <bar-item path="/home" label="作业" icon="toucan"></bar-item>
+        <bar-item path="/chat" label="班级" icon="monkey"></bar-item>
+        <bar-item path="/find" label="发现" icon="crab"></bar-item>
+        <bar-item path="/me" label="计划" icon="duck"></bar-item>
       </bar>
     </div>
-    <side-bar></side-bar>
-    
 
+    <div class="side-lay">
+      侧边栏
+    </div>
   </div>
 </template>
 
 <script>
 import Bar from './components/Bar'
 import BarItem from './components/BarItem'
-import SideBar from './components/SideBar'
 
 export default {
   name: 'App',
@@ -48,25 +44,16 @@ export default {
   },*/
   components: {
     Bar,
-    BarItem,
-    SideBar
+    BarItem
   }
 }
 
 
 </script>
 
-<style scoped>
-  .childPage{
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden; 
-  }
-  .childPage:after{
-    content:'';
-    height:2.5em;
-    width:100%;
-  }
+
+<style lang="scss" >
+  @import "../static/css/help/base.scss";
   .slide-fade-enter-active {
     transition: all .8s ease;
   }
@@ -76,4 +63,5 @@ export default {
     transform: translateX(100px);
     opacity: 0;
   }
+
 </style>

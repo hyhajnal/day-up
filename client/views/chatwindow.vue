@@ -1,12 +1,12 @@
 <template>
-	<div >
-		<header class="bar bar-nav">
-			<router-link :to="'/chat'" class="button button-link button-nav pull-left back">
-				<span class="icon icon-left">返回</span>
-			</router-link>
-			<h1 class="title">聊天室{{ room.name }}</h1>
-      <!-- {{ $route.params.id }} -->
-		</header>
+	<div class="content"> 
+    <mt-header fixed title="聊天室">
+      <router-link to="/chat" slot="left">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+      <mt-button icon="more" slot="right"></mt-button>
+    </mt-header>
+
 		<div class="content" ref="list">
         <div class="chat_wrap" v-for="msg in msgs" >
           <mt-badge size="small" type="primary" color="#ccc"

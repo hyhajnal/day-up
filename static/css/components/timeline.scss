@@ -7,15 +7,10 @@ $primary-color: $red;
 $secondary-color: $blue;
 
 
-// Typography
-$base-font: helvetica, arial, tahoma, verdana;
-$base-font-title: "Dosis", arial, tahoma, verdana;
-
 $base-font-color: #726f77;
 
 // Timeline
 $timeline-color: $primary-color;
-
 
 // Mixins and Placeholders
 %clearfix {
@@ -27,68 +22,89 @@ $timeline-color: $primary-color;
 	}
 }
 
-@mixin prefix($prop, $val) {
-	@each $prefix in '-webkit-', '-moz-', '-ms-', '' {
-		#{$prefix}#{$prop}: $val;
-	}
-}
-*, *:before, *:after {
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-}
-
-a {
-	text-decoration: none;
-}
-
-.container {
-	width:100%;
-	margin: 0 auto;
-	/* overflow:auto; */
-}
-
 .project-name {
   text-align: center;
   padding: 10px 0;
 }
 
-// Header
-header {	
+.mint-header.is-fixed{
+	z-index:1000;
 	background: $secondary-color;
-	padding: 1em;
-	@include prefix(box-shadow, 0 3px 3px rgba(0,0,0,0.05)); 
-	@extend %clearfix;
+}
 
-	.logo {
-		color: $primary-color;
-		float: left;
-		font:{
-			family: $base-font-title;
-			size: 22px;
-			weight: 500;
-		}
-		
-		> span {
-			color: lighten($primary-color, 20%);
-			font-weight: 300;
+
+.mint-swipe{
+	width:90%;
+	height: 35%;
+	margin:0 auto;
+	box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.4);
+	img{
+		width:100%;
+	}
+	.mint-swipe-indicator{
+		z-index:500;
+		.is-active{
+			background: $red;
 		}
 	}
+}
 
-	.social {
-		float: right;
+// Header
+.bar_m {	
+	background: $secondary-color;
+	box-shadow: 0 3px 3px rgba(0,0,0,0.05);
+	position:relative;
+	@extend %clearfix;
+
+	.bar_wrap{
+		position: relative;
+		z-index:499;
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-around;
+		align-items: center;
 		color:#fff;
+		text-align: center;
+
+		span{
+			display:block;
+			width:20%;
+		}
+
+		i, em{
+			display: block;
+			font-size: 2.5rem;
+			top: -1.5rem;
+			position: relative;
+		}
+
+		em{
+			font-size: 1.5rem;
+			top:-1rem;
+		}
+
+	}
+
+	&:before {
+		content: "";
+		width:100%;
+		height:4rem;
+		border-radius: 100%;
+		position:absolute;
+		top:-2rem;
+		left:0;
+		background: $secondary-color;
+		z-index:400;
 	}
 }
 
 
 // Timeline
 #timeline {
-	width: 100%;
-    margin: 30px auto;
+	padding: 0 1em;
 	position: relative;
-    padding: 0 10px;
-	@include prefix(transition, all .4s ease);
+	transition: all .4s ease;
+	margin: 1em 0;
 
 	&:before {
 		content:"";
@@ -121,7 +137,7 @@ header {
 			overflow: hidden;
 			margin-left: -.7em;
 			background: $timeline-color;
-			@include prefix(border-radius, 50%);
+			border-radius: 50%;
 		}
 		.mint-badge{
 			display:inline-block;
@@ -133,9 +149,7 @@ header {
 		margin-bottom: 1em;
 	}
 
-	
 	.timeline-item {
-		/* margin-bottom: 1em; */
 		position: relative;
 		@extend %clearfix;
 
@@ -148,35 +162,30 @@ header {
 			left: 50%;
 			overflow: hidden;
 			margin-left: -.2em;
-			@include prefix(border-radius, 100%);
+			border-radius: 100%;
 		}
 
 		.timeline-content {
 			background: #fff;
 			width:40%;
 			padding:.2em 1em .2em .2em;
-			@include prefix(box-shadow, 0 3px 0 rgba(0,0,0,0.1));
-			@include prefix(border-radius, 5px);
-			@include prefix(transition, all .3s ease);
+			box-shadow: 0 3px 0 rgba(0,0,0,0.1);
+			border-radius: 5px;
+			transition: all .3s ease;
+			position: relative;
 			
 			p{
-				margin:.2em;
+				margin: 0;
 			}
 			.content-icon{
 				text-align: right;
 			}
-			/* .icon{
-				position: absolute;
-				left:40%;
-				margin-right: -1.5em;
-				margin-top: -.4em;
-			} */
 
 			&:before {
 				content: '';
 				position: absolute;
-				left: 40%;
-				top: .8em;
+				right: -.6em;
+				top: 1.1em;
 				width: 0; 
 				height: 0; 
 				border-top: .8em solid transparent;
@@ -187,16 +196,10 @@ header {
 			&.right {
 				float: right;
 
-				/* .icon{
-					right:20%;
-					margin-right: -1.5em;
-					margin-top: -.4em;
-				} */
-
 				&:before {
 					content: '';
-					right: 40%;
-					left: inherit;
+					left: -.6em;
+					right: inherit;
 					border-left: 0;
 					border-right: .8em solid #fff;
 				}
