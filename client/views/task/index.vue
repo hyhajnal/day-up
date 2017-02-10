@@ -1,18 +1,8 @@
 <template>
 	<div class="content content_head">		
-		<mt-header fixed :title="'作业列表'+$route.params.id ">
-			<router-link to="/home" slot="left">
-		    <mt-button icon="back">返回</mt-button>
-			</router-link>
-			<mt-button icon="more" slot="right"></mt-button>
-	    </mt-header>
-    
-		<div>
 
-        <start-button @click.native.once="start" :text="time"
-        :class="{'start':!complete}"></start-button> 
-
-		</div>
+    <start-button @click.native.once="start" :text="time"
+    :class="{'start':!complete}"></start-button> 
     
     <div>
       <mt-progress :value="(currentCard + 1) / (cards.length) * 100" 
@@ -45,12 +35,22 @@ import OpTable from '../../components/Math/OpTable'
 import StartButton from '../../components/Math/StartButton'
 export default {
 	mounted() {
-		this.$store.commit('setNavbar', 0)
+		this.$store.commit('setNavbar', this.control)
 
 	},
 
   data () {
     return {
+      control: {
+        header: true,
+        bottom: false,
+        title: '口算练习',
+        content: {
+          icon1: 'back',
+          icon2: 'more',
+          url: '/'
+        }
+      },
       cards: [
         { content:'13 + 26', answer: '', rs: null},
         { content:'76 - 65', answer: '', rs: null},
@@ -78,6 +78,7 @@ export default {
       card.answer = ''
       card.rs = this.judge()
     },
+    
     judge() {
       const content = this.cards[this.currentCard].content.trim().split(' ')
       const c_answer = this.cards[this.currentCard].answer.trim()
@@ -101,7 +102,6 @@ export default {
         t_answer = content[0] / content[2]
       }
 
-     
       return t_answer ==  c_answer
     },
 
@@ -151,7 +151,6 @@ export default {
   },
 
 	beforeRouteLeave(to, from, next){
-		this.$store.commit('setNavbar', 1)
 		next()
 	}
 }

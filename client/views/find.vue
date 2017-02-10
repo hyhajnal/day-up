@@ -1,12 +1,6 @@
 <template>
   <div class="content content_bottom">
 
-    <mt-search
-      v-model="value"
-      cancel-text="取消"
-      placeholder="搜索">
-    </mt-search>
-
     <mt-swipe :auto="4000">
       <mt-swipe-item>
         <img src="/images/1.jpg" alt="1">
@@ -50,9 +44,21 @@ import CardItem from'../components/Card/CardItem'
 
 export default {
   name: 'Find',
+  mounted() {
+    this.$store.commit('setNavbar', this.control)
+  },
   data (){
     return {
-
+      control: {
+        header: true,
+        bottom: true,
+        title: '发现',
+        content: {
+          icon1: 'back',
+          icon2: 'more',
+          url: '/'
+        }
+      }
     }
   },
   components: {

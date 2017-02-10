@@ -1,11 +1,5 @@
 <template>
-	<div class="content"> 
-    <mt-header fixed title="聊天室">
-      <router-link to="/chat" slot="left">
-        <mt-button icon="back">返回</mt-button>
-      </router-link>
-      <mt-button icon="more" slot="right"></mt-button>
-    </mt-header>
+	<div class="content content_head"> 
 
 		<div class="content" ref="list">
         <div class="chat_wrap" v-for="msg in msgs" >
@@ -44,8 +38,22 @@
   import * as Csocket from '../api/socket'
 	export default{
     mounted() {
-      this.$store.commit('setNavbar', 0)
+      this.$store.commit('setNavbar', this.control)
       Csocket.listen_msg(this.room.id)
+    },
+    data() {
+      return {
+        control: {
+          header: true,
+          bottom: true,
+          title: '聊天室',
+          content: {
+            icon1: 'back',
+            icon2: 'more',
+            url: '/chat'
+          }
+        }
+      }
     },
     methods: {
       sendMsg (e) {
@@ -81,8 +89,7 @@
       }
     },
     beforeRouteLeave(to, from, next){
-      //离开恢复navbar
-      this.$store.commit('setNavbar', 1)
+      
       next()
     }
 

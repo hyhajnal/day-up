@@ -10,13 +10,22 @@ Vue.use(Vuex)
 
 const state = {
 	serverHost: '192.168.2.2:3000',
-	navbar: 1
+	ctrl: {
+        header: true,
+        bottom: true,
+        title: 'STUDING',
+        content: {
+          icon1: 'back',
+          icon2: 'more',
+          url: '/'
+        }
+    }
 }
 
  
 const mutations = {
-	setNavbar (state, flag) {
-		state.navbar = flag
+	setNavbar (state, ctrl) {
+		state.ctrl = ctrl
 	}
 }
 

@@ -1,13 +1,7 @@
 <template>
-	<div class="content content_bottom">
+	<div class="content content_bottom content_head">
 
-	    <mt-header fixed title="聊天室">
-			<router-link to="" slot="left">
-		    <mt-button  @click="popupVisible = true">加入</mt-button>
-			</router-link>
-			<mt-button icon="more" slot="right"></mt-button>
-	    </mt-header>
-
+		<mt-button  @click="popupVisible = true">加入</mt-button>
 	    <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="mint-popup" >
 			<ul class="add_container">
 				<li class="add_item" v-for="room in rooms_all">
@@ -47,6 +41,7 @@
 	import { roomData } from '../api/chatData'
 	export default {
 		mounted() {
+			this.$store.commit('setNavbar', this.control)
 		    if(!localStorage.getItem('usrId')){
 		  	    MessageBox.prompt('请输入姓名').then(({ value, action }) => {
 		        	localStorage.setItem('usrId', value + Date.now())
@@ -60,7 +55,17 @@
 	    data() {
 	    	return {
 	    		popupVisible: false,
-	    		rooms_all: roomData.rooms
+	    		rooms_all: roomData.rooms,
+	    		control: {
+			        header: true,
+			        bottom: true,
+			        title: '我的圈子',
+			        content: {
+			          icon1: 'back',
+			          icon2: 'more',
+			          url: '/'
+			        }
+			    }
 	    	}
 	    },
 		methods: {

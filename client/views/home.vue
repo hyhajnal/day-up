@@ -1,11 +1,11 @@
 <template>
 	<div class="content content_head content_bottom">
-		<mt-header fixed title="STUDING">
+		<!-- <mt-header title="STUDING" fixed>
 		  <router-link to="/" slot="left">
 		    <mt-button icon="back"></mt-button>
 		  </router-link>
 		  <mt-button icon="more" slot="right"></mt-button>
-		</mt-header>
+		</mt-header> -->
 
 		<mt-swipe :auto="4000">
 		  <mt-swipe-item>
@@ -86,6 +86,7 @@
 
 	export default {
 		mounted() {
+			this.$store.commit('setNavbar', this.control)
 			this.date = new Date().getFullYear()+'/'
 						+ ( new Date().getMonth() + 1 ) + '/'
 						+ new Date().getDate()
@@ -93,6 +94,16 @@
 		},
 	    data() {
 	        return {
+	        	control: {
+			        header: true,
+			        bottom: true,
+			        title: '首页',
+			        content: {
+			          icon1: 'back',
+			          icon2: 'more',
+			          url: '/'
+			        }
+			    },
 	        	url: this.$store.state.serverHost,
 		        value4: null,
 		        visible4: false,
@@ -166,5 +177,5 @@
 	}
 </script>
 
-<style lang='scss'  src='../../static/css/components/timeline.scss'>
+<style lang='scss'  src='../../static/css/components/timeline.scss' scoped>
 </style>
