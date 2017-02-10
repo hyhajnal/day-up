@@ -33,5 +33,9 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <script src="https://hammerjs.github.io/dist/hammer.js"></script>
+    <script>
+        //移动端:active伪类无效的解决方法
+        document.body.addEventListener('touchstart', function () {});
+    </script>
   </body>
 </html>

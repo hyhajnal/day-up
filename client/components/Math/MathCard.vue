@@ -1,15 +1,23 @@
 <template>
 <div>
-<div class="swipe-card" :class="{'pop-out':swipe}" ref="card" :style="{'z-index': (100-i)}">
-    <div class="title" v-text="title"></div>
-    <div class="problem" >{{ content }}<em v-text="answer"></em></div>
-</div>
+  <div class="swipe-card" :class="{'pop-out':swipe}" ref="card" :style="{'z-index': (100-i)}">
+      <div class="title" v-text="title"></div>
+      <div class="problem" >{{ content }} = <em v-text="answer">?</em></div>
+      <div class="result" v-if="rs!= null">
+        <div class="true" v-if="rs">
+          <a href=""></a>
+        </div>
+        <div class="false" v-if="!rs">
+          <a href=""></a>
+        </div>
+      </div>
+  </div>
 </div>
 </template>
 
 <script>
 export default{
-	props: ['title','content','answer','i'],
+	props: ['title','content','answer','i','rs'],
 	data () {
 		return {
 			swipe: false
@@ -48,7 +56,7 @@ export default{
   border-radius: 4px;
   position:absolute; 
   top:30%;
-  left:20%;
+  left:0; right:0; margin:auto;
 }
 
 .swipe-card .title {
@@ -95,4 +103,18 @@ export default{
   font-weight:bold;
   margin-bottom:1rem;
 }
+
+/* 打勾 打叉 */
+.true{
+  text-align:center;
+  a{ display: inline-block; width: 10px;height:5px; background: red;line-height: 0;font-size:0;vertical-align: middle;-webkit-transform: rotate(45deg);}
+  a:after{content:'/';display:block;width: 20px;height:5px; background: red;-webkit-transform: rotate(-90deg) translateY(-50%) translateX(50%);}
+}
+
+.false{
+  text-align:center;
+  a{ display: inline-block; width: 20px;height:5px; background: red;line-height: 0;font-size:0;vertical-align: middle;-webkit-transform: rotate(45deg);}
+  a:after{content:'/';display:block;width: 20px;height:5px; background: red;-webkit-transform: rotate(-90deg);}
+}
+
 </style>
