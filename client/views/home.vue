@@ -1,11 +1,5 @@
 <template>
 	<div class="content content_head content_bottom">
-		<!-- <mt-header title="STUDING" fixed>
-		  <router-link to="/" slot="left">
-		    <mt-button icon="back"></mt-button>
-		  </router-link>
-		  <mt-button icon="more" slot="right"></mt-button>
-		</mt-header> -->
 
 		<mt-swipe :auto="4000">
 		  <mt-swipe-item>
@@ -42,7 +36,7 @@
 
 
 		<div>
-			<mt-spinner color="#26a2ff" type="triple-bounce" v-if='loading'></mt-spinner>
+			<mt-spinner color="#26a2ff" type="triple-bounce" v-if='loading' class="align-c"></mt-spinner>
 			<div id="timeline" v-if='!loading'>
 				<!-- .............................................. -->
 				<div class='subj-item' v-for="(task,i) in tasks">
@@ -85,6 +79,7 @@
 	const EN = ['Mon','Tues','Wed','Thur','Fri','Sat','Sun','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
 	export default {
+		name: 'Home',
 		mounted() {
 			this.$store.commit('setNavbar', this.control)
 			this.date = new Date().getFullYear()+'/'
@@ -104,7 +99,7 @@
 			          url: '/'
 			        }
 			    },
-	        	url: this.$store.state.serverHost,
+			    url: this.$store.state.serverHost,
 		        value4: null,
 		        visible4: false,
 		        tasks: null,
@@ -112,7 +107,6 @@
 		        loading: true
 	        }
 	    },
-	    components: {},
 	    methods: {
 	        open(picker) {
 	        	this.$refs[picker].open()
@@ -128,9 +122,9 @@
 	        },
 	      	getTasks() {
 	      		let self = this
-	      		/*let url = this.url+'/data/student/tasks'*/
+	      		let url = this.url+'/server/student/tasks?date='+this.date
 	      		self.loading = true
-		        self.$http.get('http://192.168.2.7:3000/server/student/tasks?date='+this.date)
+		        self.$http.get(url)
 		      	.then((response) => {
 		      		//success
 		      		self.loading = false

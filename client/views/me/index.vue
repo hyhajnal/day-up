@@ -1,49 +1,53 @@
 <template>
-  <div class="page-spinner">
-    <div class="page-title">{{ $route.params.id }}</div>
-
-    <mt-cell title="snake">
-      <mt-spinner color="#26a2ff" type="snake"></mt-spinner>
-    </mt-cell>
-
-    <router-link :to="{ path: '/me/one' }" active-class="active">
-      <mt-cell title="double-bounce">
-        <mt-spinner color="#26a2ff" type="double-bounce"></mt-spinner>
-      </mt-cell>
-    </router-link>
-
-    <router-link :to="{ path: '/me/two' }">
-      <mt-cell title="triple-bounce">
-        <mt-spinner color="#26a2ff" type="triple-bounce"></mt-spinner>
-      </mt-cell>
-    </router-link>
-
-    <router-link :to="{ path: '/me/two' }">
-      <mt-cell title="fading-circle">
-        <mt-spinner color="#26a2ff" type="fading-circle"></mt-spinner>
-        <router-link :to="{ path: '/me/three' }"></router-link>
-      </mt-cell>
-    </router-link>
-
+  <div class="content content_head content_bottom">
+    <p v-for="item in list" v-text="item"></p>
+    <infinite :doNext="getData" :distance="distance" ref="infiniteLoading"></infinite>
   </div>
 </template>
 
 <script>
+import Infinite from '../../components/InfiniteLoading'
 export default {
-  name: 'page-spinner',
+  name: 'InfiniteLoading',
   data() {
     return {
-    };
+      distance: 100,
+      list: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+      control: {
+          header: true,
+          bottom: true,
+          title: '无限滚动',
+          content: {
+          }
+      }
+    }
+  },
+  mounted () {
+    this.$store.commit('setNavbar', this.control)
+  },
+  components: {
+    Infinite
+  },
+  methods: {
+    getData () {
+      setTimeout(function(){
+        const count = this.list.length
+        for (let i = count + 1; i < count + 10; i++ ){
+          this.list.push(i)
+        }
+        const rsCount = Math.random() > .9 ? 0 : this.list.length
+
+        this.$refs.infiniteLoading.$emit('InfiniteLoaded',rsCount)
+
+      }.bind(this), 1000)
+    }
+    
   }
-};
+}
 </script>
 
 <style lang="css">
-  @component-namespace page {
-    @component spinner {
-      .mint-cell {
-        min-height: 50px;
-      }
-    }
-  }
+p{
+  text-align: center;
+}
 </style>

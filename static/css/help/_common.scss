@@ -5,11 +5,11 @@
 
 /* 使用无衬线字体sans serif(字母粗细一致) */
 body {
-    font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
 }
 
 a, img {
-    -webkit-touch-callout: none; /* 禁止长按链接与图片弹出菜单 */
+  -webkit-touch-callout: none; /* 禁止长按链接与图片弹出菜单 */
 }
 html, body {
   -webkit-tap-highlight-color: rgba(0,0,0,0);/*去掉触摸遮盖层*/
@@ -34,10 +34,10 @@ html {
 
 /*消除输入框的阴影和边框*/
 input,textarea, select{
-    -webkit-appearance: none;
-    appearance: none;
-    outline: none;
-    border: none;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  border: none;
 }
 
 
@@ -81,6 +81,21 @@ input,textarea, select{
     border-bottom: 1px solid #666;
 }
 
+
+//毛玻璃效果
+.blur { 
+  
+  -webkit-filter: blur(10px); /* Chrome, Opera */
+     -moz-filter: blur(10px);
+      -ms-filter: blur(10px);    
+          filter: blur(10px);
+  
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=10, MakeShadow=false); /* IE6~IE9 */
+}
+
+.align-c{
+  text-align:center;
+}
 
 
 
@@ -152,10 +167,10 @@ li{
 
 /* 弹性滚动 */
 .content{
-    height:100%;
-    overflow: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;/*滚动touch*/
+  height:100%;
+  overflow: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;/*滚动touch*/
 }
 
 //内容不被头尾遮住

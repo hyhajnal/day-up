@@ -9,7 +9,7 @@ import todo from './todo'
 Vue.use(Vuex)
 
 const state = {
-	serverHost: '192.168.2.2:3000',
+	serverHost: 'http://1659x1818m.imwork.net:31744',
 	ctrl: {
         header: true,
         bottom: true,
@@ -21,7 +21,6 @@ const state = {
         }
     }
 }
-
  
 const mutations = {
 	setNavbar (state, ctrl) {
@@ -29,9 +28,10 @@ const mutations = {
 	}
 }
 
+
 export default new Vuex.Store({
-  	state,
-  	mutations,
+  state,
+  mutations,
 	modules: {
 		chat: chat,
 		shopCart: shopCart,

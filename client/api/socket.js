@@ -4,7 +4,7 @@ import store from '../store'
 let socket,usrId,usrName,usrAvator
 
 export function init(){
-	socket = io.connect('http://192.168.2.7:3000')
+	socket = io.connect(store.state.serverHost)
 }
 
 export function setInfo() {

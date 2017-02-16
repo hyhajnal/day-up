@@ -27,7 +27,7 @@ Vue.use(Mint)
 Vue.use(HyUI)
 
 const router = new VueRouter({
-	mode: 'history', //HTML5 History 模式
+	/*mode: 'history',*/ //HTML5 History 模式
     base: __dirname,
   	routes 
 })

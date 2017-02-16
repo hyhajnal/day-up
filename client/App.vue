@@ -24,7 +24,14 @@
     </div>
 
     <div class="side-lay" :class="{'active': sidebar}">
-      侧边栏
+      <img src="images/1.jpg" alt="" width="60" height="60">
+      <ul class="side-list">
+        <li class="active"><i class="iconfont icon-me"></i>我</li>
+        <li ><i class="iconfont icon-book"></i>我</li>
+        <li ><i class="iconfont icon-shipin"></i>我</li>
+        <li ><i class="iconfont icon-shouji"></i>我</li>
+        <li ><i class="iconfont icon-erweima"></i>我</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -77,6 +84,8 @@ export default {
 
 <style lang="scss" >
   @import "../static/css/help/base.scss";
+  $width:100vw;
+  $height:100vh;
   .slide-fade-enter-active {
     transition: all .8s ease;
   }
@@ -95,18 +104,39 @@ export default {
   .side-lay{
     position: absolute;
     top: 0;
-    left: -50%;
-    width:50%;
-    height:100%;
-    background: #000;
+    left: -$width / 2;
+    width:$width / 2;
+    height:$height;
+    /* background:linear-gradient(-45deg,orange,#2b2e48) 0 0 no-repeat; */
+    background:#2b2b2b;
+    /* background-size:cover; */
     z-index: 2000;
     color:#fff;
+    text-align:center;
+      img{
+        border-radius:100%;
+        margin:40px 0;
+      }
   }
   .side-lay.active{
-    transform: translateX(10rem);
+    transform: translateX($width / 2);
   }
 
   .page.active{
-    transform: translateX(10rem);
+    transform: translateX($width / 2);
+  }
+
+
+  .side-list{
+    li{
+      padding:15px 20px;
+      i{
+        margin-right:10px;
+      }
+    }
+    .active{
+        border-left:4px solid #ED5565;
+        background:#222;
+      }
   }
 </style>

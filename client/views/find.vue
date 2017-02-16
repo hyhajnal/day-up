@@ -1,6 +1,10 @@
 <template>
   <div class="content content_bottom">
-
+    <mt-search v-if="search"
+      v-model="value"
+      cancel-text="取消"
+      placeholder="搜索">
+    </mt-search>
     <mt-swipe :auto="4000">
       <mt-swipe-item>
         <img src="/images/1.jpg" alt="1">
@@ -46,11 +50,12 @@ export default {
   name: 'Find',
   mounted() {
     this.$store.commit('setNavbar', this.control)
+    this.listenScroll()
   },
   data (){
     return {
       control: {
-        header: true,
+        header: false,
         bottom: true,
         title: '发现',
         content: {
@@ -58,7 +63,13 @@ export default {
           icon2: 'more',
           url: '/'
         }
-      }
+      },
+      search: true
+    }
+  },
+  methods: {
+    listenScroll() {
+      
     }
   },
   components: {
