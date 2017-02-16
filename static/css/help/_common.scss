@@ -168,7 +168,7 @@ li{
 /* 弹性滚动 */
 .content{
   height:100%;
-  overflow: auto;
+  overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;/*滚动touch*/
 }

@@ -2,9 +2,8 @@
   <div id="app">
     <div class="page" :class="{'active': sidebar}">
       <mt-header :title="ctrl.title" fixed class="header" v-if="ctrl.header">
-        <router-link :to="ctrl.content.url" slot="left" v-if="ctrl.content.url">
-          <mt-button :icon="ctrl.content.icon1" @click.native.prevent="sidebar = !sidebar"></mt-button>
-        </router-link>
+        <mt-button :icon="ctrl.content.icon1"  slot="left" v-if="ctrl.content.url"
+         @click.native="showSideBar(ctrl.content.url)"></mt-button>
         <mt-button :icon="ctrl.content.icon2" slot="right" v-if="ctrl.content.icon2"></mt-button>
       </mt-header>
       <!-- <mt-search
@@ -26,11 +25,10 @@
     <div class="side-lay" :class="{'active': sidebar}">
       <img src="images/1.jpg" alt="" width="60" height="60">
       <ul class="side-list">
-        <li class="active"><i class="iconfont icon-me"></i>我</li>
-        <li ><i class="iconfont icon-book"></i>我</li>
-        <li ><i class="iconfont icon-shipin"></i>我</li>
-        <li ><i class="iconfont icon-shouji"></i>我</li>
-        <li ><i class="iconfont icon-erweima"></i>我</li>
+        <li v-for="(item, index) in sideList"  @click="goRoute(index)" 
+        :class="{'active':item.active}">
+          <i :class="'iconfont '+ item.icon"></i>{{item.content}}
+        </li>
       </ul>
     </div>
   </div>
@@ -57,7 +55,13 @@ export default {
           url: '/'
         }
       },
-      sidebar: false
+      sidebar: false,
+      sideList: [
+        {icon:'icon-me',path:'/home',content: "首页", active: true},
+        {icon:'icon-people',path:'/chat',content: "圈子", active: false},
+        {icon:'icon-shouji',path:'/find',content: "发现", active: false},
+        {icon:'icon-erweima',path:'/me',content: "更多", active: false}
+      ]
     }
   },
   computed: {
@@ -75,10 +79,25 @@ export default {
   components: {
     Bar,
     BarItem
+  },
+  methods:{
+    goRoute (index) {
+      this.sidebar = false
+      this.sideList.forEach(function(i,v){
+        i.active =false
+      })
+      this.sideList[index].active = true
+      this.$router.replace({ path:this.sideList[index].path} )
+    },
+    showSideBar (url) {
+      if(this.ctrl.bottom) {
+        this.sidebar = !this.sidebar
+      }else{
+        this.$router.replace({ path:url} )
+      }
+    }
   }
 }
-
-
 </script>
 
 

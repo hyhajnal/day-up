@@ -1,10 +1,10 @@
 <template>
   <div class="content content_bottom">
-    <mt-search v-if="search"
+    <!-- <mt-search v-if="search"
       v-model="value"
       cancel-text="取消"
       placeholder="搜索">
-    </mt-search>
+    </mt-search> -->
     <mt-swipe :auto="4000">
       <mt-swipe-item>
         <img src="/images/1.jpg" alt="1">
@@ -17,45 +17,37 @@
       </mt-swipe-item>
     </mt-swipe>
     
-    <div class="spinner"><mt-spinner color="#26a2ff" type="snake"></mt-spinner></div>
-
-    <card title="为你推荐">
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-    </card>
-
-    <card title="TV">
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-    </card>
-
-    <card title="学校活动">
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-      <card-item img="/images/3.jpg" label="英语早读营" icon="people"></card-item>
-    </card>
+    <mt-loadmore :top-method="loadTop" @top-status-change="handleTopChange" 
+      :top-status.sync="topStatus" ref="loadmore">
+      <div slot="top" class="mint-loadmore-top">
+        <span v-show="topStatus !== 'loading'" :class="{ 'is-rotate': topStatus === 'drop' }">↓</span>
+        <span v-show="topStatus === 'loading'">
+          <mt-spinner type="snake" color="#26a2ff" class="spinner-icon"></mt-spinner>
+        </span>
+      </div>
+      <div class="content">
+        <card :title="'为你推荐'+ card" v-for="card in cards">
+          <card-item img="/images/3.jpg" label="英语早读营" icon="people"
+          v-for="i in 5"></card-item>
+        </card>
+        <!-- <p v-for="card in cards">{{ card }}</p> -->
+      </div>
+    </mt-loadmore>
     
 </template>
 
 <script>
 import Card from '../components/Card/Card'
 import CardItem from'../components/Card/CardItem' 
-
 export default {
   name: 'Find',
   mounted() {
     this.$store.commit('setNavbar', this.control)
-    this.listenScroll()
   },
   data (){
     return {
       control: {
-        header: false,
+        header: true,
         bottom: true,
         title: '发现',
         content: {
@@ -64,12 +56,21 @@ export default {
           url: '/'
         }
       },
-      search: true
+      search: true,
+      cards: [0],
+      topStatus: ''
     }
   },
   methods: {
-    listenScroll() {
-      
+    handleTopChange(status) {
+      this.topStatus = status;
+    },
+    loadTop() {
+      setTimeout(() => {
+        let firstValue = this.cards[0]
+        this.cards.unshift(firstValue + 1)
+        this.$refs.loadmore.onTopLoaded()
+      }, 1500)
     }
   },
   components: {
@@ -111,4 +112,12 @@ export default {
   }
 }
 
+
+.is-rotate{
+  transform: rotate(180deg);
+}
+.spinner-icon{
+  display: inline-block;
+  margin: 0 auto;
+}
 </style>

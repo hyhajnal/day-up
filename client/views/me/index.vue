@@ -1,7 +1,8 @@
 <template>
   <div class="content content_head content_bottom">
     <p v-for="item in list" v-text="item"></p>
-    <infinite :doNext="getData" :distance="distance" ref="infiniteLoading"></infinite>
+    <infinite :doNext="getData" :distance="distance" 
+    ref="infiniteLoading"></infinite>
   </div>
 </template>
 
@@ -18,6 +19,9 @@ export default {
           bottom: true,
           title: '无限滚动',
           content: {
+            icon1: 'back',
+            icon2: 'more',
+            url: '/'
           }
       }
     }
