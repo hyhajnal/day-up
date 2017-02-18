@@ -1,10 +1,10 @@
 <template>
-  <div class="content content_bottom">
+  <div class="content content_bottom" ref="scrollDom">
     <!-- <mt-search v-if="search"
       v-model="value"
       cancel-text="取消"
       placeholder="搜索">
-    </mt-search> -->
+    </mt-search > -->
     <mt-swipe :auto="4000">
       <mt-swipe-item>
         <img src="/images/1.jpg" alt="1">
@@ -43,12 +43,17 @@ export default {
   name: 'Find',
   mounted() {
     this.$store.commit('setNavbar', this.control)
+    this.$refs.scrollDom.addEventListener('scroll', this.handleScroll, false)
+  },
+  beforeDestroyed () {
+    this.$refs.scrollDom.removeEventListener('scroll', this.handleScroll, false)
   },
   data (){
     return {
       control: {
-        header: true,
+        header: false,
         bottom: true,
+        search: true,
         title: '发现',
         content: {
           icon1: 'back',
@@ -56,8 +61,7 @@ export default {
           url: '/'
         }
       },
-      search: true,
-      cards: [0],
+      cards: [0,1,2,3,4,5],
       topStatus: ''
     }
   },
@@ -71,6 +75,18 @@ export default {
         this.cards.unshift(firstValue + 1)
         this.$refs.loadmore.onTopLoaded()
       }, 1500)
+    },
+    handleScroll () {
+      const scrollTop = this.$refs.scrollDom.scrollTop
+      if(scrollTop > window.innerHeight * 0.35) {
+        this.control.search = false
+        this.control.header = true
+        this.$store.commit('setNavbar', this.control)
+      }else{
+        this.control.search = true
+        this.control.header = false
+        this.$store.commit('setNavbar',this.control)
+      }
     }
   },
   components: {

@@ -6,11 +6,12 @@
          @click.native="showSideBar(ctrl.content.url)"></mt-button>
         <mt-button :icon="ctrl.content.icon2" slot="right" v-if="ctrl.content.icon2"></mt-button>
       </mt-header>
-      <!-- <mt-search
+      <mt-search
         v-model="value"
         cancel-text="取消"
-        placeholder="搜索">
-      </mt-search> -->
+        placeholder="搜索"
+        v-if="ctrl.search">
+      </mt-search>
       <transition name="slide-fade">
         <router-view></router-view>
       </transition>
@@ -139,6 +140,15 @@ export default {
   }
   .side-lay.active{
     transform: translateX($width / 2);
+    &:after{
+      content: '';
+      position: absolute;
+      width: $width;
+      height: $height;
+      top: 0;
+      left: $width / 2;
+      background: rgba(0,0,0,0.6);
+    }
   }
 
   .page.active{
