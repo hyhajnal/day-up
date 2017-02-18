@@ -26,11 +26,36 @@
         </span>
       </div>
       <div class="content">
-        <card :title="'为你推荐'+ card" v-for="card in cards">
-          <card-item img="/images/3.jpg" label="英语早读营" icon="people"
-          v-for="i in 5"></card-item>
+        <card title="最热计划" :avg="2">
+          <card-item img="/images/3.jpg" label="小明的计划" 
+            icon1="people" icon2="people" v-for="i in 4"></card-item>
+        </card>
+        <card title="附近圈子" :avg="0">
+          <card-item slot="content" img="/images/1.jpg" label="英语早读营" :posDown="true" 
+            icon1="people" icon2="people" v-for="i in 5"></card-item>
+        </card>
+        <card title="推荐好书" :avg="5">
+          <card-item img="/images/2.jpg" label="海底两万里" 
+           v-for="i in 5"></card-item>
+        </card>
+        <card title="短TV" :avg="3">
+          <card-item img="/images/4.jpg" 
+            icon1="shipin" icon2="msg" v-for="i in 9"></card-item>
         </card>
         <!-- <p v-for="card in cards">{{ card }}</p> -->
+        <grid :avg="2" wrap='wrap' align='around'>
+          <item>
+            <grid :avg="2" wrap='wrap' align='around'>
+              <item></item>
+              <item></item>
+              <item></item>
+              <item></item>
+            </grid>
+          </item>
+          <item></item>
+          <item></item>
+          <item></item>
+        </grid>
       </div>
     </mt-loadmore>
     
@@ -38,7 +63,9 @@
 
 <script>
 import Card from '../components/Card/Card'
-import CardItem from'../components/Card/CardItem' 
+import CardItem from'../components/Card/CardItem'
+import Grid from '../components/Flex/Grid'
+import Item from '../components/Flex/Col' 
 export default {
   name: 'Find',
   mounted() {
@@ -91,7 +118,9 @@ export default {
   },
   components: {
     Card,
-    CardItem
+    CardItem,
+    Grid,
+    Item
   }
 }
 </script>
@@ -136,4 +165,16 @@ export default {
   display: inline-block;
   margin: 0 auto;
 }
+
+/* .find{
+  .grid{
+    width:100%;
+    margin-bottom: 20px;
+  }
+  .col{
+    height:30px;
+    border:1px solid #000;
+  }
+} */
+
 </style>

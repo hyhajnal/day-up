@@ -1,129 +1,46 @@
-
-@mixin hairline ($position, $color) {
-	@if $position == 'top'{
-	 	&:before {
-	        content: '';
-	        position: absolute;
-	        left: 0;
-	        top: 0;
-	        bottom: auto;
-	        right: auto;
-	        height: 1px;
-	        width: 100%;
-	        background-color: $color;
-	        display: block;
-	        z-index: 15;
-	        transform-origin: 50% 0%;
-	        @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-	          transform: scaleY(0.5);
-	        }
-	        @media only screen and (-webkit-min-device-pixel-ratio: 3) {
-	            transform: scaleY(0.33);
-	        }
-	    }
-	}
-
-	@if $position == 'bottom'{
-	 	 &:after {
-	        content: '';
-	        position: absolute;
-	        left: 0;
-	        bottom: 0;
-	        right: auto;
-	        top: auto;
-	        height: 1px;
-	        width: 100%;
-	        background-color: $color;
-	        display: block;
-	        z-index: 15;
-	        transform-origin: 50% 100%;
-	        @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-	            transform: scaleY(0.5);
-	        }
-	        @media only screen and (-webkit-min-device-pixel-ratio: 3) {
-	            transform: scaleY(0.33);
-	        }
-	    }
-	}
-
-	@if $position == 'left'{
-	 	&:before {
-	        content: '';
-	        position: absolute;
-	        left: 0;
-	        top: 0;
-	        bottom: auto;
-	        right: auto;
-	        width: 1px;
-	        height: 100%;
-	        background-color: $color;
-	        display: block;
-	        z-index: 15;
-	        transform-origin: 0% 50%;
-	        @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-	            transform: scaleY(0.5);
-	        }
-	        @media only screen and (-webkit-min-device-pixel-ratio: 3) {
-	            transform: scaleY(0.33);
-	        }
-	    }
-	}
-
-	@if $position == 'right'{
-	 	&:after {
-	        content: '';
-	        position: absolute;
-	        right: 0;
-	        top: 0;
-	        left: auto;
-	        bottom: auto;
-	        width: 1px;
-	        height: 100%;
-	        background-color: $color;
-	        display: block;
-	        z-index: 15;
-	        transform-origin: 100% 50%;
-	        @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-	            transform: scaleY(0.5);
-	        }
-	        @media only screen and (-webkit-min-device-pixel-ratio: 3) {
-	            transform: scaleY(0.33);
-	        }
-	    }
-	}
+// Text overflow
+// Requires inline-block or block for proper styling
+@mixin text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-// For right and bottom
-@mixin hairline-remove($position){
-	@if $position == 'right' or $position == 'bottom' {
-		&:after {
-	        display: none;
-	    }
-	}
-
-	@if $position == 'left' or $position == 'top' {
-		&:before {
-	        display: none;
-	    }
-	}
-    
+// Line clamp
+// http://dropshado.ws/post/1015351370/webkit-line-clamp
+@mixin line-clamp($lines: 2, $line-height: 1.3em) {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines; // number of lines to show
+  overflow: hidden;
+  line-height: $line-height;
+  max-height: $line-height * $lines;
 }
 
-@mixin table-equal($children: li) { 
-	display: table;
-	table-layout: fixed; 
-	width: 100%; 
-	$childrenEle: li div p a span strong; 
-	@if index($childrenEle, $children) {
-		#{$children} { 
-			display: table-cell; 
-		} 
-	} 
-	@else {
-		.#{$children} { 
-			display: table-cell; 
-		} 
-	}
- }
 
+/// CSS Triangle
 
+@mixin css-triangle($triangle-size, $triangle-color, $triangle-direction) {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border: inset $triangle-size;
+  @if ($triangle-direction == top) {
+    border-color: $triangle-color transparent transparent transparent;
+    border-top-style: solid;
+  }
+  @if ($triangle-direction == bottom) {
+    border-color: transparent transparent $triangle-color transparent;
+    border-bottom-style: solid;
+  }
+  @if ($triangle-direction == left) {
+    border-color: transparent transparent transparent $triangle-color;
+    border-left-style: solid;
+  }
+  @if ($triangle-direction == right) {
+    border-color: transparent $triangle-color transparent transparent;
+    border-right-style: solid;
+  }
+}
