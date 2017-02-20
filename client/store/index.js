@@ -10,7 +10,8 @@ Vue.use(Vuex)
 
 const state = {
 	/*serverHost: 'http://1659x1818m.imwork.net:31744',*/
-  serverHost: 'http://192.168.1.101:3000',
+  /*serverHost: 'http://192.168.1.101:3000',*/
+  serverHost: 'http://192.168.2.7:3000',
 	ctrl: {
         header: true,
         bottom: true,

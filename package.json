@@ -9,8 +9,10 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "baidu-speech-synthesizer": "^0.2.1",
     "fastclick": "^1.0.6",
     "mint-ui": "^2.0.5",
+    "say": "^0.11.0",
     "socket.io": "^1.7.2",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3",

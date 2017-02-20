@@ -15,6 +15,10 @@ export default {
                 return oneOf(value, ['wrap','nowrap','reverse'])
             }
 		},
+		column: {
+			type: Boolean,
+			default: false
+		},
 		avg: Number,
 		align: {
 			validator (value) {
@@ -26,6 +30,7 @@ export default {
 		classes () {
 			return [
 				{
+					[`${preClass}-col`]: this.column,
 					[`${preClass}`]: true,
 					[`${preClass}-${this.wrap}`]: !!this.wrap,
 					[`${preClass}-${this.align}`]: !!this.align,
@@ -43,7 +48,11 @@ export default {
 <style lang="scss" scoped>
 .grid{
 	display: flex;
-	flex-direction: row;		
+	flex-direction: row;
+	align-items: center; /*flex-start | flex-end | center | baseline | stretch; */		
+}
+.grid-col{
+	flex-direction: column;
 }
 
 //wrap

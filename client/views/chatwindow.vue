@@ -45,7 +45,7 @@
       return {
         control: {
           header: true,
-          bottom: true,
+          bottom: false,
           title: '聊天室',
           content: {
             icon1: 'back',

@@ -56,27 +56,27 @@ export default {
 }
 .col-1{
 	flex-basis:16.666667%;
-	max-width :16.666667%;
+	//max-width :16.666667%;
 }
 .col-2{
 	flex-basis:33.333333%;
-	max-width :33.333333%;
+	//max-width :33.333333%;
 }
 .col-3{
 	flex-basis:50%;
-	max-width :50%;
+	//max-width :50%;
 }
 .col-4{
 	flex-basis:66.666667%;
-	max-width :66.666667%;
+	//max-width :66.666667%;
 }
 .col-5{
 	flex-basis:83.333333%;
-	max-width :83.333333%; 
+	//max-width :83.333333%; 
 }
 .col-6{
 	flex-basis:100%;
-	max-width :100%;
+	//max-width :100%;
 }
 .col-offset-1{
 	margin-left:16.666667%; 

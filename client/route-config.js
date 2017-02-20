@@ -17,7 +17,7 @@ export const routes = [
         require(['./views/task/chinese'], resolve)}
   },
   { path: '/me', component(resolve){
-        require(['./views/me/index'], resolve)}
+        require(['./views/me/methree'], resolve)}
   },
   { path: '/me/one', component(resolve){
         require(['./views/me/meone'], resolve)}
@@ -35,7 +35,7 @@ export const routes = [
         require(['./views/more'], resolve) }
   },
   { path: '/chat', component(resolve){
-        require(['./views/chatroom'], resolve) }
+        require(['./views/task/chinese'], resolve) }
   },
   { path: '/chatwindow/:id', 
     name: 'chatwindow', component(resolve){

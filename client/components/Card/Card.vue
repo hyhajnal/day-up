@@ -59,7 +59,7 @@ export default{
       -webkit-overflow-scrolling: touch;/*滚动touch*/
       display: flex;
       flex-flow: row no-wrap;
-      img{
+      .img_box{
         width:8rem;
       }
       .card_child{

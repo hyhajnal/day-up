@@ -1,7 +1,6 @@
 <template>
 	<item class="card_child" ref='item'>
-		<div class="img_box">
-			<img :src="img" alt="">
+		<div class="img_box" :style="{backgroundImage: 'url(' + img + ')'}">
 			<grid class="cd_icon" wrap="wrap" align="between" v-if="!posDown">
 	      		<item :gutter='8' v-if="icon1"><i class="iconfont" :class="iconClass1"></i>&nbsp;23</item>
 	      		<item :gutter='8' v-if="icon2"><i class="iconfont" :class="iconClass2"></i>&nbsp;23</item>
@@ -30,12 +29,10 @@ export default{
 		}
 	},
 	mounted() {
-		//this.$nextTick(function () {
-	        if(this.posDown){
-				this.$el.className = 'card_child'
-				this.$el.style.flexShrink = 0
-			}
-      	//})
+        if(this.posDown){
+			this.$el.className = 'card_child'
+			this.$el.style.flexShrink = 0
+		}
 	},
 	computed: {
 		iconClass1 () {
@@ -54,13 +51,12 @@ export default{
 
 <style lang="scss" scoped>
 .card_child{
-	padding: 0 .2rem;
+	padding:.2rem;
 	.img_box{
 		position:relative;
-		img{
-			width:100%;
-			height:5rem;
-		}
+		width:100%;
+		height:5rem;
+		background-size: cover;
 	}
 	.cd_name{
 		display:block;
