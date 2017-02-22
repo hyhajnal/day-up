@@ -1,10 +1,23 @@
 <template>
+<div class="child_wrap">
+  <transition name="component-fade">
+    <mt-search v-show="search"
+        v-model="value"
+        cancel-text="取消"
+        placeholder="搜索"
+        fixed>
+    </mt-search >
+  </transition>
+
+  <transition name="component-fade">
+    <mt-header :title="control.title" fixed class="header" v-show="!search">
+      <mt-button :icon="control.content.icon1"  slot="left"
+       @click.native="showSideBar(control.content.url)"></mt-button>
+      <mt-button :icon="control.content.icon2" slot="right"></mt-button>
+    </mt-header>
+  </transition>
+  
   <div class="content content_bottom" ref="scrollDom">
-    <!-- <mt-search v-if="search"
-      v-model="value"
-      cancel-text="取消"
-      placeholder="搜索">
-    </mt-search > -->
     <mt-swipe :auto="4000">
       <mt-swipe-item>
         <img src="/images/1.jpg" alt="1">
@@ -58,7 +71,7 @@
         </grid>
       </div>
     </mt-loadmore>
-    
+</div>    
 </template>
 
 <script>
@@ -80,7 +93,6 @@ export default {
       control: {
         header: false,
         bottom: true,
-        search: true,
         title: '发现',
         content: {
           icon1: 'back',
@@ -88,6 +100,7 @@ export default {
           url: '/'
         }
       },
+      search: true,
       cards: [0,1,2,3,4,5],
       topStatus: ''
     }
@@ -106,13 +119,9 @@ export default {
     handleScroll () {
       const scrollTop = this.$refs.scrollDom.scrollTop
       if(scrollTop > window.innerHeight * 0.35) {
-        this.control.search = false
-        this.control.header = true
-        this.$store.commit('setNavbar', this.control)
+        this.search = false
       }else{
-        this.control.search = true
-        this.control.header = false
-        this.$store.commit('setNavbar',this.control)
+        this.search = true
       }
     }
   },
@@ -165,16 +174,12 @@ export default {
   display: inline-block;
   margin: 0 auto;
 }
-
-/* .find{
-  .grid{
-    width:100%;
-    margin-bottom: 20px;
-  }
-  .col{
-    height:30px;
-    border:1px solid #000;
-  }
-} */
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity .3s ease;
+}
+.component-fade-enter, .component-fade-leave-to
+/* .component-fade-leave-active for <2.1.8 */ {
+  opacity: 0;
+}
 
 </style>

@@ -136,8 +136,10 @@
 			      			task.isDown = 1 //标志下拉
 			      			task.items.forEach(function(item, i){
 			      				item.online = item.external ? 1: 0
+			      				item.done = false
 			      			})
 			      		})
+			      		/*self.$store.commit('initTodo',tasks)*/
 			      		self.tasks = tasks
 		      		}else{
 					    MessageBox.alert('获取失败!', '提示')
@@ -165,7 +167,12 @@
               		let d = date.split('/')
                     return d[0] + '/' + d[1] + '/' + d[2] 
               }
-        }
+        }/*,
+		computed: {
+			tasks: function(){
+				return this.state.todos
+			}
+		}*/
 
 
 	}

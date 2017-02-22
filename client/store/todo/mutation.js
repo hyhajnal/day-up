@@ -13,10 +13,14 @@ const InitState = [
   {text: 'fewf', done: false}
 ]
 export const state = {
-  todos: JSON.parse(window.localStorage.getItem(STORAGE_KEY))|| InitState
+  /*todos: JSON.parse(window.localStorage.getItem(STORAGE_KEY))|| InitState*/
+  todos: null
 }
 
 export const actions = {
+  initTodo ({ commit }, todos) {
+    commit( types.INIT_TODO, todos )
+  },
   addTodo ({ commit }, text){
     commit( types.ADD_TODO, text )
   },
@@ -40,6 +44,9 @@ export const actions = {
 }
 
 export const mutations = {
+  [types.INIT_TODO] (state, { todos }) {
+    state.todos = todos
+  },
   [types.ADD_TODO] (state, { text }) {
     console.log(state.todos)
     state.todo.todos.push({

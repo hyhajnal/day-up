@@ -6,12 +6,6 @@
          @click.native="showSideBar(ctrl.content.url)"></mt-button>
         <mt-button :icon="ctrl.content.icon2" slot="right" v-if="ctrl.content.icon2"></mt-button>
       </mt-header>
-      <mt-search
-        v-model="value"
-        cancel-text="取消"
-        placeholder="搜索"
-        v-if="ctrl.search">
-      </mt-search>
       <transition name="slide-fade">
         <router-view></router-view>
       </transition>
@@ -58,9 +52,9 @@ export default {
       },
       sidebar: false,
       sideList: [
-        {icon:'icon-me',path:'/home',content: "首页", active: true},
-        {icon:'icon-people',path:'/chat',content: "圈子", active: false},
-        {icon:'icon-shouji',path:'/find',content: "发现", active: false},
+        {icon:'icon-me',path:'/info',content: "我", active: true},
+        {icon:'icon-people',path:'/time',content: "习惯", active: false},
+        {icon:'icon-shouji',path:'/tip',content: "提示音", active: false},
         {icon:'icon-erweima',path:'/me',content: "更多", active: false}
       ]
     }
@@ -159,8 +153,9 @@ export default {
   .side-list{
     li{
       padding:15px 20px;
+      text-align:left;
       i{
-        margin-right:10px;
+        margin-right:10px; margin-left:20px;
       }
     }
     .active{

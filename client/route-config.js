@@ -43,6 +43,15 @@ export const routes = [
   },
   { path: '/shopCart', component(resolve){
         require(['./views/shopCart'], resolve) }
+  },
+  { path: '/info', component(resolve){
+        require(['./views/side/info'], resolve) }
+  },
+  { path: '/time', component(resolve){
+        require(['./views/side/time'], resolve) }
+  },
+  { path: '/tip', component(resolve){
+        require(['./views/side/tip'], resolve) }
   }
 
 ]

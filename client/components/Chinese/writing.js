@@ -87,7 +87,7 @@ HandWriting.prototype = {
         this.mousePress = false
         e.preventDefault()
         this.last = null;
-        const onecheck = setTimeout(function(){this.complete}, 1500)
+        const onecheck = setTimeout(function(){this.complete()}.bind(this), 1500)
         this.check.push(onecheck)
     },
     
@@ -105,7 +105,9 @@ HandWriting.prototype = {
             this.check.forEach(function(v){
                 clearTimeout(v)
             })
-            this.el.$emit('letterComplete') //一个字写完后发出消息
+            console.log(this.dataStr)
+            this.el.$emit('letterComplete',this.dataStr) //一个字写完后发出消息
+            this.dataStr = ''
         }
     },
     

@@ -85,32 +85,32 @@ export default {
 
 //avg
 .grid-1{
-	.col{
+	*{
 		flex-basis:100%; 
 	}
 }
 .grid-2{
-	.col{
+	*{
 		flex-basis:50%;
 	}
 }
 .grid-3{
-	.col{
+	*{
 		flex-basis:33.333333%; 
 	}
 }
 .grid-4{
-	.col{
+	*{
 		flex-basis:25%; 
 	}
 }
 .grid-5{
-	.col{
+	*{
 		flex-basis:20%; 
 	}
 }
 .grid-6{
-	.col{
+	*{
 		flex-basis:16.666667; 
 	}
 }

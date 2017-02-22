@@ -10,7 +10,9 @@
         <item class="s_tian" :cols="1">
             <grid align='around' wrap="nowrap">
                 <canvas :id="'canvas'+n" v-for="n in correctWord.length"
-                 @click="changeLetter()"></canvas>
+                 @click="changeLetter()">
+                <span calss="word" ref="word">测</span>
+                </canvas>
             </grid>
         </item> 
         <item class="b_tian" :cols="4">
@@ -20,10 +22,10 @@
 </template>
 
 <script>
-
+import { MessageBox } from 'mint-ui'
 import Grid from '../Flex/Grid'
 import Item from '../Flex/Col'
-import { base64decode, drawBackground } from './util'
+import { base64decode, drawBackground, tohanzi } from './util'
 import HandWriting from './writing'
 import BDSSpeechSynthesizer from 'baidu-speech-synthesizer'
 export default {
@@ -46,11 +48,18 @@ export default {
         }
     },
 	mounted () {
-        this.bigSize = this.$refs.wCanvas.width
-        this.smlSize = (this.bigSize - 4*15) / 4
-        this.drawCanvas(1,1)
-        this.writing()
-        this.speak()
+        this.$nextTick(function () {
+            this.bigSize = this.$refs.wCanvas.width
+            this.smlSize = (this.bigSize - 4*15) / 4
+            this.drawCanvas(1,1)
+            this.writing()
+        //this.speak()
+        //console.log(this.$refs.word)
+        //this.$refs.word.style.width = this.$refs.word.style.width = this.smlSize
+            this.$on('letterComplete',function(dataStr){
+                this.postLetter(dataStr)
+            })
+        })
 	},
     computed: {
         correctWord () {
@@ -88,11 +97,25 @@ export default {
                 this.drawCanvas(1, 1)
                 this.speak()
             }
+        },
+        //解析汉字
+        postLetter(dataStr) {
+            const data = dataStr + '-1,0'
+            this.$http.post('http://192.168.2.7:3000/server/student/getLetter', 
+                { dataStr: data })
+            .then((response) => {
+                const data = response.data
+                console.log(data)
+
+            }, (response) => {
+                MessageBox.alert('网络连接错误!', '提示')
+            })
         }
 	},
     components: {
         Grid,
-        Item
+        Item,
+        MessageBox
     }
 }
 </script>
@@ -121,5 +144,12 @@ export default {
         font-size:2rem;
     }
 }
-
+.s_tian canvas{
+    position:relative;
+    .word{
+        position: absolute;
+        left: 0;
+        right: 0;
+    }
+}
 </style>

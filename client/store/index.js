@@ -3,8 +3,8 @@ import Vuex from 'vuex'
 
 import chat from './chatroom'
 //import * as shopCart from './shopCart'
-import shopCart from './shopCart'
-import todo from './todo'
+/*import shopCart from './shopCart'*/
+/*import todo from './todo'*/
 
 Vue.use(Vuex)
 
@@ -12,6 +12,7 @@ const state = {
 	/*serverHost: 'http://1659x1818m.imwork.net:31744',*/
   /*serverHost: 'http://192.168.1.101:3000',*/
   serverHost: 'http://192.168.2.7:3000',
+  /*serverHost: 'http://172.16.0.74:3000',*/
 	ctrl: {
         header: true,
         bottom: true,
@@ -35,8 +36,8 @@ export default new Vuex.Store({
   state,
   mutations,
 	modules: {
-		chat: chat,
-		shopCart: shopCart,
-	    todo: todo
+		chat: chat
+		/*shopCart: shopCart,*/
+	  /*  todo: todo*/
 	}
 })

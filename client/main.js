@@ -16,6 +16,7 @@ import { currency } from './filter/currency'
 //测试自己的ui组件
 import HyUI from '../ui_libs'
 
+
 //移动端click 300ms延迟问题
 import FastClick from 'fastclick'
 FastClick.attach(document.body)
