@@ -21777,3 +21777,7 @@
 [0213/163723:ERROR:process_info.cc(608)] range at 0xf72ef000, size 0xf84 fully unreadable
 [0213/163723:ERROR:process_info.cc(608)] range at 0xffece000, size 0x2000 fully unreadable
 [0213/163723:ERROR:process_info.cc(608)] range at 0xf72ec000, size 0xf84 fully unreadable
+[0223/092902:ERROR:process_reader_win.cc(142)] SuspendThread: 拒绝访问。 (0x5)
+[0223/092902:ERROR:exception_snapshot_win.cc(87)] thread ID 3776 not found in process
+[0223/092902:WARNING:crash_report_exception_handler.cc(61)] ProcessSnapshotWin::Initialize failed
+[0223/092902:ERROR:scoped_process_suspend.cc(38)] NtResumeProcess: 已尝试访问正在退出的过程。  (0xc000010a)

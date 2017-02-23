@@ -2,9 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import chat from './chatroom'
-//import * as shopCart from './shopCart'
-/*import shopCart from './shopCart'*/
-/*import todo from './todo'*/
+import task from './tasks'
 
 Vue.use(Vuex)
 
@@ -36,8 +34,7 @@ export default new Vuex.Store({
   state,
   mutations,
 	modules: {
-		chat: chat
-		/*shopCart: shopCart,*/
-	  /*  todo: todo*/
+		chat: chat,
+    task: task
 	}
 })

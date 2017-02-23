@@ -10,10 +10,12 @@ export const routes = [
     name: 'taskIndex', component(resolve){
         require(['./views/task/index'], resolve)}
   },
-  { path: '/task/math/:id', component(resolve){
+  { path: '/task/math/:id', 
+    name: 'taskMath', component(resolve){
         require(['./views/task/math'], resolve)}
   },
-  { path: '/task/chinese/:id', component(resolve){
+  { path: '/task/chinese/:id', 
+    name: 'taskChinese',component(resolve){
         require(['./views/task/chinese'], resolve)}
   },
   { path: '/me', component(resolve){
@@ -35,14 +37,11 @@ export const routes = [
         require(['./views/more'], resolve) }
   },
   { path: '/chat', component(resolve){
-        require(['./views/task/chinese'], resolve) }
+        require(['./views/chatroom'], resolve) }
   },
   { path: '/chatwindow/:id', 
     name: 'chatwindow', component(resolve){
         require(['./views/chatwindow'], resolve)}
-  },
-  { path: '/shopCart', component(resolve){
-        require(['./views/shopCart'], resolve) }
   },
   { path: '/info', component(resolve){
         require(['./views/side/info'], resolve) }

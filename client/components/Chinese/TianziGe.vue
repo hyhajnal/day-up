@@ -30,13 +30,11 @@ import HandWriting from './writing'
 import BDSSpeechSynthesizer from 'baidu-speech-synthesizer'
 export default {
 	name: 'TianziGe',
-	props: {
-
-	},
+	props: ['wordarray'],
     data() {
         return {
             Writing: null,
-            wordArray: ['兴奋','急忙忙','喜悦','和风细雨'],      //所有词语
+            /*wordarray: ['兴奋','急忙忙','喜悦','和风细雨'],*/      //所有词语
             currentLetterIdx: 0,  //当前字
             currentWordIdx: 0,    //当前词语
             customArray: null,    //学生写的词语
@@ -63,7 +61,7 @@ export default {
 	},
     computed: {
         correctWord () {
-            return this.wordArray[this.currentWordIdx]  //当前正确的词语
+            return this.wordarray ? this.wordarray[this.currentWordIdx] : ''  //当前正确的词语
         }
     },
 	methods: {
@@ -87,11 +85,11 @@ export default {
         },
         speak() {
             let bss = new BDSSpeechSynthesizer()
-            let speaker = bss.speak(this.wordArray[this.currentWordIdx])
+            let speaker = bss.speak(this.wordarray[this.currentWordIdx])
             //speaker.on('ended', () => bss.speak('bye world'))
         },
         changeWord(){
-            if(this.currentWordIdx < this.wordArray.length - 1 ){
+            if(this.currentWordIdx < this.wordarray.length - 1 ){
                 this.currentWordIdx ++
                 this.currentLetterIdx = 0
                 this.drawCanvas(1, 1)

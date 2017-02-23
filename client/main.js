@@ -6,12 +6,11 @@ import store from './store'
 import App from './App'
 import { routes } from './route-config'
 
-import { getAllMsgs } from './store/chatroom/actions'
+/*import { getAllMsgs } from './store/chatroom/actions'*/
+import _ from 'lodash'  //js基础辅助库
 
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
-
-import { currency } from './filter/currency'
 
 //测试自己的ui组件
 import HyUI from '../ui_libs'
@@ -28,7 +27,7 @@ Vue.use(Mint)
 Vue.use(HyUI)
 
 const router = new VueRouter({
-	/*mode: 'history',*/ //HTML5 History 模式
+	mode: 'history', //HTML5 History 模式
     base: __dirname,
   	routes 
 })
@@ -38,8 +37,6 @@ Vue.filter('time', timestamp => {
   return new Date(timestamp).toLocaleTimeString()
 })
 
-Vue.filter('currency', currency)
-
 
 new Vue({
   router,
@@ -47,7 +44,6 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-/*getAllMsgs(store)*/
 
 
 
