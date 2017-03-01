@@ -2,6 +2,7 @@ import 'babel-polyfill'  //解析字符
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+import VeeValidate from 'vee-validate'
 import store from './store'
 import App from './App'
 import { routes } from './route-config'
@@ -23,6 +24,7 @@ FastClick.attach(document.body)
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
+Vue.use(VeeValidate)
 Vue.use(Mint)
 Vue.use(HyUI)
 

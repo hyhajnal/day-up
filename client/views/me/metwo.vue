@@ -50,8 +50,6 @@
 
 <script>
 import Fix from '../../components/Fix'
-import DragDrop from 'vuedraggable'
-
 export default {
   name: 'TaskList',
   mounted() {
@@ -113,8 +111,7 @@ export default {
 	}
   },
   components: {
-  	Fix,
-  	DragDrop
+  	Fix
   }
 }
 </script>

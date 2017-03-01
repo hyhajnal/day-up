@@ -1,6 +1,6 @@
 <template>
-	<div class="card_wrap">
-		<div class="card_head">
+	<div class="bc_card_wrap">
+		<div class="bc_card_head">
 			<div class="head_wrap">
         <span class="title">数学
           <span class="subtitle">数学科特18-20页</span>
@@ -8,10 +8,10 @@
         <span class="num">46<em>人已完成</em></span>  
       </div>
 		</div>
-    <div class="card_body" wrap="wrap">
+    <div class="bc_card_body" wrap="wrap">
       <span>00:40:00</span>
     </div>
-		<div class="card_foot">
+		<div class="bc_card_foot">
       <div class="ctr_btn">开始</div>
       <div class="ctr_btn">完成</div>
 		</div>
@@ -36,7 +36,7 @@ export default{
 </script>
 
 <style lang="scss">
-.card_wrap{
+.bc_card_wrap{
   width:90%;
   height:70%;
   margin: auto;
@@ -44,7 +44,7 @@ export default{
   position: absolute;
   background:none;
   border-radius:8px;
-  .card_head{
+  .bc_card_head{
     height:50%;
     border-top-left-radius:8px;
     border-top-right-radius:8px;
@@ -83,7 +83,7 @@ export default{
       }
     }
   }
-  .card_foot{
+  .bc_card_foot{
     height:25%;
     display:flex;
     justify-content:space-around;
@@ -93,7 +93,7 @@ export default{
     background-size:50% 100%;
     background-repeat: no-repeat;
   }
-  .card_body{
+  .bc_card_body{
     height:25%;
     text-align:center;
     padding-top:2rem;

@@ -15,10 +15,11 @@
     "mint-ui": "^2.0.5",
     "say": "^0.11.0",
     "socket.io": "^1.7.2",
+    "utility": "^1.11.0",
+    "vee-validate": "^2.0.0-beta.23",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0",
-    "vuedraggable": "^2.8.4",
     "vuex": "^2.0.0"
   },
   "devDependencies": {

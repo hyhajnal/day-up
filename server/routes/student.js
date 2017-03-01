@@ -7,6 +7,10 @@ var StuCtrl = require('../controller/student')
 
 var stuFun = function(app) {
 
+    app.post('/server/student/login',StuCtrl.login)
+
+    app.post('/server/student/register',StuCtrl.register)
+
 	app.get('/server/student/tasks',StuCtrl.getTasksByDate)
 
 	app.post('/server/student/getLetter', function(reQ,reS,next){
