@@ -21781,3 +21781,11 @@
 [0223/092902:ERROR:exception_snapshot_win.cc(87)] thread ID 3776 not found in process
 [0223/092902:WARNING:crash_report_exception_handler.cc(61)] ProcessSnapshotWin::Initialize failed
 [0223/092902:ERROR:scoped_process_suspend.cc(38)] NtResumeProcess: 已尝试访问正在退出的过程。  (0xc000010a)
+[0226/013625:ERROR:process_info.cc(608)] range at 0xfef19000, size 0x230 fully unreadable
+[0226/013625:ERROR:process_reader_win.cc(142)] SuspendThread: 拒绝访问。 (0x5)
+[0226/013625:ERROR:process_reader_win.cc(142)] SuspendThread: 拒绝访问。 (0x5)
+[0226/013625:ERROR:process_info.cc(608)] range at 0xfe9e8000, size 0x230 fully unreadable
+[0226/013625:ERROR:process_info.cc(608)] range at 0xfe9ef000, size 0xf84 fully unreadable
+[0226/013625:ERROR:process_info.cc(608)] range at 0xfef1e000, size 0xf84 fully unreadable
+[0227/004338:ERROR:process_info.cc(608)] range at 0xffad3000, size 0x230 fully unreadable
+[0227/004339:ERROR:process_info.cc(608)] range at 0xffade000, size 0xf84 fully unreadable

@@ -4,12 +4,18 @@
       <div class="title" v-text="title"></div>
       <div class="problem" >{{ content }} = <em v-text="answer">?</em></div>
       <div class="result" v-if="rs!= null">
-        <div class="true" v-if="rs">
-          <a href=""></a>
-        </div>
-        <div class="false" v-if="!rs">
-          <a href=""></a>
-        </div>
+        <transition name="zoom">
+          <div class="true" v-if="rs">
+            <a href="jvascript(0)"></a>
+          </div>
+        </transition>
+
+         <transition name="bounce">
+          <div class="false" v-if="!rs">
+            <a href="jvascript(0)"></a>
+          </div>
+        </transition>
+
       </div>
   </div>
 </div>
@@ -55,7 +61,7 @@ export default{
   background-color: #fff;
   border-radius: 4px;
   position:absolute; 
-  top:30%;
+  top:35%;
   left:0; right:0; margin:auto;
 }
 
@@ -115,6 +121,60 @@ export default{
   text-align:center;
   a{ display: inline-block; width: 20px;height:5px; background: red;line-height: 0;font-size:0;vertical-align: middle;-webkit-transform: rotate(45deg);}
   a:after{content:'/';display:block;width: 20px;height:5px; background: red;-webkit-transform: rotate(-90deg);}
+}
+
+/*动效 打勾 打叉  */
+
+.zoom-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-enter-active {
+  animation: bounce-out .5s;
+}
+
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  from, 20%, 40%, 60%, 80%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    transform: scale3d(.9, .9, .9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    transform: scale3d(.97, .97, .97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
 }
 
 </style>

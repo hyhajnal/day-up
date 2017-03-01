@@ -13,7 +13,7 @@
         <bar-item path="/home" label="作业" icon="toucan"></bar-item>
         <bar-item path="/chat" label="班级" icon="monkey"></bar-item>
         <bar-item path="/find" label="发现" icon="crab"></bar-item>
-        <bar-item path="/me" label="计划" icon="duck"></bar-item>
+        <bar-item path="/me" label="小黑屋" icon="duck"></bar-item>
       </bar>
     </div>
 

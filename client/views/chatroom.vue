@@ -1,5 +1,5 @@
 <template>
-	<div class="content content_bottom content_head">
+	<div class="content content_bottom content_head chatPage">
 
 		<mt-button  @click="popupVisible = true">加入</mt-button>
 	    <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="mint-popup" >
@@ -82,7 +82,7 @@
 				})
 			},
 			addRoom(room, e){
-				e.target.className = 'added'
+				e.target.className +=  ' added'
 				e.target.innerText = '已加入'
 				Csocket.listen_login(room.id) //监听加入
 				Csocket.listen_logout(room.id) //监听退出
@@ -99,20 +99,28 @@
 	}
 </script>
 
-<style lang='scss' scoped>
-	#childPage a{
+<style lang='scss'>
+.chatPage{
+	a{
 		-webkit-tap-highlight-color: rgba(0,0,0,0);
 		/* 移动端a被touch显示的背景色 */
 	}
-	#childPage .mint-cell-label{
-		margin-bottom:6px;
+	.mint-cell-label{
+		position:absolute;
+		left:4rem;
+		bottom:20%;
 	}
-	#childPage .mint-cell-title img{
+	.mint-cell-text{
+		top:20%;
+		position:absolute;
+		left:4rem;
+	}
+	.mint-cell-title img{
 		border-radius: 50%;
 	}
 
-	#childPage .mint-cell-wrapper{
-		padding:10px;
+	.mint-cell-wrapper{
+		padding:.2rem;
 	}
 
 	.mint-popup {
@@ -121,22 +129,14 @@
         overflow-y:auto;
         -webkit-overflow-scrolling : touch; 
         border-radius: 8px;
-        padding: .2rem;
         transform: translate(-50%, -8rem);
-        h1 {
-          font-size: 20px;
-          color: #26a2ff;
-        }
-        p {
-          margin-bottom: 10px;
-        }
+        font-size: .85rem;
+        padding:1rem;
       }
 
       .add_container{
-      	font-size: .5rem;
-      	margin:0;
-      	padding: 0;
-      	width: 100%;
+      	margin:0; padding: 0;
+      	width: 100%; height:100%;
       	list-style: none;
       	display: flex;
       	flex-flow: row wrap;
@@ -147,17 +147,17 @@
   			box-sizing: border-box;
 			background: #fff;
 			flex: 0 0 50%;
-			height: 3rem;
-			box-shadow: 1px 1px 7px #bcbcbc; 
-			
+			padding:.1rem;			
 			display: flex;
 			flex-flow: row nowrap;
 			justify-content:space-around;
 			align-items:center;
 				
 				.mint-button--small{
-					padding: .1rem .3rem;
-					height:auto;
+					width:2.8rem;
+					height:1.2rem;
+					line-height: 1.2rem;
+					padding:0;
 					transition:all 1s;
 					animation: bounceIn_custom 0.6s ease-in-out;
 				}
@@ -178,15 +178,17 @@
 					width:35px;
 					white-space: nowrap;  
 					overflow: hidden;  
-					text-overflow:ellipsis;      /*兼容IE*/  
+					text-overflow:ellipsis;      /*兼容IE*/
+					margin-top: -7px;  
 				}
 
 				.added{
 					background-color: #fff;
 					border: 1px solid #26a2ff;
 					color:#26a2ff;
+					font-size: .7rem;
 				}
   		}
       }
-
+}
 </style>

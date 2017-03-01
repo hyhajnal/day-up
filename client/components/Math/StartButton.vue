@@ -45,7 +45,7 @@ export default{
 	                event.preventDefault()  //阻止touch时滚动条滚动等默认行为
 	                this.$refs.s_btn.style.webkitTransform = 
 	                	'translate('+ (obj.pageX - this.x) +'px,'
-                        + (obj.pageY - this.y) +'px) scale(.3)'
+                        + (obj.pageY - this.y) +'px) scale(.4)'
 	                break;
 	        } 
 		}
@@ -77,7 +77,7 @@ export default{
 	color: #fff;
 	text-align:center;
 	line-height:8.4rem;
-	font-size:2rem;
+	font-size:1.5rem;
 	width: 8.4rem;
 	height: 8.4rem;
 	background: #2b2e48;

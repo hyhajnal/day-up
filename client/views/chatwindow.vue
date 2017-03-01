@@ -1,6 +1,6 @@
 <template>
+<div class="child_wrap">
 	<div class="content content_head"> 
-
 		<div class="content" ref="list">
         <div class="chat_wrap" v-for="msg in msgs" >
           <mt-badge size="small" type="primary" color="#ccc"
@@ -21,16 +21,15 @@
             </div>
           </div>
           
-
         </div>
       </div>
-
-      <div class="sendbox">
-        <input type="text" ref="msg" @keyup.enter='sendMsg'>
-        <span class="icon icon-emoji"></span>
-        <mt-button size="small" type="primary" @click="send()">发送</mt-button>
-      </div>
 	</div>
+  <div class="sendbox">
+    <input type="text" ref="msg" @keyup.enter='sendMsg'>
+    <span class="icon icon-emoji"></span>
+    <mt-button size="small" type="primary" @click="send()">发送</mt-button>
+  </div>
+</div>
 </template>
 
 <script>
@@ -101,7 +100,9 @@ $font-color: #fff;
 $font-color-alter: #333;
 $message-color: #2ECC71;
 
-
+.child_wrap{
+  max-height: 100%;
+}
 .content{
   padding-bottom: 2.5rem;
   -webkit-overflow-scrolling: touch;

@@ -1,62 +1,46 @@
 <template>
 <div class="child_wrap">
-	<mt-navbar v-model="selected" fixed>
-	  <mt-tab-item id="1">日计划</mt-tab-item>
-	  <mt-tab-item id="2">周计划</mt-tab-item>
-	  <mt-tab-item id="3">期计划</mt-tab-item>
-	</mt-navbar>
 
 	<div class="blurEffect">
 	</div>
-	<div class="content content_head content_bottom">
-		<!-- tab-container -->
-		<mt-tab-container v-model="selected" swipeable>
-		  <mt-tab-container-item id="1">
 
-	      <mt-button type="default" @click="insert">default</mt-button>
-		  <mt-button type="primary" @click="reset">primary</mt-button>
-		  <mt-button type="danger"  @click="shuffle">danger</mt-button>
-
-			<drag-drop :list="items" :options="{animation: 150, dragClass: 'item-drag'}">
-		      <transition-group name="dragfade">
-		        <mt-cell v-for="(item,index) in items"
-		          :key="item.task"
-		          :title="item.task" is-link>
-		        </mt-cell>
-		      </transition-group>
-			</drag-drop>
-
-		  </mt-tab-container-item>
-
-		  <mt-tab-container-item id="2">
-		    <mt-cell v-for="n in 4" :title="'测试 ' + n" is-link>
-		  </mt-tab-container-item>
-		  <mt-tab-container-item id="3">
-		    <mt-cell v-for="n in 6" :title="'选项 ' + n" is-link>
-		  </mt-tab-container-item>
-		</mt-tab-container>
-
-		<!-- <fix :offsetTop="50">
-		        <span class="fix-bar">固定在最顶部1</span>
-		    </fix>
-		<p v-for="n in 20">{{ n }}</p>
-		<fix :offsetTop="50">
-		        <span class="fix-bar">固定在最顶部2</span>
-		    </fix>
-		    <p v-for="n in 20">{{ n }}</p> -->
+	<div class="card_block content_head">
+    <card-black>
+    </card-black>
 	</div>
+
+  <mt-popup v-model="popup" position="bottom" class="popup">
+    <p class="align-c">按你的直觉给作业排个序吧！</p>
+    <to-drag class="drag_wrap" 
+      :items="items" :gutter="8" :i="i">
+        <transition-group name="dragfade" tag="ul">
+            <li v-for="(item,index) in items" :key="item">
+              <span @click="i = index" class="title">{{item.task}}</span>
+              <span class="time">
+                <input type="text" value="" placeholder="预计完成时间">
+                <em>min</em>
+              </span>
+            </li>
+        </transition-group>
+      </to-drag>
+      <div class="ok_btn" @click="popup = false">
+        ok?
+      </div>
+  </mt-popup>
 </div>
 </template>
 
 <script>
 import Fix from '../../components/Fix'
-import DragDrop from 'vuedraggable'
-
+import ToDrag from '../../components/ToDrag'
+import CardBlack from '../../components/BlackRoom/CardBlack'
 export default {
   name: 'TaskList',
   mounted() {
   	this.$store.commit('setNavbar',this.control)
-  	//this.begin = false
+  	/*setTimeout(()=> {
+      this.popup = true
+    }, 500)*/
   },
   beforeRouteUpdate (to, from, next) {
     next(vm => {
@@ -65,13 +49,14 @@ export default {
   },
   data() {
     return {
+      popup: false,
       begin: true,	
       selected: '1',
       popupVisible: false,
       control: {
           header: true,
           bottom: false,
-          title: '我的计划',
+          title: '小黑屋',
           content: {
             icon1: 'back',
             icon2: 'more',
@@ -83,38 +68,17 @@ export default {
       	{task:'听写', complete:false},
       	{task:'数学科特', complete:true},
       	{task:'跳绳3次', complete:false},
+        {task:'抄写', complete:false},
+        {task:'听写', complete:false}
 
-      ]
+      ],
+      i: -1
     }
-  },
-  methods:{
-  	insert () {
-        var i = Math.round(Math.random() * this.items.length)
-        //this.items.splice(i, 0, id++)
-    },
-    reset () {
-        //this.items = [1, 2, 3, 4, 5]
-    },
-    shuffle () {
-        this.items = this.shuffler(this.items)
-    },
-    remove (i) {
-        this.items.splice(i, 1)
-    },
-    shuffler(arr){
-	    var result = [],
-	        random;
-	    while(arr.length>0){
-	        random = Math.floor(Math.random() * arr.length)
-	        result.push(arr[random])
-	        arr.splice(random, 1)
-	    }
-	    return result
-	}
   },
   components: {
   	Fix,
-  	DragDrop
+  	ToDrag,
+    CardBlack
   }
 }
 </script>
@@ -143,16 +107,21 @@ export default {
 	.content{
 		padding-top:7.5rem;
 		position:relative;
-		.mint-cell{
-			background:rgba(255,255,255,1);
-			width:90%;
-			margin:1rem auto;
-			border-radius:4px;
-		}
-		.mint-cell-allow-right::after{
-				border:solid 2px #ffffff;
-		}
 	}
+}
+
+.ok_btn{
+  width:4rem;
+  height:4rem;
+  background:#26a2ff;
+  text-align:center;
+  line-height:4rem;
+  border-radius:100%;
+  font-size:2rem;
+  color:#fff;
+  position:absolute;
+  left:50%; bottom:4rem; 
+  transform:translateX(-50%);
 }
 .item-drag{
 	background:none;
@@ -170,42 +139,51 @@ export default {
 }
 
 /* 1. declare transition */
-.dragfade-move, .dragfade-enter-active, .dragfade-leave-active {
+.dragfade-move, .dragfade-enter-active{
 	transition: all .5s cubic-bezier(.55,0,.1,1);
 }
 /* 2. declare enter from and leave to state */
-.dragfade-enter, .dragfade-leave-to {
+.dragfade-enter{
 	opacity: 0;
-	transform: scaleY(0.01) translate(30px, 0);
 }
 /* 3. ensure leaving items are taken out of layout flow so that moving
     animations can be calculated correctly. */
 .dragfade-leave-active {
-	position: absolute;
+	display: none;
 }
 
-.cell-rotate{
-	transform:rotateY(-90deg);
-	animation-name: myRotateY;
-	transform-origin:0% 50%;
-	animation: myRotateY 1s;
-	animation-fill-mode: forwards;
-}
-/* .mint-cell{
-	transition: all .5s;
-} */
+.popup{
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  color:#fff;
 
-@for $i from 1 through 10 { 
-	.cell-#{$i} { 
-		animation-delay: .5s * $i;
-	} 
+  .drag_wrap{
+      width:90%;
+      max-height:90%;
+      overflow-y:auto;
+      -webkit-overflow:touch;
+      margin:5rem auto;
+      position:relative;
+      li{
+        background:none;
+        padding:1rem;
+        border-radius:4px;
+        margin:8px 0px;
+        display:flex;
+        justify-content: space-around;
+        .title{
+          width:40%;
+        }
+        .time{
+          text-align:right;
+          input{
+            background:none;
+            text-align:right;
+          }
+        }
+      }
+    }
 }
-
-@keyframes myRotateY
-{
-	from {transform:rotateY(-90deg);}
-	to {transform:rotateY(0deg);}
-}
-
 
 </style>
