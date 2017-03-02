@@ -1,15 +1,15 @@
 <template>
 	<div class="bc_card_wrap">
-		<div class="bc_card_head">
+		<div class="bc_card_head" :style="{backgroundImage: 'url(' + img + ')'}">
 			<div class="head_wrap">
-        <span class="title">数学
-          <span class="subtitle">数学科特18-20页</span>
+        <span class="title">{{ title }}
+          <span class="subtitle">{{ subtitle }}</span>
         </span> 
-        <span class="num">46<em>人已完成</em></span>  
+        <span class="num">{{ num }}<em>人已完成</em></span>  
       </div>
 		</div>
     <div class="bc_card_body" wrap="wrap">
-      <span>00:40:00</span>
+      <time-counter :time="time" @changecard="timeout"></time-counter>
     </div>
 		<div class="bc_card_foot">
       <div class="ctr_btn">开始</div>
@@ -19,23 +19,27 @@
 </template>
 
 <script>
-import Grid from '../Flex/Grid'
-import Item from '../Flex/Col'
+import TimeCounter from '../BlackRoom/TimeCounter'
 export default{
 	props: {
-    /*title: {
-      type: String
-    },
-    avg: Number*/
+    title: String,
+    subtitle: String,
+    num: Number,
+    time: String,
+    img: String
   },
   components: {
-    Grid,
-    Item
+    TimeCounter
+  },
+  methods: {
+    timeout() {
+      this.$emit('timeout')
+    }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .bc_card_wrap{
   width:90%;
   height:70%;
@@ -48,7 +52,7 @@ export default{
     height:50%;
     border-top-left-radius:8px;
     border-top-right-radius:8px;
-    background-image:url('/images/2.jpg');
+    /* background-image:url('/images/2.jpg'); */
     background-size:cover;
     position:relative;
     .head_wrap{
@@ -104,14 +108,6 @@ export default{
     background-size:50% 100%;
     background-repeat: no-repeat;
     padding:0 15px;
-    span{
-      width:100%;
-      font-size:3rem;
-      color:#000;
-      height:100%;
-      display:block;
-      border-bottom:dashed 1px #ccc;
-    }
   }
 
   .ctr_btn{

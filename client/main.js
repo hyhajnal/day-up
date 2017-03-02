@@ -6,6 +6,7 @@ import VeeValidate from 'vee-validate'
 import store from './store'
 import App from './App'
 import { routes } from './route-config'
+import { Lazyload } from 'mint-ui'
 
 /*import { getAllMsgs } from './store/chatroom/actions'*/
 import _ from 'lodash'  //js基础辅助库
@@ -21,7 +22,7 @@ import HyUI from '../ui_libs'
 import FastClick from 'fastclick'
 FastClick.attach(document.body)
 
-
+Vue.use(Lazyload) //lazyload
 Vue.use(VueRouter)
 Vue.use(VueResource)
 Vue.use(VeeValidate)

@@ -20,13 +20,13 @@
   <div class="content content_bottom" ref="scrollDom">
     <mt-swipe :auto="4000">
       <mt-swipe-item>
-        <img src="/images/1.jpg" alt="1">
+        <img alt="1" v-lazy="imgSrc">
       </mt-swipe-item>
       <mt-swipe-item>
-        <img src="/images/2.jpg" alt="2">
+        <img alt="2" v-lazy="imgSrc">
       </mt-swipe-item>
       <mt-swipe-item>
-        <img src="/images/3.jpg" alt="3">
+        <img alt="3" v-lazy="imgSrc">
       </mt-swipe-item>
     </mt-swipe>
     
@@ -40,19 +40,19 @@
       </div>
       <div class="content">
         <card title="最热计划" :avg="2">
-          <card-item img="/images/3.jpg" label="小明的计划" 
+          <card-item :img="imgSrc" label="小明的计划" 
             icon1="people" icon2="people" v-for="i in 4"></card-item>
         </card>
         <card title="附近圈子" :avg="0">
-          <card-item slot="content" img="/images/1.jpg" label="英语早读营" :posDown="true" 
+          <card-item slot="content" :img="imgSrc" label="英语早读营" :posDown="true" 
             icon1="people" icon2="people" v-for="i in 5"></card-item>
         </card>
         <card title="推荐好书" :avg="5">
-          <card-item img="/images/2.jpg" label="海底两万里" 
+          <card-item :img="imgSrc" label="海底两万里" 
            v-for="i in 5"></card-item>
         </card>
         <card title="短TV" :avg="3">
-          <card-item img="/images/4.jpg" 
+          <card-item :img="imgSrc" 
             icon1="shipin" icon2="msg" v-for="i in 9"></card-item>
         </card>
         <!-- <p v-for="card in cards">{{ card }}</p> -->
@@ -102,7 +102,8 @@ export default {
       },
       search: true,
       cards: [0,1,2,3,4,5],
-      topStatus: ''
+      topStatus: '',
+      imgSrc:'http://localhost:3000/images/3.jpg' 
     }
   },
   methods: {
@@ -135,6 +136,11 @@ export default {
 </script>
 
 <style lang='scss'>
+image[lazy=loading] {
+  width: 40px;
+  height: 300px;
+  margin: auto;
+}
 .spinner{
   padding-top: 1rem;
   text-align: center;

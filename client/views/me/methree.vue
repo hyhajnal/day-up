@@ -1,11 +1,16 @@
 <template>
 <div class="child_wrap">
 
-	<div class="blurEffect">
+	<div class="blurEffect" :style="{backgroundImage: 'url(' + taskList[cardIndex].img + ')'}">
 	</div>
 
 	<div class="card_block content_head">
-    <card-black>
+    <card-black :title="taskList[cardIndex].title" 
+    :subtitle="taskList[cardIndex].subtitle" 
+    :num="taskList[cardIndex].num"
+    :time="taskList[cardIndex].time" 
+    :img="taskList[cardIndex].img"
+    @timeout="nextCard">
     </card-black>
 	</div>
 
@@ -38,9 +43,9 @@ export default {
   name: 'TaskList',
   mounted() {
   	this.$store.commit('setNavbar',this.control)
-  	/*setTimeout(()=> {
+  	setTimeout(()=> {
       this.popup = true
-    }, 500)*/
+    }, 500)
   },
   beforeRouteUpdate (to, from, next) {
     next(vm => {
@@ -72,6 +77,37 @@ export default {
         {task:'听写', complete:false}
 
       ],
+      taskList:[
+        {
+          title: '数学',
+          subtitle: '数学课特19-20',
+          time: '00:00:10',
+          num: 46,
+          img: '/images/1.jpg'
+        },
+        {
+          title: '语文',
+          subtitle: '语文听写第3课',
+          time: '00:00:20',
+          num: 23,
+          img: '/images/2.jpg'
+        },
+        {
+          title: '英语',
+          subtitle: '英语阅读2篇',
+          time: '00:00:05',
+          num: 43,
+          img: '/images/3.jpg'
+        },
+        {
+          title: '体育',
+          subtitle: '锻炼3小时',
+          time: '00:40:00',
+          num: 36,
+          img: '/images/4.jpg'
+        }
+      ],
+      cardIndex:0, //当前卡片
       i: -1
     }
   },
@@ -79,6 +115,11 @@ export default {
   	Fix,
   	ToDrag,
     CardBlack
+  },
+  methods: {
+    nextCard (){
+      this.cardIndex < this.taskList.length - 1 ? this.cardIndex ++ : this.taskList.length - 1
+    }
   }
 }
 </script>
