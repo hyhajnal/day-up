@@ -1,7 +1,10 @@
 <template>
+<div class="child_wrap">
+	<mt-header title="我的圈子" fixed class="header">
+		<i class="iconfont icon-side" slot="left" @click="openSidebar"></i>
+        <i class="iconfont icon-add" slot="right" @click="popupVisible = true"></i>
+    </mt-header>
 	<div class="content content_bottom content_head chatPage">
-
-		<mt-button  @click="popupVisible = true">加入</mt-button>
 	    <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="mint-popup" >
 			<ul class="add_container">
 				<li class="add_item" v-for="room in rooms_all">
@@ -32,6 +35,7 @@
 			</mt-cell-swipe>
 	    </div>
 	</div>
+</div>
 </template>
 
 <script>
@@ -41,7 +45,7 @@
 	import { roomData } from '../api/chatData'
 	export default {
 		mounted() {
-			this.$store.commit('setNavbar', this.control)
+			this.$store.commit('setBottom', true)
 		    if(!localStorage.getItem('usrId')){
 		  	    MessageBox.prompt('请输入姓名').then(({ value, action }) => {
 		        	localStorage.setItem('usrId', value + Date.now())
@@ -55,17 +59,7 @@
 	    data() {
 	    	return {
 	    		popupVisible: false,
-	    		rooms_all: roomData.rooms,
-	    		control: {
-			        header: true,
-			        bottom: true,
-			        title: '我的圈子',
-			        content: {
-			          icon1: 'back',
-			          icon2: 'more',
-			          url: '/'
-			        }
-			    }
+	    		rooms_all: roomData.rooms
 	    	}
 	    },
 		methods: {
@@ -88,7 +82,10 @@
 				Csocket.listen_logout(room.id) //监听退出
 				Csocket.login(room.id)
 				this.$store.dispatch('add_room',room)
-			}
+			},
+	      	openSidebar() {
+		      this.$store.commit('setSidebar', true)
+		    }
 		},
 		computed: {
 			...mapGetters([

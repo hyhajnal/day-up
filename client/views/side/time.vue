@@ -1,22 +1,26 @@
 <template>
 <div class="child_wrap">
-  <mt-datetime-picker
-    type:"time"
-    v-model="pickerValue"
-    @confirm="handleChange"
-    ref="picker3">
-  </mt-datetime-picker>
+  <mt-header title="我的习惯" fixed class="header">
+      <i class="iconfont icon-side" slot="left" @click="openSidebar"></i>
+      <mt-button icon="more" slot="right"></mt-button>
+  </mt-header>
 	<div class="content content_head content_bottom">
       <ul>
-        <li class="border_1px" @click="openPicker()" v-for="item in timeList">
+        <li class="border_1px" v-for="(item,index) in timeList">
           <grid wrap="wrap" align="between" :avg="3">
-              <span class="title">{{item.content}}</span>
-              <span class="time">{{item.sTime}}</span>
-              <span class="time">{{item.eTime}}</span>
+              <div class="title">{{item.content}}</div>
+              <div class="time" @click.stop="test">{{item.sTime}}</div>
+              <div class="time" @click="openPicker(index,'eTime')">{{item.eTime}}</div>
           </grid>
         </li>
       </ul>
 	</div>
+  <!-- <mt-datetime-picker
+    type="time"
+    v-model="pickerValue"
+    @confirm="handleChange"
+    ref="picker">
+  </mt-datetime-picker> -->
 </div>
 </template>
 
@@ -25,38 +29,35 @@ import Grid from '../../components/Flex/Grid'
 export default {
   name: 'page-navbar',
   mounted() {
-  	this.$store.commit('setNavbar',this.control)
+  	this.$store.commit('setBottom',false)
   	//this.begin = false
   },
   data() {
     return {
       pickerValue: null,
-      control: {
-          header: true,
-          bottom: true,
-          title: '我的习惯',
-          content: {
-            icon1: 'back',
-            icon2: 'more',
-            url: '/'
-          }
-      },
       timeList:[
-        {content:'放学回家', sTime:"15:00",eTime:"— —",type:1},
+        {content:'放学回家', sTime:"17:00",eTime:"— —",type:1},
         {content:'吃饭', sTime:"18:00",eTime:"18:30",type:1},
-        {content:'特殊安排1', sTime:"20:40",eTime:"21:10",type:1},
-        {content:'特殊安排2', sTime:"19:30",eTime:"19:40",type:1},
         {content:'睡觉', sTime:"— —",eTime:"21:30",type:1}
-      ]
+      ],
+      current:null
     }
   },
   methods:{
-    openPicker() {
-      //this.$refs[picker].open()
-      console.log(this.$refs)
+    test(){ 
+      alert('test')
+    },
+    openPicker(index, time) {
+      debugger
+      this.$refs.picker.open()
+      this.$set(this.current,'index',index)
+      this.$set(this.current, 'time', time)
     },
     handleChange (value) {
-      console.log(value)
+      timeList[this.current.index][this.current.time] = value
+    },
+    openSidebar() {
+      this.$store.commit('setSidebar', true)
     }
   },
   components: {

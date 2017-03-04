@@ -22,8 +22,25 @@ export const actions = {
   },
   addScore ({ commit }, paylod){
     commit( types.ADD_SCORE, paylod)
-  }
+  },
 
+  //进程操作
+  init_pcbs ({ commit }, pcbs) {
+  	commit( types.INIT_PCBS, pcbs )
+  },
+
+  switch_pcb ({ commit }) {
+  	commit( types.SWITCH_PCB)
+  },
+
+  update_time ({ commit }, payload) {
+  	commit( types.UPDATE_TIME, paylod )
+  },
+
+  //空余时间
+  set_sparetime ({ commit }, sparetime) {
+    commit( types.SET_SPARETIME, sparetime )
+  }
 
 }
 
@@ -56,4 +73,33 @@ export const mutations = {
 	[types.ADD_SCORE] (state, {item, score}) {
 		set(item, 'score', score)
 	},
+
+
+	//进程操作
+	[types.INIT_PCBS] (state, pcbs) {
+		pcbs.forEach( pcb => {
+			state.pcbs.push(createPCB(pcb))
+		})
+	},
+	[types.SWITCH_PCB] (state) {
+		state.currentPCB ++
+	},
+	[types.UPDATE_TIME] (state, { pcb, lastTime }) {
+		pcb.lastTime = lastTime
+	},
+
+  [types.SET_SPARETIME] (state, sparetime) {
+    state.spareTime = sparetime
+  }
+}
+
+function createPCB({ lastTime, contentId}) {
+	const timestamp = Date.now()
+	const id = 'pcb' + timestamp
+	const pcb = {
+		id,
+		contentId,
+		lastTime
+	}
+	return pcb
 }

@@ -1,4 +1,9 @@
 <template>
+<div class="child_wrap math_page">
+  <mt-header title="口算练习" fixed class="header">
+    <mt-button icon="back"  slot="left" @click="goRoute()"></mt-button>
+    <mt-button icon="more" slot="right"></mt-button>
+  </mt-header>
 	<div class="content content_head">		
 
     <progress-circle v-if="complete && currentCard > 0"
@@ -33,7 +38,7 @@
   
 
 	</div>
-
+</div>
 </template>
 <script>
 import { findIndex as _findIndex } from 'lodash'
@@ -41,9 +46,10 @@ import MathCard from '../../components/Math/MathCard'
 import OpTable from '../../components/Math/OpTable'
 import StartButton from '../../components/Math/StartButton'
 import ProgressCircle from '../../components/Progress'
+import { MessageBox } from 'mint-ui'
 export default {
 	mounted() {
-		this.$store.commit('setNavbar', this.control)
+		this.$store.commit('setBottom', false)
     const id = this.$route.params.id
     const items = this.$store.state.task.items
     const index = _findIndex(items, function(item) {
@@ -58,16 +64,6 @@ export default {
 
   data () {
     return {
-      control: {
-        header: true,
-        bottom: false,
-        title: '口算练习',
-        content: {
-          icon1: 'back',
-          icon2: 'more',
-          url: '/'
-        }
-      },
       task:null,
       cards: [],
       currentCard: 0,
@@ -154,6 +150,12 @@ export default {
       if(!this.complete){
         this.timeCounter()
       }
+    },
+    goRoute(){
+      let _this = this
+      MessageBox.confirm('确定退出当前作业?').then(action => {
+        _this.$router.replace({path:'/'})
+      })
     }
 
   },
@@ -183,7 +185,8 @@ export default {
     MathCard,
     OpTable,
     StartButton,
-    ProgressCircle
+    ProgressCircle,
+    MessageBox
   },
 
 	beforeRouteLeave(to, from, next){
@@ -193,50 +196,52 @@ export default {
 </script>
 
 <style lang="scss">
-.mt-progress{
-  position:absolute;
-  top:25%;
-  width:70%;
-  margin:auto;
-  left:0;right:0;
-    .mt-progress-progress{
-      transition:all 2s ease-out;
-    }
+.math_page{
+  .mt-progress{
+    position:absolute;
+    top:25%;
+    width:70%;
+    margin:auto;
+    left:0;right:0;
+      .mt-progress-progress{
+        transition:all 2s ease-out;
+      }
 
-}
-.card_progress{
-  border:1px solid #ee4d4d;
-  padding:0 .3rem;
-  margin-left:1rem;
-  color:#ee4d4d;
-  border-radius:4px;
-}
+  }
+  .card_progress{
+    border:1px solid #ee4d4d;
+    padding:0 .3rem;
+    margin-left:1rem;
+    color:#ee4d4d;
+    border-radius:4px;
+  }
 
-.start {
-  transform: scale(.4) !important;
-  margin: 0 auto !important;
-}
+  .start {
+    transform: scale(.4) !important;
+    margin: 0 auto !important;
+  }
 
-.time {
-  background:#fff;
-  display:inline-block;
-  font-size:1rem;
-  border-radius: .5rem;
-  margin-top:20%;
-  margin-right:-1rem;
-  float:right;
-  padding:.8rem 1.2rem
-}
+  .time {
+    background:#fff;
+    display:inline-block;
+    font-size:1rem;
+    border-radius: .5rem;
+    margin-top:20%;
+    margin-right:-1rem;
+    float:right;
+    padding:.8rem 1.2rem
+  }
 
-.fade-enter-active,.time-enter-active{
-  transition: all .5s
-}
-.fade-enter{
-  opacity: 1;
-  transform: translateY(100px);
-}
-.time-enter{
-  opacity: 1;
-  transform: translateX(20px);
+  .fade-enter-active,.time-enter-active{
+    transition: all .5s
+  }
+  .fade-enter{
+    opacity: 1;
+    transform: translateY(100px);
+  }
+  .time-enter{
+    opacity: 1;
+    transform: translateX(20px);
+  }
 }
 </style>

@@ -2,18 +2,17 @@
 <div class="child_wrap">
   <transition name="component-fade">
     <mt-search v-show="search"
-        v-model="value"
-        cancel-text="取消"
-        placeholder="搜索"
-        fixed>
+      v-model="value"
+      cancel-text="取消"
+      placeholder="搜索"
+      fixed>
     </mt-search >
   </transition>
 
   <transition name="component-fade">
-    <mt-header :title="control.title" fixed class="header" v-show="!search">
-      <mt-button :icon="control.content.icon1"  slot="left"
-       @click.native="showSideBar(control.content.url)"></mt-button>
-      <mt-button :icon="control.content.icon2" slot="right"></mt-button>
+    <mt-header title="发现" fixed class="header" v-show="!search">
+      <i class="iconfont icon-side" slot="left" @click="openSidebar"></i>
+      <mt-button icon="more" slot="right"></mt-button>
     </mt-header>
   </transition>
   
@@ -82,7 +81,7 @@ import Item from '../components/Flex/Col'
 export default {
   name: 'Find',
   mounted() {
-    this.$store.commit('setNavbar', this.control)
+    this.$store.commit('setBottom', true)
     this.$refs.scrollDom.addEventListener('scroll', this.handleScroll, false)
   },
   beforeDestroyed () {
@@ -90,20 +89,10 @@ export default {
   },
   data (){
     return {
-      control: {
-        header: false,
-        bottom: true,
-        title: '发现',
-        content: {
-          icon1: 'back',
-          icon2: 'more',
-          url: '/'
-        }
-      },
       search: true,
       cards: [0,1,2,3,4,5],
       topStatus: '',
-      imgSrc:'http://localhost:3000/images/3.jpg' 
+      imgSrc:this.$store.state.serverHost+'/images/3.jpg' 
     }
   },
   methods: {
@@ -124,6 +113,9 @@ export default {
       }else{
         this.search = true
       }
+    },
+    openSidebar() {
+      this.$store.commit('setSidebar', true)
     }
   },
   components: {

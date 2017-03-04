@@ -1,7 +1,8 @@
 import * as types from './mutation_types'
 export const STORAGE_KEY = 'todos-vuejs'
 
-// for testing
+// 判断是否在PhantomJs上跑，>-1 是
+// PhantomJS 是一个基于 WebKit 的服务器端 JavaScript API，它全面支持web而不需浏览器
 if (navigator.userAgent.indexOf('PhantomJS') > -1) {
   window.localStorage.clear()
 }

@@ -1,15 +1,29 @@
 <template>
 <div class="child_wrap">
-
-	<div class="blurEffect" :style="{backgroundImage: 'url(' + taskList[cardIndex].img + ')'}">
+  <mt-header title="小黑屋" fixed class="header">
+    <i class="iconfont icon-mima" slot="right" @click="goRoute()"></i>
+  </mt-header>
+	<div class="blurEffect" :style="{backgroundImage: 'url(' + img + ')'}">
 	</div>
 
 	<div class="card_block content_head">
-    <card-black :title="taskList[cardIndex].title" 
-    :subtitle="taskList[cardIndex].subtitle" 
-    :num="taskList[cardIndex].num"
-    :time="taskList[cardIndex].time" 
-    :img="taskList[cardIndex].img"
+    <card-black v-if="!currentPCB.special"
+    :title="currentPCB.contentId.tag" 
+    :subtitle="currentPCB.contentId.content" 
+    :num="currentPCB.contentId.num"
+    :stime="currentPCB.s_time" 
+    :etime="currentPCB.e_time"
+    :done="currentPCB.done"
+    :img="img"
+    @timeout="nextCard">
+    </card-black>
+    <!-- 特殊任务 -->
+    <card-black v-if="currentPCB.special"
+    :title="currentPCB.content" 
+    :stime="currentPCB.s_time" 
+    :etime="currentPCB.e_time" 
+    :img="img"
+    :done="currentPCB.done"
     @timeout="nextCard">
     </card-black>
 	</div>
@@ -20,7 +34,7 @@
       :items="items" :gutter="8" :i="i">
         <transition-group name="dragfade" tag="ul">
             <li v-for="(item,index) in items" :key="item">
-              <span @click="i = index" class="title">{{item.task}}</span>
+              <span @click="i = index" class="title">{{item.content}}</span>
               <span class="time">
                 <input type="text" value="" placeholder="预计完成时间">
                 <em>min</em>
@@ -28,7 +42,7 @@
             </li>
         </transition-group>
       </to-drag>
-      <div class="ok_btn" @click="popup = false">
+      <div class="ok_btn" @click="closePlan">
         ok?
       </div>
   </mt-popup>
@@ -39,13 +53,21 @@
 import Fix from '../../components/Fix'
 import ToDrag from '../../components/ToDrag'
 import CardBlack from '../../components/BlackRoom/CardBlack'
+import { mapGetters } from 'vuex'
+import PlanManage from '../../components/BlackRoom/planManger'
+import { MessageBox } from 'mint-ui'
 export default {
   name: 'TaskList',
   mounted() {
-  	this.$store.commit('setNavbar',this.control)
-  	setTimeout(()=> {
+    this.$store.commit('setBottom',false)
+    //如果没有设置空闲时间，则跳转到设置页面
+    /*if(!this.$store.state.task.items){
+      this.$router.replace({ path:'/time'} )
+    }*/
+    this.items = this.$store.state.task.items
+  	/*setTimeout(()=> {
       this.popup = true
-    }, 500)
+    }, 500)*/
   },
   beforeRouteUpdate (to, from, next) {
     next(vm => {
@@ -58,68 +80,41 @@ export default {
       begin: true,	
       selected: '1',
       popupVisible: false,
-      control: {
-          header: true,
-          bottom: false,
-          title: '小黑屋',
-          content: {
-            icon1: 'back',
-            icon2: 'more',
-            url: '/'
-          }
-      },
-      items: [
-      	{task:'抄写', complete:false},
-      	{task:'听写', complete:false},
-      	{task:'数学科特', complete:true},
-      	{task:'跳绳3次', complete:false},
-        {task:'抄写', complete:false},
-        {task:'听写', complete:false}
-
-      ],
-      taskList:[
-        {
-          title: '数学',
-          subtitle: '数学课特19-20',
-          time: '00:00:10',
-          num: 46,
-          img: '/images/1.jpg'
-        },
-        {
-          title: '语文',
-          subtitle: '语文听写第3课',
-          time: '00:00:20',
-          num: 23,
-          img: '/images/2.jpg'
-        },
-        {
-          title: '英语',
-          subtitle: '英语阅读2篇',
-          time: '00:00:05',
-          num: 43,
-          img: '/images/3.jpg'
-        },
-        {
-          title: '体育',
-          subtitle: '锻炼3小时',
-          time: '00:40:00',
-          num: 36,
-          img: '/images/4.jpg'
-        }
-      ],
-      cardIndex:0, //当前卡片
+      items: null,
+      img: '/images/1.jpg',
       i: -1
     }
   },
   components: {
   	Fix,
   	ToDrag,
-    CardBlack
+    CardBlack,
+    MessageBox
   },
   methods: {
-    nextCard (){
-      this.cardIndex < this.taskList.length - 1 ? this.cardIndex ++ : this.taskList.length - 1
+    nextCard (done){
+      if(this.currentPCB.id == this.pcbs[this.pcbs.length - 1]){
+        this.$store.dispatch('switch_pcb')
+      }
+    },
+    closePlan() {
+      this.popup = false
+      /*const spareTime = this.$store.state.task.spareTime
+      const planManger = new PlanManager(this.items,spareTime)
+      this.$store.dispatch('init_pcbs',planManger.getPCBs)*/
+    },
+    goRoute(){
+      let _this = this
+      MessageBox.confirm('确定退出黑屋模式?').then(action => {
+        _this.$router.replace({path:'/'})
+      })
     }
+  },
+  computed: {
+    ...mapGetters({
+      currentPCB: 'currentPCB',
+      pcbs: 'pcbs'
+    })
   }
 }
 </script>

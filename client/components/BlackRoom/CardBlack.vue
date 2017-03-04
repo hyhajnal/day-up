@@ -3,37 +3,48 @@
 		<div class="bc_card_head" :style="{backgroundImage: 'url(' + img + ')'}">
 			<div class="head_wrap">
         <span class="title">{{ title }}
-          <span class="subtitle">{{ subtitle }}</span>
+          <span class="subtitle" v-if="subtitle">{{ subtitle }}</span>
         </span> 
-        <span class="num">{{ num }}<em>人已完成</em></span>  
+        <span class="num" v-if="num">{{ num }}<em>人已完成</em></span>  
       </div>
 		</div>
     <div class="bc_card_body" wrap="wrap">
-      <time-counter :time="time" @changecard="timeout"></time-counter>
+      <time-remind :stime="stime" :etime="etime" :done="done" 
+      @changecard="timeout" @start="stage = 1"></time-remind>
     </div>
 		<div class="bc_card_foot">
-      <div class="ctr_btn">开始</div>
-      <div class="ctr_btn">完成</div>
+      <div class="stage stage0" v-if="stage == 0">未开始</div>
+      <div class="stage stage1" v-if="stage == 1">进行中</div>
+      <div class="stage stage2" v-if="stage == 2">已完成</div>
+      <div class="ctr_btn">完&nbsp;&nbsp;成</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import TimeCounter from '../BlackRoom/TimeCounter'
+import TimeRemind from '../BlackRoom/TimeRemind'
 export default{
 	props: {
     title: String,
     subtitle: String,
-    num: Number,
-    time: String,
+    num: String,
+    stime: String,
+    etime: String,
+    done: Boolean,
     img: String
   },
+  data(){
+    return {
+      stage:0
+    }
+  },
   components: {
-    TimeCounter
+    TimeRemind
   },
   methods: {
-    timeout() {
-      this.$emit('timeout')
+    timeout(done) {
+      this.stage = 2
+      this.$emit('timeout', done)
     }
   }
 }
@@ -71,7 +82,7 @@ export default{
       }
       .subtitle{
         display:block;
-        font-size:1.2rem;
+        font-size:1rem;
       }
       .num{
         font-size:1rem;
@@ -110,15 +121,24 @@ export default{
     padding:0 15px;
   }
 
-  .ctr_btn{
-    width:4rem;
-    height:4rem;
-    background:#26a2ff;
-    text-align:center;
-    line-height:4rem;
-    border-radius:100%;
-    font-size:1.5rem;
+  .stage, .ctr_btn{
+    padding:.5rem;
+    border-radius:4px;
+    font-size:1rem;
     color:#fff;
+  }
+  .stage0{
+    background:#26a2ff;
+  }
+  .stage1{
+    background:#ffaa26;
+  }
+  .stage2{
+    background:#3bc159;
+  }
+
+  .ctr_btn{
+    background:#26a2ff;
   }
 }
 </style>

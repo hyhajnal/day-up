@@ -1,6 +1,10 @@
 <template>
+<div class="child_wrap">
+	<mt-header title="首页" fixed class="header">
+		<i class="iconfont icon-side" slot="left" @click="openSidebar"></i>
+        <mt-button icon="more" slot="right"></mt-button>
+    </mt-header>
 	<div class="content content_head content_bottom">
-
 		<mt-swipe :auto="4000">
 		  <mt-swipe-item>
 		  	<img src="/images/1.jpg" alt="1">
@@ -76,6 +80,7 @@
 			<p><span class="iconfont icon-zhong"></span></p>
 		</div>
 	</div>
+</div>
 </template>
 
 <script>
@@ -88,7 +93,7 @@
 		name: 'Home',
 		beforeMount() {
 			//当从另一个页面返回时，不会调mounted方法
-			this.$store.commit('setNavbar', this.control)
+			this.$store.commit('setBottom', true)
 			this.date = new Date().getFullYear()+'/'
 						+ ( new Date().getMonth() + 1 ) + '/'
 						+ new Date().getDate()
@@ -100,16 +105,6 @@
 		},
 	    data() {
 	        return {
-	        	control: {
-			        header: true,
-			        bottom: true,
-			        title: '首页',
-			        content: {
-			          icon1: 'back',
-			          icon2: 'more',
-			          url: '/'
-			        }
-			    },
 			    url: this.$store.state.serverHost,
 		        value4: null,
 		        visible4: false,
@@ -192,7 +187,10 @@
 	      		for(let i = 0; i < length; i++){
 	      			this.isDown = Object.assign({}, this.isDown, { [i]: true})
 	      		}
-	      	}
+	      	},
+	      	openSidebar() {
+		      this.$store.commit('setSidebar', true)
+		    }
 	    },
 	    filters: {
               dateFilter : function(date){
