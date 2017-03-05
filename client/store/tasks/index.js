@@ -37,7 +37,7 @@ const state = {
 		releasTtime: 10, //休息时间
 		focusTime: 40  //注意力最久能持续的时间
 	},
-	currentPCB: 9,
+	currentPCB: 0,
 	pcbs: [
 		{
 			s_time: '17:00',

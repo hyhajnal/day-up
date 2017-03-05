@@ -1,8 +1,8 @@
-var querystring = require('querystring');
-var url = require('url');
-var http = require('http');
-var https = require('https');
-var util = require('util');
+var querystring = require('querystring')
+var url = require('url')
+var http = require('http')
+var https = require('https')
+var util = require('util')
 var StuCtrl = require('../controller/student')
 
 var stuFun = function(app) {
@@ -19,20 +19,21 @@ var stuFun = function(app) {
         //console.log(url.parse('https://api.hanvon.com/rt/ws/v1/hand/single?key=17206102-495d-4ddc-b23a-4cfa28b55d9e&code=83b798e7-cd10-4ce3-bd56-7b9e66ace93d'))
 
         //POST URL
-        var urlstr = 'https://api.hanvon.com/rt/ws/v1/hand/single?key=add26bdb-eafb-4dd9-9c25-2fae836c4ba3&code=83b798e7-cd10-4ce3-bd56-7b9e66ace93d';
+        var urlstr = 'https://api.hanvon.com/rt/ws/v1/hand/single?key=add26bdb-eafb-4dd9-9c25-2fae836c4ba3&code=83b798e7-cd10-4ce3-bd56-7b9e66ace93d'
         console.log(reQ.body.dataStr)
+        //const demoStr = "76.55,79.55,51.7,119.35,43.75,129.3,-1,0"
         //POST 内容
         var bodyQueryStr = {
             uid: "219.82.202.26",
             type: "1",
             data: reQ.body.dataStr
-        };
+        }
 
-        var contentStr = querystring.stringify(bodyQueryStr);
-        var contentLen = Buffer.byteLength(contentStr, 'utf8');
-        //console.log(util.format('post data: %s, with length: %d', contentStr, contentLen));
-        var httpModule = urlstr.indexOf('https') === 0 ? https : http;
-        var urlData = url.parse(urlstr);
+        var contentStr = JSON.stringify(bodyQueryStr)
+        var contentLen = Buffer.byteLength(contentStr, 'utf8')
+        //console.log(util.format('post data: %s, with length: %d', contentStr, contentLen))
+        var httpModule = urlstr.indexOf('https') === 0 ? https : http
+        var urlData = url.parse(urlstr)
 
         //HTTP请求选项
         var opt = {
@@ -43,19 +44,19 @@ var stuFun = function(app) {
                 'Content-Type': 'application/octet-stream',
                 'Content-Length': contentLen
             }
-        };
+        }
 
         //处理事件回调
         var req = httpModule.request(opt, function(httpRes) {
-            var buffers = [];
+            var buffers = []
             httpRes.on('data', function(chunk) {
-                buffers.push(chunk);
-            });
+                buffers.push(chunk)
+            })
 
             httpRes.on('end', function(chunk) {
-                var wholeData = Buffer.concat(buffers);
-                var dataStr = wholeData.toString('utf8');
-                console.log('content ' + wholeData);
+                var wholeData = Buffer.concat(buffers)
+                var dataStr = wholeData.toString('utf8')
+                console.log('content ' + wholeData)
                 var r = JSON.parse(base64decode(dataStr))
                 console.log(r)
                 if(r.code == '0'){
@@ -63,14 +64,14 @@ var stuFun = function(app) {
                     console.log(letter)
                     reS.json(letter)
                 }
-            });
+            })
         }).on('error', function(err) {
-            console.log('error ' + err);
-        });;
+            console.log('error ' + err)
+        })
 
         //写入数据，完成发送
-        req.write(contentStr);
-        req.end();
+        req.write(contentStr)
+        req.end()
 	})
 
 }
@@ -135,14 +136,14 @@ function base64decode(str){
 
 function tohanzi(data){
     if(data == '') return '请输入十六进制unicode'
-    data = data.split(",");
-    var str ='';
+    data = data.split(",")
+    var str =''
     str = String.fromCharCode(data[0])
-    //console.log(str);
+    //console.log(str)
     return str
 }
 
 module.exports = stuFun
 
-/*var s_date = new Date(2016,9,1);
-var e_date = new Date(2016,12,1);*/
+/*var s_date = new Date(2016,9,1)
+var e_date = new Date(2016,12,1)*/

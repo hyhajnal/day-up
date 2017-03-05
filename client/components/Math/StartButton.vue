@@ -2,7 +2,7 @@
 <div class="startBtn" ref="s_btn">
 	<div class="pulse1"></div>
 	<div class="pulse2"></div>
-	<div class="icon"></div>
+	<div class="icon1"></div>
 	<div class="icon2">{{ text }}</div>
 </div>
 </template>
@@ -62,7 +62,7 @@ export default{
     position: absolute; 
     transform: scale(1);
 }
-.icon{
+.icon1{
     position: absolute; 
     width: 9rem;
     height: 9rem;

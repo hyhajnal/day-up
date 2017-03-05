@@ -48,7 +48,7 @@ HandWriting.prototype = {
            
     beginDraw:function(){
         this.mousePress = true
-        console.log(this)
+        //console.log(this)
     },
 
     pos:function(e){
@@ -61,8 +61,6 @@ HandWriting.prototype = {
             x = e.offsetX + e.target.offsetLeft
             y = e.offsetY + e.target.offsetTop
         }
-         /*x = e.touches[0].pageX - offsetLeft(e.touches[0].target);
-         y = e.touches[0].pageY - offsetTop(e.touches[0].target);*/
         this.dataStr = this.dataStr + x + ',' + y +','
         return {x:x, y:y}//返回一个点(Object)
     },
@@ -92,7 +90,7 @@ HandWriting.prototype = {
     },
     
     isTouch:function(e){
-        const type = e.type;
+        const type = e.type
         if(type.indexOf('touch') >= 0){
             return true
         }else{
@@ -105,7 +103,7 @@ HandWriting.prototype = {
             this.check.forEach(function(v){
                 clearTimeout(v)
             })
-            console.log(this.dataStr)
+            //console.log(this.dataStr)
             this.el.$emit('letterComplete',this.dataStr) //一个字写完后发出消息
             this.dataStr = ''
         }

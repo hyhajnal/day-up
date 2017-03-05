@@ -36,7 +36,7 @@
             <li v-for="(item,index) in items" :key="item">
               <span @click="i = index" class="title">{{item.content}}</span>
               <span class="time">
-                <input type="text" value="" placeholder="预计完成时间">
+                <input type="text" value="" placeholder="预计" size="6">
                 <em>min</em>
               </span>
             </li>
@@ -65,9 +65,9 @@ export default {
       this.$router.replace({ path:'/time'} )
     }*/
     this.items = this.$store.state.task.items
-  	/*setTimeout(()=> {
+  	setTimeout(()=> {
       this.popup = true
-    }, 500)*/
+    }, 500)
   },
   beforeRouteUpdate (to, from, next) {
     next(vm => {
@@ -199,7 +199,7 @@ export default {
       max-height:90%;
       overflow-y:auto;
       -webkit-overflow:touch;
-      margin:5rem auto;
+      margin:1rem auto;
       position:relative;
       li{
         background:none;
@@ -209,13 +209,14 @@ export default {
         display:flex;
         justify-content: space-around;
         .title{
-          width:40%;
-        }
+          padding:0 .5rem;
+        } 
         .time{
           text-align:right;
           input{
             background:none;
             text-align:right;
+            color:#fff;
           }
         }
       }

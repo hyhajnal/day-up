@@ -5,7 +5,8 @@
     <mt-button icon="more" slot="right"></mt-button>
   </mt-header>
   <div class="content content_head">
-  	<tianzi-ge v-if="task != null" :wordarray="task.external"></tianzi-ge>
+  	<tianzi-ge v-if="task != null" :wordarray="task.external"
+    @complete="complete"></tianzi-ge>
   </div>
 </div>
 </template>
@@ -38,6 +39,15 @@ export default {
       MessageBox.confirm('确定退出当前作业?').then(action => {
         _this.$router.replace({path:'/'})
       })
+    },
+    complete(score){
+      const payload = {
+        item: this.task,
+        score: score
+      }
+      this.$store.dispatch('addScore', payload)
+      this.$store.dispatch('toogleItem', this.task)
+      this.$router.replace({path:'/'})
     }
   },
   components: {

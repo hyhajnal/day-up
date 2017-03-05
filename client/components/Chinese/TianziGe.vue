@@ -9,10 +9,11 @@
         </item> 
         <item class="s_tian" :cols="1">
             <grid align='around' wrap="nowrap">
-                <canvas :id="'canvas'+n" v-for="n in correctWord.length"
-                 @click="changeLetter()">
-                <span calss="word" ref="word">测</span>
-                </canvas>
+                <div class="word_box" v-for="n in correctWord.length" @click="changeLetter(n - 1)">
+                    <canvas :id="'canvas'+n"
+                    :class="{'active':n == currentLetterIdx + 1 }"></canvas>
+                    <span class="word" v-cloak v-text="customArray[n-1]"></span>
+                </div>
             </grid>
         </item> 
         <item class="b_tian" :cols="4">
@@ -27,7 +28,7 @@ import Grid from '../Flex/Grid'
 import Item from '../Flex/Col'
 import { base64decode, drawBackground, tohanzi } from './util'
 import HandWriting from './writing'
-import BDSSpeechSynthesizer from 'baidu-speech-synthesizer'
+//import BDSSpeechSynthesizer from 'baidu-speech-synthesizer'
 export default {
 	name: 'TianziGe',
 	props: ['wordarray'],
@@ -37,7 +38,7 @@ export default {
             /*wordarray: ['兴奋','急忙忙','喜悦','和风细雨'],*/      //所有词语
             currentLetterIdx: 0,  //当前字
             currentWordIdx: 0,    //当前词语
-            customArray: null,    //学生写的词语
+            customArray: [],    //学生写的词语
             customWord: null,     //学生写的当前字,数组
             customLetter: '',     //学生写的当前字
             score: 0 ,             //本次听写分数
@@ -51,9 +52,7 @@ export default {
             this.smlSize = (this.bigSize - 4*15) / 4
             this.drawCanvas(1,1)
             this.writing()
-        //this.speak()
-        //console.log(this.$refs.word)
-        //this.$refs.word.style.width = this.$refs.word.style.width = this.smlSize
+            //this.speak()
             this.$on('letterComplete',function(dataStr){
                 this.postLetter(dataStr)
             })
@@ -83,31 +82,45 @@ export default {
             const Writing = new HandWriting(this.$refs.wCanvas, this)
             Writing.execute()
         },
-        speak() {
+        /*speak() {
             let bss = new BDSSpeechSynthesizer()
             let speaker = bss.speak(this.wordarray[this.currentWordIdx])
             //speaker.on('ended', () => bss.speak('bye world'))
-        },
+        },*/
         changeWord(){
             if(this.currentWordIdx < this.wordarray.length - 1 ){
+                if(this.customArray.join('') == this.correctWord){
+                    this.score ++
+                }
                 this.currentWordIdx ++
                 this.currentLetterIdx = 0
                 this.drawCanvas(1, 1)
-                this.speak()
+                //this.speak()
+                this.customArray = []
+            }else{
+                const score = this.score / this.wordarray.length * 100
+                MessageBox.alert('分数'+score, '听写结束')
+                this.$emit('complete',score)
             }
         },
         //解析汉字
-        postLetter(dataStr) {
-            const data = dataStr + '-1,0'
-            this.$http.post('http://192.168.2.7:3000/server/student/getLetter', 
-                { dataStr: data })
+        postLetter(Str) {
+            let _this = this
+            const postStr = { dataStr: Str + '-1,0'}
+            this.$http.post('http://192.168.2.7:3000/server/student/getLetter',postStr)
             .then((response) => {
                 const data = response.data
                 console.log(data)
-
+                _this.$set(_this.customArray,_this.currentLetterIdx,data)
+                _this.drawCanvas(1,0)
+                _this.currentLetterIdx < _this.correctWord.length - 1 ?
+                _this.currentLetterIdx ++ : _this.correctWord.length
             }, (response) => {
                 MessageBox.alert('网络连接错误!', '提示')
             })
+        },
+        changeLetter(index){
+            this.currentLetterIdx = index
         }
 	},
     components: {
@@ -117,8 +130,24 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-
+<style lang="scss" scoped>
+[v-cloak] {
+  display: none;
+}
+.word_box{
+    width:100%;
+    height:100%;
+    position:relative;
+    .word,canvas{
+        position:absolute;
+        left:50%;top:50%;
+        transform:translate(-50%, -50%);
+        font-size:2rem;
+    }
+    .active{
+        border:2px solid #ffc107;
+    }
+}
 .wr_wrap{
     height:100%;
 }
@@ -140,14 +169,6 @@ export default {
     text-align:center;
     i{
         font-size:2rem;
-    }
-}
-.s_tian canvas{
-    position:relative;
-    .word{
-        position: absolute;
-        left: 0;
-        right: 0;
     }
 }
 </style>

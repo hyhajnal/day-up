@@ -55,9 +55,9 @@
 						<div class="subj-content" v-show='isDown[i]'>
 							<div class="timeline-item" v-for="(child,index) in task.items">
 							<!-- <router-link :to="{ name: 'taskIndex', params: { id: child._id }}"> -->
-								<div class="timeline-icon">
-								</div>
-								<div :class="[ index % 2 == 0 && i % 2 != 0 ? 'right ': '', 'timeline-content']" @click='goTask(i,index)'>
+								<div class="timeline-icon"></div>
+								<div class="timeline-content" @click='goTask(i,index)'
+								:class="{'right':selectEven()}">
 									<p class="content-text">{{child.content}}</p>
 									<p class="content-icon">
 										<span :class="{'iconfont icon-shouji':!child.done && child.type == 0,
@@ -88,6 +88,7 @@
 	import { MessageBox } from 'mint-ui'
 	const CN = ['一','二','三','四','五','六','日', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 	const EN = ['Mon','Tues','Wed','Thur','Fri','Sat','Sun','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+	let count = 0
 
 	export default {
 		name: 'Home',
@@ -190,6 +191,10 @@
 	      	},
 	      	openSidebar() {
 		      this.$store.commit('setSidebar', true)
+		    },
+		    selectEven(){
+		    	count ++
+		    	return count % 2 != 0
 		    }
 	    },
 	    filters: {
