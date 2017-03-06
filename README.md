@@ -17,6 +17,6 @@
 * 工具 webpack + sass + loadsh + eventproxy + socket.io 
 
 ### demo
-![image](https://github.com/hyhajnal/VueApp/gif/0.gif) 
-![image](https://github.com/hyhajnal/VueApp/gif/1.gif) 
-![image](https://github.com/hyhajnal/VueApp/gif/2.gif) 
+<img width="200" height="355" src="https://github.com/hyhajnal/VueApp/blob/master/gif/0.gif"/>
+<img width="200" height="355" src="https://github.com/hyhajnal/VueApp/blob/master/gif/1.gif"/>
+<img width="200" height="355" src="https://github.com/hyhajnal/VueApp/blob/master/gif/2.gif"/>
