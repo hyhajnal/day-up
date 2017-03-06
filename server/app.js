@@ -13,6 +13,7 @@ var Promise = require('bluebird')
 
 var routes = require("./routes/index")
 var sockets = require('./socket/index')
+var compression = require('compression') //开启gzip  
 
 var db = 'mongodb://localhost/example'
 
@@ -24,6 +25,7 @@ Promise.promisifyAll(mongoose)
 
 mongoose.connect(db)
 
+
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
 // Define HTTP proxies to your custom API backend
@@ -33,6 +35,7 @@ var proxyTable = config.dev.proxyTable
 var app = express()
 
 
+app.use(compression()) //开启gzip
 //socket.io
 /*var server = app.listen(3000)
 var io = require('socket.io').listen(server)

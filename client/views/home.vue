@@ -56,8 +56,8 @@
 							<div class="timeline-item" v-for="(child,index) in task.items">
 							<!-- <router-link :to="{ name: 'taskIndex', params: { id: child._id }}"> -->
 								<div class="timeline-icon"></div>
-								<div class="timeline-content" @click='goTask(i,index)'
-								:class="{'right':selectEven()}">
+								<div @click='goTask(i,index)'
+								:class="[{'right':selectEven()},'timeline-content']">
 									<p class="content-text">{{child.content}}</p>
 									<p class="content-icon">
 										<span :class="{'iconfont icon-shouji':!child.done && child.type == 0,
@@ -89,7 +89,6 @@
 	const CN = ['一','二','三','四','五','六','日', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 	const EN = ['Mon','Tues','Wed','Thur','Fri','Sat','Sun','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 	let count = 0
-
 	export default {
 		name: 'Home',
 		beforeMount() {
@@ -172,9 +171,11 @@
 		      	})
 	      	},
 	      	changeDown(i) {
+	      		count = 0
 	      		this.isDown[i] = !this.isDown[i]
 	      	},
 	      	goTask( i, index){
+	      		count = 0
 	      		let item = this.tasks[i].items[index]
 	      		if(!item.done && item.type == 0){
 	      			const page = item.tag == '语文'? 'taskChinese' : 'taskMath'
@@ -194,11 +195,11 @@
 		    },
 		    selectEven(){
 		    	count ++
-		    	return count % 2 != 0
+		    	return count % 2 == 0
 		    }
 	    },
 	    filters: {
-              dateFilter : function(date){
+              dateFilter: function(date){
               		let d = date.split('/')
                     return d[0] + '/' + d[1] + '/' + d[2] 
               }

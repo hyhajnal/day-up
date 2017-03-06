@@ -1,18 +1,22 @@
-# music_app
+### vue2_webapp
 
-> A Vue.js project
+> 之前用Appcan开发了一款词语听写的hybridApp，这回想用vue重写下
 
-## Build Setup
+### 功能
 
-``` bash
-# install dependencies
-npm install
+* 每日作业查看 
+* 口算练习
+* 词语听写
+  因为webapp手机上还无法进行TTS,
+  网页版调了百度接口可以播报语音
+* 聊天室
 
-# serve with hot reload at localhost:8080
-npm run dev
+### 技术
+* 前端 vue + vuex + vue-router (2.0)
+* 后端 express + mongodb
+* 工具 webpack + sass + loadsh + eventproxy + socket.io 
 
-# build for production with minification
-npm run build
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+### demo
+![image](https://github.com/hyhajnal/VueApp/gif/0.gif) 
+![image](https://github.com/hyhajnal/VueApp/gif/1.gif) 
+![image](https://github.com/hyhajnal/VueApp/gif/2.gif) 
