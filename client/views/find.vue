@@ -19,13 +19,13 @@
   <div class="content content_bottom" ref="scrollDom">
     <mt-swipe :auto="4000">
       <mt-swipe-item>
-        <img alt="1" v-lazy="imgSrc">
+        <img alt="1" v-lazy="'/images/7.jpg'">
       </mt-swipe-item>
       <mt-swipe-item>
-        <img alt="2" v-lazy="imgSrc">
+        <img alt="2" v-lazy="'/images/8.jpg'">
       </mt-swipe-item>
       <mt-swipe-item>
-        <img alt="3" v-lazy="imgSrc">
+        <img alt="3" v-lazy="'/images/9.jpg'">
       </mt-swipe-item>
     </mt-swipe>
     
@@ -39,19 +39,19 @@
       </div>
       <div class="content">
         <card title="最热计划" :avg="2">
-          <card-item :img="imgSrc" label="小明的计划" 
+          <card-item :img="'/images/'+i+'.jpg'" label="小明的计划" 
             icon1="people" icon2="people" v-for="i in 4"></card-item>
         </card>
         <card title="附近圈子" :avg="0">
-          <card-item slot="content" :img="imgSrc" label="英语早读营" :posDown="true" 
+          <card-item slot="content" :img="'/images/'+i+'.jpg'" label="英语早读营" :posDown="true" 
             icon1="people" icon2="people" v-for="i in 5"></card-item>
         </card>
         <card title="推荐好书" :avg="5">
-          <card-item :img="imgSrc" label="海底两万里" 
+          <card-item :img="'/images/'+i+'.jpg'" label="海底两万里" 
            v-for="i in 5"></card-item>
         </card>
         <card title="短TV" :avg="3">
-          <card-item :img="imgSrc" 
+          <card-item :img="'/images/'+i+'.jpg'"
             icon1="shipin" icon2="msg" v-for="i in 9"></card-item>
         </card>
         <!-- <p v-for="card in cards">{{ card }}</p> -->
@@ -74,10 +74,10 @@
 </template>
 
 <script>
-import Card from '../components/Card/Card'
-import CardItem from'../components/Card/CardItem'
-import Grid from '../components/Flex/Grid'
-import Item from '../components/Flex/Col' 
+import Card from 'components/Card/Card'
+import CardItem from'components/Card/CardItem'
+import Grid from 'components/Flex/Grid'
+import Item from 'components/Flex/Col' 
 export default {
   name: 'Find',
   mounted() {
@@ -91,8 +91,7 @@ export default {
     return {
       search: true,
       cards: [0,1,2,3,4,5],
-      topStatus: '',
-      imgSrc:this.$store.state.serverHost+'/images/3.jpg' 
+      topStatus: ''
     }
   },
   methods: {

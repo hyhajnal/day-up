@@ -4,17 +4,16 @@
       <div class="title" v-text="title"></div>
       <div class="problem" >{{ content }} = <em v-text="answer">?</em></div>
       <div class="result" v-if="rs!= null">
-        <transition name="zoom">
-          <div class="true" v-if="rs">
-            <a href="jvascript(0)"></a>
-          </div>
-        </transition>
+        <svg v-if="rs" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+          <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+          <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
+        </svg>
 
-         <transition name="bounce">
-          <div class="false" v-if="!rs">
-            <a href="jvascript(0)"></a>
-          </div>
-        </transition>
+        <svg v-if="!rs" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+          <circle class="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+          <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
+          <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
+        </svg>
 
       </div>
   </div>
@@ -110,70 +109,67 @@ export default{
   margin-bottom:1rem;
 }
 
-/* 打勾 打叉 */
-.true{
-  text-align:center;
-  a{ display: inline-block; width: 10px;height:5px; background: red;line-height: 0;font-size:0;vertical-align: middle;-webkit-transform: rotate(45deg);}
-  a:after{content:'/';display:block;width: 20px;height:5px; background: red;-webkit-transform: rotate(-90deg) translateY(-50%) translateX(50%);}
-}
-
-.false{
-  text-align:center;
-  a{ display: inline-block; width: 20px;height:5px; background: red;line-height: 0;font-size:0;vertical-align: middle;-webkit-transform: rotate(45deg);}
-  a:after{content:'/';display:block;width: 20px;height:5px; background: red;-webkit-transform: rotate(-90deg);}
-}
-
 /*动效 打勾 打叉  */
 
-.zoom-enter-active {
-  animation: bounce-in .5s;
-}
-.bounce-enter-active {
-  animation: bounce-out .5s;
-}
-
-
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale3d(.3, .3, .3);
-  }
-
-  50% {
-    opacity: 1;
-  }
+svg {
+  width: 2rem;
+  display: block;
+  margin: 0 auto;
 }
 
-@keyframes bounceIn {
-  from, 20%, 40%, 60%, 80%, to {
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+.path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+  &.circle {
+    -webkit-animation: dash .9s ease-in-out;
+    animation: dash .9s ease-in-out;
   }
+  &.line {
+    stroke-dashoffset: 1000;
+    -webkit-animation: dash .9s .35s ease-in-out forwards;
+    animation: dash .9s .35s ease-in-out forwards;
+  }
+  &.check {
+    stroke-dashoffset: -100;
+    -webkit-animation: dash-check .9s .35s ease-in-out forwards;
+    animation: dash-check .9s .35s ease-in-out forwards;
+  }
+}
 
+
+@-webkit-keyframes dash {
   0% {
-    opacity: 0;
-    transform: scale3d(.3, .3, .3);
+    stroke-dashoffset: 1000;
   }
-
-  20% {
-    transform: scale3d(1.1, 1.1, 1.1);
+  100% {
+    stroke-dashoffset: 0;
   }
+}
 
-  40% {
-    transform: scale3d(.9, .9, .9);
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
   }
-
-  60% {
-    opacity: 1;
-    transform: scale3d(1.03, 1.03, 1.03);
+  100% {
+    stroke-dashoffset: 0;
   }
+}
 
-  80% {
-    transform: scale3d(.97, .97, .97);
+@-webkit-keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
   }
+  100% {
+    stroke-dashoffset: 900;
+  }
+}
 
-  to {
-    opacity: 1;
-    transform: scale3d(1, 1, 1);
+@keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
   }
 }
 

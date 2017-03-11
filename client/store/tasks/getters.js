@@ -1,10 +1,4 @@
 import { groupBy, forIn, findIndex} from 'lodash' 
-/*const r2 = _.groupBy([{a:"haha", b:2, c:3},{a:"aha",b:4},{a:"haha",c:2},{a:"hah",c:3}], function(n) {
-  return n.a
-})
-
-//Object {haha: Array[2], aha: Array[1], hah: Array[1]}*/
-
 
 export const items = state => state.items
 
@@ -22,6 +16,53 @@ export const currentTasks = state => {
 	})
 	return taskList ? taskList : null
 }
+
+export const pcbs = state => {
+
+	if(!state.pcbs){
+		return []
+	}else{
+		let pcbs_o = []
+		state.pcbs.forEach( pcb => {
+			let pure_pcb = normalizeMap(pcb)
+			if(!pure_pcb.special){  //如果不是特殊任务，在items[]中找出对应项
+				pure_pcb.contentId = findTskbyId(state, pure_pcb.contentId)
+				
+			}
+			pcbs_o.push(pure_pcb)
+		})
+		return pcbs_o
+	}
+}
+
+/*export const currentPCB = state => {
+	let currentPCB
+	const time = new Date()
+	const time_size = time.getHours() * 60 + time.getMinutes()
+
+	const idx = findIndex(state.pcbs, function(pcb) {
+					const s_size = parseInt(getTimeSize(pcb.s_time))
+					const e_size = parseInt(getTimeSize(pcb.e_time))
+					return s_size < time_size && e_size > time_size
+				})
+	const notStrat = time_size < parseInt(getTimeSize(state.pcbs[0].s_time))
+
+	if(idx == -1 && !notStrat){
+		state.currentPCB = -1
+		return null
+	}else{
+		const i = notStrat ? 0 : idx
+		state.currentPCB = i
+		currentPCB = state.pcbs[0]
+
+		let pcb = normalizeMap(currentPCB)
+		if(!pcb.special){
+			pcb.contentId = findTskbyId(state, pcb.contentId) 
+		}
+		return pcb
+	}
+	
+}*/
 
 function normalizeMap (data) {
     let pure_data = {}
@@ -46,34 +87,8 @@ function findTskbyId(state, id){
 
 }
 
-export const pcbs = state => {
-
-	if(!state.pcbs){
-		return []
-	}else{
-		let pcbs_o = []
-		state.pcbs.forEach( pcb => {
-			let pure_pcb = normalizeMap(pcb)
-			if(!pure_pcb.special){  //如果不是特殊任务，在items[]中找出对应项
-				pure_pcb.contentId = findTskbyId(state, pure_pcb.contentId)
-				
-			}
-			pcbs_o.push(pure_pcb)
-		})
-		return pcbs_o
-	}
-}
-
-export const currentPCB = state => {
-
-	if(state.pcbs[state.currentPCB]){
-		let pcb = normalizeMap(state.pcbs[state.currentPCB])
-		if(!pcb.special){
-			pcb.contentId = findTskbyId(state, pcb.contentId) 
-		}
-		return pcb
-	}else{
-		return {}
-	}
-	
-}
+/*function getTimeSize(str){
+	const h = parseInt(str.split(':')[0])
+	const s = parseInt(str.split(':')[1])
+	return h * 60 + s
+}*/

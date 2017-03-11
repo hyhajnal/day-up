@@ -6,63 +6,100 @@
   </mt-header>
 	<div class="content content_head content_bottom">
       <ul>
-        <li class="border_1px" v-for="(item,index) in timeList">
-          <grid wrap="wrap" align="between" :avg="3">
+        <li v-for="(item,index) in sparetime.timeList">
+          <grid wrap="wrap" align="between" :avg="3" >
               <div class="title">{{item.content}}</div>
-              <div class="time" @click.stop="test">{{item.sTime}}</div>
+              <div class="time" @click="openPicker(index,'sTime')">{{item.sTime}}</div>
               <div class="time" @click="openPicker(index,'eTime')">{{item.eTime}}</div>
+          </grid>
+        </li>
+        <li>
+          <grid wrap="wrap" align="between">
+              <column :cols="2"><div class="title">专注力 ( 30-50 )</div></column>
+              <column :cols="4">
+                <span>{{sparetime.focus}}</span>
+                <mt-range v-model="sparetime.focus" :min="30" :max="50"
+                :step="5" :bar-height="5" class="range">
+                </mt-range>
+              </column>
+          </grid>
+        </li>
+        <li>
+          <grid wrap="wrap" align="between">
+              <column :cols="2"><div class="title">休息 ( 0-15 )</div></column>
+              <column :cols="4">
+              <span>{{sparetime.release}}</span>
+                <mt-range v-model="sparetime.release" :min="0" :max="15"
+                :step="3" :bar-height="5" class="range">
+                </mt-range>
+              </column>
           </grid>
         </li>
       </ul>
 	</div>
-  <!-- <mt-datetime-picker
+  <mt-datetime-picker v-if="current"
     type="time"
     v-model="pickerValue"
     @confirm="handleChange"
-    ref="picker">
-  </mt-datetime-picker> -->
+    ref="picker"
+    :startHour="timeRange[current.index].s"
+    :endHour="timeRange[current.index].e">
+  </mt-datetime-picker>
 </div>
 </template>
 
 <script>
-import Grid from '../../components/Flex/Grid'
+import Grid from 'components/Flex/Grid'
+import Column from 'components/Flex/Col'
+import { mapGetters } from 'vuex'
 export default {
   name: 'page-navbar',
   mounted() {
+    if(localStorage.getItem('sparetime')){
+      this.sparetime = JSON.parse(localStorage.getItem('sparetime'))
+    }
   	this.$store.commit('setBottom',false)
   	//this.begin = false
   },
   data() {
     return {
       pickerValue: null,
-      timeList:[
-        {content:'放学回家', sTime:"17:00",eTime:"— —",type:1},
-        {content:'吃饭', sTime:"18:00",eTime:"18:30",type:1},
-        {content:'睡觉', sTime:"— —",eTime:"21:30",type:1}
-      ],
-      current:null
+      sparetime:{
+        focus: 40,
+        release:10,
+        timeList:[
+          {content:'放学回家', sTime:"— —",eTime:""},
+          {content:'吃饭', sTime:"— —",eTime:"— —"},
+          {content:'睡觉', sTime:"",eTime:"— —"}
+        ]
+      },
+      current:null,
+      timeRange:[{s:16,e:17},{s:17,e:18},{s:20,e:21}]
     }
   },
   methods:{
-    test(){ 
-      alert('test')
-    },
     openPicker(index, time) {
-      debugger
-      this.$refs.picker.open()
-      this.$set(this.current,'index',index)
-      this.$set(this.current, 'time', time)
+      this.current = Object.assign({},this.someObject,{index:index,time,time})
+      this.$nextTick(function(){
+        this.$refs.picker.open()
+      })
     },
     handleChange (value) {
-      timeList[this.current.index][this.current.time] = value
+      this.sparetime.timeList[this.current.index][this.current.time] = value
     },
     openSidebar() {
       this.$store.commit('setSidebar', true)
     }
   },
   components: {
-    Grid
-  }
+    Grid,
+    Column
+  },
+  beforeRouteLeave (to, from, next) {
+    localStorage.setItem('sparetime',JSON.stringify(this.sparetime))
+    //console.log(localStorage.getItem('sparetime'))
+    next()
+  },
 }
 </script>
 <style lang="scss" scoped>

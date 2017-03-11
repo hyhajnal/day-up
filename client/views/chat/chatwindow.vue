@@ -38,7 +38,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import * as Csocket from '../api/socket'
+  import * as Csocket from '../../api/socket'
 	export default{
     mounted() {
       this.$store.commit('setBottom', false)

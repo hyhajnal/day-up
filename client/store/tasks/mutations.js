@@ -29,17 +29,12 @@ export const actions = {
   	commit( types.INIT_PCBS, pcbs )
   },
 
-  switch_pcb ({ commit }) {
-  	commit( types.SWITCH_PCB)
+  switch_pcb ({ commit }, index) {
+  	commit( types.SWITCH_PCB, index)
   },
 
-  update_time ({ commit }, payload) {
-  	commit( types.UPDATE_TIME, paylod )
-  },
-
-  //空余时间
-  set_sparetime ({ commit }, sparetime) {
-    commit( types.SET_SPARETIME, sparetime )
+  done_pcb ({ commit }, index) {
+  	commit( types.DONE_PCB, index)
   }
 
 }
@@ -81,16 +76,12 @@ export const mutations = {
 			state.pcbs.push(createPCB(pcb))
 		})
 	},
-	[types.SWITCH_PCB] (state) {
-		state.currentPCB ++
+	[types.SWITCH_PCB] (state, index) {
+		state.currentPCB = index
 	},
-	[types.UPDATE_TIME] (state, { pcb, lastTime }) {
-		pcb.lastTime = lastTime
-	},
-
-  [types.SET_SPARETIME] (state, sparetime) {
-    state.spareTime = sparetime
-  }
+	[types.DONE_PCB] (state, index) {
+		state.pcbs[index].done = true
+	}
 }
 
 function createPCB({ lastTime, contentId}) {

@@ -13,7 +13,7 @@
 
 <script>
 import { findIndex as _findIndex } from 'lodash'
-import TianziGe from '../../components/Chinese/TianziGe'
+import TianziGe from 'components/Chinese/TianziGe'
 import { MessageBox } from 'mint-ui'
 export default {
   name: 'Chinese',

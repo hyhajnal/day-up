@@ -41,8 +41,8 @@
 <script>
 	import { mapGetters } from 'vuex'
 	import { MessageBox } from 'mint-ui'
-	import * as Csocket from '../api/socket'
-	import { roomData } from '../api/chatData'
+	import * as Csocket from '../../api/socket'
+	import { roomData } from '../../api/chatData'
 	export default {
 		mounted() {
 			this.$store.commit('setBottom', true)

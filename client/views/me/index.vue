@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Infinite from '../../components/InfiniteLoading'
+import Infinite from 'components/InfiniteLoading'
 export default {
   name: 'InfiniteLoading',
   data() {

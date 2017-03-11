@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import Bus from './Bus'
 export default {
   name: 'DragItem',
   props: ['items','gutter','i'],
@@ -22,10 +23,11 @@ export default {
       return this.i
     }
   },
-  watch: {
-    selectIdx:function(oV, nV){
-      this.selectDrag(this.selectIdx)
-    }
+  mounted(){
+    Bus.$on('select',i => {
+      this.selectDrag(i)
+      Bus.$emit('lock')
+    })
   },
   methods: {
     selectDrag(i) {
@@ -96,6 +98,7 @@ export default {
       this.upDom.removeEventListener('touchstart', this.handleDragMove, false)
       this.upDom.removeEventListener('touchmove', this.handleDragMove, false)
       this.upDom.removeEventListener('touchend', this.handleDragEnd, false)
+      Bus.$emit('lock')
     },
     //交换位置
     changePos(a, b) {

@@ -3,6 +3,9 @@ export const routes = [
   { path: '/', component(resolve){
         require(['./views/home'], resolve) }
   },
+  { path: '/test', component(resolve){
+        require(['./views/test'], resolve) }
+  },
   { path: '/login', component(resolve){
         require(['./views/login'], resolve) }
   },
@@ -43,11 +46,11 @@ export const routes = [
         require(['./views/more'], resolve) }
   },
   { path: '/chat', component(resolve){
-        require(['./views/chatroom'], resolve) }
+        require(['./views/chat/chatroom'], resolve) }
   },
   { path: '/chatwindow/:id', 
     name: 'chatwindow', component(resolve){
-        require(['./views/chatwindow'], resolve)}
+        require(['./views/chat/chatwindow'], resolve)}
   },
   { path: '/info', component(resolve){
         require(['./views/side/info'], resolve) }

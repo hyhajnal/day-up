@@ -42,10 +42,10 @@
 </template>
 <script>
 import { findIndex as _findIndex } from 'lodash'
-import MathCard from '../../components/Math/MathCard'
-import OpTable from '../../components/Math/OpTable'
-import StartButton from '../../components/Math/StartButton'
-import ProgressCircle from '../../components/Progress'
+import MathCard from 'components/Math/MathCard'
+import OpTable from 'components/Math/OpTable'
+import StartButton from 'components/Math/StartButton'
+import ProgressCircle from 'components/Progress'
 import { MessageBox } from 'mint-ui'
 export default {
 	mounted() {

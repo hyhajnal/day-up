@@ -16,13 +16,15 @@
       <div class="stage stage0" v-if="stage == 0">未开始</div>
       <div class="stage stage1" v-if="stage == 1">进行中</div>
       <div class="stage stage2" v-if="stage == 2">已完成</div>
-      <div class="ctr_btn">完&nbsp;&nbsp;成</div>
+      <div class="stage stage3" v-if="stage == 3">未完成</div>
+      <div class="ctr_btn" @click="haveDone" v-if="stage == 1">完&nbsp;&nbsp;成</div>
 		</div>
 	</div>
 </template>
 
 <script>
 import TimeRemind from '../BlackRoom/TimeRemind'
+import { MessageBox } from 'mint-ui'
 export default{
 	props: {
     title: String,
@@ -38,13 +40,26 @@ export default{
       stage:0
     }
   },
+  watch:{
+    stime: function(){
+      this.stage = 0
+    }
+  },
   components: {
     TimeRemind
   },
   methods: {
-    timeout(done) {
-      this.stage = 2
-      this.$emit('timeout', done)
+    timeout() {
+      if(this.done){
+        this.stage = 2
+      }else{
+        this.stage = 3
+      }
+      this.$emit('next')
+    },
+    haveDone () {
+        this.stage = 2
+        this.$emit('done')
     }
   }
 }
@@ -135,6 +150,9 @@ export default{
   }
   .stage2{
     background:#3bc159;
+  }
+  .stage3{
+    background:red;
   }
 
   .ctr_btn{

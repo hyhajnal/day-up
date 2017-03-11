@@ -46,7 +46,10 @@ export default{
 			if(size > _this.getTime(_this.stime) && 
 			   size < _this.getTime(_this.etime) && !_this.done ){
 			   	_this.$emit('start')
-				_this.showTime = hour + ':' + min 
+			   const hour_str = hour > 9 ? hour : '0' + hour
+			   const min_str  = min > 9 ? min : '0' + min
+			   const sec_str  = sec > 9 ? sec : '0' + sec
+				_this.showTime = hour_str + ':' + min_str + ':' + sec_str
 			}else{
 				_this.showTime = _this.stime
 			}
@@ -54,7 +57,8 @@ export default{
 			//如果当前时间已经超过etime
 			//进行下一个任务
 			if(size > _this.getTime(this.etime)){
-				_this.$emit('changecard',_this.done)
+				console.log('change')
+				_this.$emit('changecard')
 				clearInterval(_this.timer)
 			}
 

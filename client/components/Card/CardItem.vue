@@ -1,6 +1,7 @@
 <template>
 	<item class="card_child" ref='item'>
-		<div class="img_box" :style="{backgroundImage: 'url(' + img + ')'}">
+		<!-- <div class="img_box" :style="{backgroundImage: 'url(' + img + ')'}"> -->
+		<div class="img_box" v-lazy:background-image="img">
 			<grid class="cd_icon" wrap="wrap" align="between" v-if="!posDown">
 	      		<item :gutter='8' v-if="icon1"><i class="iconfont" :class="iconClass1"></i>&nbsp;23</item>
 	      		<item :gutter='8' v-if="icon2"><i class="iconfont" :class="iconClass2"></i>&nbsp;23</item>

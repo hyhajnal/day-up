@@ -6,26 +6,33 @@
 	<div class="blurEffect" :style="{backgroundImage: 'url(' + img + ')'}">
 	</div>
 
-	<div class="card_block content_head">
-    <card-black v-if="!currentPCB.special"
-    :title="currentPCB.contentId.tag" 
-    :subtitle="currentPCB.contentId.content" 
-    :num="currentPCB.contentId.num"
-    :stime="currentPCB.s_time" 
-    :etime="currentPCB.e_time"
-    :done="currentPCB.done"
-    :img="img"
-    @timeout="nextCard">
-    </card-black>
-    <!-- 特殊任务 -->
-    <card-black v-if="currentPCB.special"
-    :title="currentPCB.content" 
-    :stime="currentPCB.s_time" 
-    :etime="currentPCB.e_time" 
-    :img="img"
-    :done="currentPCB.done"
-    @timeout="nextCard">
-    </card-black>
+  <div v-if="currentPCB == null" class="outrange">
+    <i class="iconfont icon-tanhao"></i>
+    <p>当前时间不在计划时间范围内</p>
+  </div>
+
+	<div class="card_block content_head" v-if="currentPCB != null">
+      <card-black v-if="!currentPCB.special"
+        :title="currentPCB.contentId.tag" 
+        :subtitle="currentPCB.contentId.content" 
+        :num="currentPCB.contentId.num"
+        :stime="currentPCB.s_time" 
+        :etime="currentPCB.e_time"
+        :done="currentPCB.done"
+        :img="img"
+        @next="nextCard"
+        @done="thisDone">
+        </card-black>
+        <!-- 特殊任务 -->
+        <card-black v-if="currentPCB.special"
+        :title="currentPCB.content" 
+        :stime="currentPCB.s_time" 
+        :etime="currentPCB.e_time" 
+        :img="img"
+        :done="currentPCB.done"
+        @next="nextCard"
+        @done="thisDone">
+      </card-black>
 	</div>
 
   <mt-popup v-model="popup" position="bottom" class="popup">
@@ -34,9 +41,9 @@
       :items="items" :gutter="8" :i="i">
         <transition-group name="dragfade" tag="ul">
             <li v-for="(item,index) in items" :key="item">
-              <span @click="i = index" class="title">{{item.content}}</span>
+              <span @click="toSelect(index)" class="title">{{item.content}}</span>
               <span class="time">
-                <input type="text" value="" placeholder="预计" size="6">
+                <input type="text" v-model="costTime[index]" placeholder="预计" size="6">
                 <em>min</em>
               </span>
             </li>
@@ -50,29 +57,43 @@
 </template>
 
 <script>
-import Fix from '../../components/Fix'
-import ToDrag from '../../components/ToDrag'
-import CardBlack from '../../components/BlackRoom/CardBlack'
+import Fix from 'components/Fix'
+import ToDrag from 'components/ToDrag'
+import CardBlack from 'components/BlackRoom/CardBlack'
 import { mapGetters } from 'vuex'
-import PlanManage from '../../components/BlackRoom/planManger'
+import PlanManage from 'components/BlackRoom/planManger'
 import { MessageBox } from 'mint-ui'
+import Bus from 'components/Bus'
+import countNow from 'components/BlackRoom/nowCard'
+
 export default {
   name: 'TaskList',
+  beforeMount() {
+    //如果没有设置空闲时间，则跳转到设置页面
+    if(!this.$store.state.task){
+      this.$router.replace({ path:'/home'} )
+    }
+    //切换至当前时间对应的卡片
+    this.idx = countNow(this.pcbs)
+
+  },
   mounted() {
     this.$store.commit('setBottom',false)
-    //如果没有设置空闲时间，则跳转到设置页面
-    /*if(!this.$store.state.task.items){
-      this.$router.replace({ path:'/time'} )
-    }*/
     this.items = this.$store.state.task.items
   	setTimeout(()=> {
       this.popup = true
     }, 500)
+
+    Bus.$on('lock',() => this.lock = !this.lock)
   },
   beforeRouteUpdate (to, from, next) {
     next(vm => {
     	vm.begin = true   	
   	})
+  },
+  beforeRouteLeave (to, from, next) {
+    this.$store.dispatch('switch_pcb',this.idx)
+    next()
   },
   data() {
     return {
@@ -81,8 +102,16 @@ export default {
       selected: '1',
       popupVisible: false,
       items: null,
-      img: '/images/1.jpg',
-      i: -1
+      img: '/images/'+ Math.ceil(Math.random()*10) +'.jpg',
+      idx: -1,  //当前卡片index
+      i: -1,  //拖动组件
+      costTime:[],//v-model 绑定数组很好用
+      lock:false  //避免一次拖动两个
+    }
+  },
+  watch:{
+    idx: function(){
+      this.img = '/images/'+ Math.ceil(Math.random()*10) +'.jpg'
     }
   },
   components: {
@@ -92,9 +121,9 @@ export default {
     MessageBox
   },
   methods: {
-    nextCard (done){
-      if(this.currentPCB.id == this.pcbs[this.pcbs.length - 1]){
-        this.$store.dispatch('switch_pcb')
+    nextCard (){
+      if(this.idx < this.pcbs.length - 1){
+        this.idx ++
       }
     },
     closePlan() {
@@ -108,13 +137,24 @@ export default {
       MessageBox.confirm('确定退出黑屋模式?').then(action => {
         _this.$router.replace({path:'/'})
       })
+    },
+    toSelect(index){
+      //选择需要drag的item
+      if(!this.lock){
+        Bus.$emit('select',index)
+      }
+    },
+    thisDone(){
+      this.$store.dispatch('done_pcb',this.idx)
     }
   },
   computed: {
     ...mapGetters({
-      currentPCB: 'currentPCB',
       pcbs: 'pcbs'
-    })
+    }),
+    currentPCB(){
+      return this.idx == -1 ? null : this.pcbs[this.idx]
+    }
   }
 }
 </script>
@@ -220,6 +260,22 @@ export default {
           }
         }
       }
+    }
+}
+
+//错误提示
+.outrange{
+  width:50%;
+  padding:1rem;
+  position:absolute;
+  top:50%;left:50%;
+  background:#fff;
+  border-radius:4px;
+  text-align:center;
+  transform:translate(-50%,-50%);
+    i{
+      font-size:2rem;
+      color:red;
     }
 }
 

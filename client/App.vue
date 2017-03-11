@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import Bar from './components/Bar'
-import BarItem from './components/BarItem'
+import Bar from 'components/Bar/Bar'
+import BarItem from 'components/Bar/BarItem'
 
 export default {
   name: 'App',
