@@ -8,7 +8,7 @@
       fixed>
     </mt-search >
   </transition>
-
+  
   <transition name="component-fade">
     <mt-header title="发现" fixed class="header" v-show="!search">
       <i class="iconfont icon-side" slot="left" @click="openSidebar"></i>
@@ -19,25 +19,25 @@
   <div class="content content_bottom" ref="scrollDom">
     <mt-swipe :auto="4000">
       <mt-swipe-item>
-        <img alt="1" v-lazy="'/images/7.jpg'">
+        <img alt="1" src='/images/7.jpg'>
       </mt-swipe-item>
       <mt-swipe-item>
-        <img alt="2" v-lazy="'/images/8.jpg'">
+        <img alt="2" src='/images/8.jpg'>
       </mt-swipe-item>
       <mt-swipe-item>
-        <img alt="3" v-lazy="'/images/9.jpg'">
+        <img alt="3" src='/images/9.jpg'>
       </mt-swipe-item>
     </mt-swipe>
-    
-    <mt-loadmore :top-method="loadTop" @top-status-change="handleTopChange" 
-      :top-status.sync="topStatus" ref="loadmore">
-      <div slot="top" class="mint-loadmore-top">
+
+    <!-- <mt-loadmore :top-method="loadTop" @top-status-change="handleTopChange" 
+      :top-status.sync="topStatus" ref="loadmore"> -->
+      <!-- <div slot="top" class="mint-loadmore-top">
         <span v-show="topStatus !== 'loading'" :class="{ 'is-rotate': topStatus === 'drop' }">↓</span>
         <span v-show="topStatus === 'loading'">
           <mt-spinner type="snake" color="#26a2ff" class="spinner-icon"></mt-spinner>
         </span>
-      </div>
-      <div class="content">
+      </div> -->
+      <div class="cards_wrap">
         <card title="最热计划" :avg="2">
           <card-item :img="'/images/'+i+'.jpg'" label="小明的计划" 
             icon1="people" icon2="people" v-for="i in 4"></card-item>
@@ -69,7 +69,7 @@
           <item></item>
         </grid>
       </div>
-    </mt-loadmore>
+    <!-- </mt-loadmore> -->
 </div>    
 </template>
 
@@ -82,10 +82,10 @@ export default {
   name: 'Find',
   mounted() {
     this.$store.commit('setBottom', true)
-    this.$refs.scrollDom.addEventListener('scroll', this.handleScroll, false)
+    this.$refs.scrollDom.addEventListener('touchmove', this.handleScroll, false)
   },
   beforeDestroyed () {
-    this.$refs.scrollDom.removeEventListener('scroll', this.handleScroll, false)
+    this.$refs.scrollDom.removeEventListener('touchmove', this.handleScroll, false)
   },
   data (){
     return {
@@ -105,11 +105,13 @@ export default {
         this.$refs.loadmore.onTopLoaded()
       }, 1500)
     },
-    handleScroll () {
+    handleScroll (e) {
+      //e.preventDefault()
       const scrollTop = this.$refs.scrollDom.scrollTop
-      if(scrollTop > window.innerHeight * 0.35) {
+      if(scrollTop > 10) {
         this.search = false
-      }else{
+      }
+      if(scrollTop < 10) {
         this.search = true
       }
     },
@@ -177,6 +179,17 @@ image[lazy=loading] {
 .component-fade-enter, .component-fade-leave-to
 /* .component-fade-leave-active for <2.1.8 */ {
   opacity: 0;
+}
+
+.sticky {
+     /* 滚过初始位置时自动吸顶 */
+    position: -webkit-sticky;
+    position: sticky;
+     /* 吸顶时的定位 */
+    top: 2.5rem;
+    left: 0;
+    z-index: 9999;
+    background: #fff;
 }
 
 </style>

@@ -130,7 +130,7 @@ export default{
     background:/* linear-gradient(-45deg,transparent 15px,#fff 0) bottom right,
                linear-gradient(45deg,transparent 15px,#fff 0) bottom left; */
                radial-gradient(circle at bottom left,transparent 15px,#fff 0) bottom left,
-               radial-gradient(circle at bottom right,transparent 15px,#fff 0) bottom right;
+               radial-gradient(circle at bottom right,transparent 15px,#fff 0) bottom right; //径向渐变
     background-size:50% 100%;
     background-repeat: no-repeat;
     padding:0 15px;

@@ -76,7 +76,7 @@ export default {
     },
     handleDragMove(e) {
       if(!this.ticking){
-        requestAnimationFrame(function(){
+        window.requestAnimationFrame(function(){
             this.ticking = false
             const event = e || window.e
             e.stopPropagation()

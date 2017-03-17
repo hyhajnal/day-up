@@ -3,8 +3,8 @@ export const routes = [
   { path: '/', component(resolve){
         require(['./views/home'], resolve) }
   },
-  { path: '/test', component(resolve){
-        require(['./views/test'], resolve) }
+  { path: '/img', component(resolve){
+        require(['./views/imgtest'], resolve) }
   },
   { path: '/login', component(resolve){
         require(['./views/login'], resolve) }

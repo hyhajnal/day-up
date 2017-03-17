@@ -1,7 +1,7 @@
 <template>
 	<div class="card_wrap">
-		<div class="card_head">
-			<span v-text="title"></span>
+		<div class="card_head sticky" >
+			<span v-text="title" ></span>
 		</div>
 		<div class="outter_body" v-if="avg == 0">
         <div class="card_body">
@@ -34,7 +34,7 @@ export default{
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .card_wrap{
   width:100%;
   background-color: #fff;

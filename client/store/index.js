@@ -9,8 +9,8 @@ Vue.use(Vuex)
 const state = {
 	/*serverHost: 'http://1659x1818m.imwork.net:31744',*/
   /*serverHost: 'http://192.168.1.101:3000',*/
-  serverHost: 'http://192.168.2.7:3000',
-  /*serverHost: 'http://localhost:3000',*/
+  /*serverHost: 'http://192.168.2.7:3000',*/
+  serverHost: 'http://169.254.190.192:3000',
   bottom: true,
   sidebar: false
 

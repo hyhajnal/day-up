@@ -19,7 +19,8 @@ module.exports = {
       'vue': 'vue/dist/vue.js',
       'src': path.resolve(__dirname, '../client'),
       'assets': path.resolve(__dirname, '../client/assets'),
-      'components': path.resolve(__dirname, '../client/components')
+      'components': path.resolve(__dirname, '../client/components'),
+      'api': path.resolve(__dirname, '../client/api')
     }
   },
   resolveLoader: {
