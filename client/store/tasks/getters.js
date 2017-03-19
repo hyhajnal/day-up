@@ -77,6 +77,7 @@ function normalizeMap (data) {
 //根据id找出对应的task
 function findTskbyId(state, id){
 	let item_o
+	if(!state.items) return
 	state.items.forEach( item => {
 		if(item.id == id){
 			item_o = item

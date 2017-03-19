@@ -1,4 +1,5 @@
 var express = require('express')
+
 var router = express.Router()
 var stuFun = require('./student')
 var tchFun = require('./teacher')

@@ -1,12 +1,21 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import store from './store'
+import Home from './views/home'
 
-export const routes = [
-  { path: '/', component(resolve){
-        require(['./views/home'], resolve) }
+Vue.use(VueRouter)
+
+const routes = [
+  { path: '/', component: Home ,
+    meta: {
+      requireAuth: true,
+    },
   },
   { path: '/img', component(resolve){
         require(['./views/imgtest'], resolve) }
   },
-  { path: '/login', component(resolve){
+  { path: '/login',
+    name: 'login',component(resolve){
         require(['./views/login'], resolve) }
   },
   { path: '/register', component(resolve){
@@ -63,3 +72,33 @@ export const routes = [
   }
 
 ]
+
+
+if (window.sessionStorage.getItem('usr')) {
+    store.commit('setUsr', JSON.parse(window.localStorage.getItem('usr')))
+}
+
+const router = new VueRouter({
+  /*mode: 'history',*/ //HTML5 History 模式
+    base: __dirname,
+    routes 
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(r => r.meta.requireAuth)) {
+        if (store.state.usr && store.state.usr._id) {
+            next()
+        }
+        else {
+            next({
+                path: '/login',
+                query: {redirect: to.fullPath}
+            })
+        }
+    }
+    else {
+        next()
+    }
+})
+
+export default router

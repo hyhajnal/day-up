@@ -18,7 +18,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../../static/css/help/base.scss";
 .tab-item {
   position: relative;
   display: table-cell;

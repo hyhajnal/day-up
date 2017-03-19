@@ -23,7 +23,7 @@ module.exports = function(io){
 		//监听更改信息
 		socket.on('sendMsg', function(obj){
 			//向所有客户端广播发布的消息
-			io.emit('sendMsg' + obj.roomId, { usrName: obj.usrName, content: obj.content, roomId: obj.roomId });
+			io.emit('sendMsg' + obj.roomId, { usrName: obj.usrName, usrAvator: obj.usrAvator, content: obj.content, roomId: obj.roomId });
 			console.log(obj.usrName+'说：'+obj.content);
 		});
 	  

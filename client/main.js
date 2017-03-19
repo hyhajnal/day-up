@@ -1,13 +1,14 @@
 import 'babel-polyfill'  //解析字符
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+
 import VueResource from 'vue-resource'
 import VeeValidate from 'vee-validate'
 import VueLazyload from 'vue-lazyload'
 
 import store from './store'
 import App from './App'
-import { routes } from './route-config'
+
+import router from './route-config'
 import clickoutside from './directive/clickoutside'
 
 
@@ -25,7 +26,6 @@ import FastClick from 'fastclick'
 FastClick.attach(document.body)
 
 
-Vue.use(VueRouter)
 Vue.use(VueResource)
 Vue.use(VeeValidate)
 Vue.use(Mint)
@@ -34,16 +34,12 @@ Vue.use(VueLazyload)
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: 'images/404.png',
-  loading: 'images/loading.jpg',
+  error: '/images/404.png',
+  loading: '/images/loading.jpg',
   attempt: 1
 })
 
-const router = new VueRouter({
-	/*mode: 'history',*/ //HTML5 History 模式
-    base: __dirname,
-  	routes 
-})
+
 
 //全局通用filter
 Vue.filter('time', timestamp => {
@@ -51,6 +47,7 @@ Vue.filter('time', timestamp => {
 })
 
 Vue.directive('clickoutside',clickoutside)
+
 
 
 new Vue({

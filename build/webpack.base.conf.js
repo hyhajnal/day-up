@@ -15,6 +15,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.vue'],
     fallback: [path.join(__dirname, '../node_modules')],
+    //别名，减少硬盘搜索时间
     alias: {
       'vue': 'vue/dist/vue.js',
       'src': path.resolve(__dirname, '../client'),
@@ -46,6 +47,12 @@ module.exports = {
         test: /\.scss$/,
         loader: 'style!css!sass'
       },
+      // {
+      //     test: /\.scss$/,
+      //     loader: "style!css!sass?outputStyle=expanded&" +
+      //     "includePaths[]=" +
+      //     (path.resolve(__dirname, "../static/css/help/base.scss"))
+      // },
       {
         test: /\.json$/,
         loader: 'json'
@@ -66,6 +73,12 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
+    ]
+  },
+  sassLoader: {
+    data: '@import "base";',
+    includePaths: [
+      path.resolve(__dirname, "../static/css/help")
     ]
   },
   vue: {

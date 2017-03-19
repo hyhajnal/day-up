@@ -1,16 +1,17 @@
 import io from 'socket.io-client'
 import store from '../store'
 
-let socket,usrId,usrName,usrAvator
+let socket,usrId,usrName,usrAvator,usr
 
 export function init(){
 	socket = io.connect(store.state.serverHost)
 }
 
 export function setInfo() {
-	usrId = localStorage.getItem('usrId')
-	usrName = localStorage.getItem('usrName')
-	usrAvator = localStorage.getItem('usrAvator')
+	usr = store.state.usr
+	usrId = usr._id
+	usrName = usr.name
+	usrAvator = usr.avator
 }
 
 //监听后台传来的消息
@@ -47,6 +48,7 @@ export function listen_msg(roomId){
 			name: obj.usrName,
 			content: obj.content, 
 			roomId,
+			avator: obj.usrAvator,
 			type: usrName == obj.usrName ? 0 : 1
 		})
 	})
@@ -65,5 +67,6 @@ export function logout( roomId ){
 
 export function sendMsg( content, roomId, type){
 	setInfo()
-	socket.emit('sendMsg', { usrId: usrId, usrName: usrName, roomId: roomId, content: content})
+	socket.emit('sendMsg', { usrId: usrId, usrName: usrName, 
+		usrAvator: usrAvator, roomId: roomId, content: content})
 }

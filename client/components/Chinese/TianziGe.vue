@@ -5,7 +5,7 @@
                 <item><i class="iconfont icon-replay" @click="speak()"></i></item>
                 <item><i class="iconfont icon-xiangpi" @click="drawCanvas(1,0)"></i></item>
                 <item><i class="iconfont icon-next" @click="changeWord()"></i></item>
-            <grid>
+            </grid>
         </item> 
         <item class="s_tian" :cols="1">
             <grid align='around' wrap="nowrap">

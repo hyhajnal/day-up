@@ -10,9 +10,10 @@ const state = {
 	/*serverHost: 'http://1659x1818m.imwork.net:31744',*/
   /*serverHost: 'http://192.168.1.101:3000',*/
   /*serverHost: 'http://192.168.2.7:3000',*/
-  serverHost: 'http://169.254.190.192:3000',
+  serverHost: 'http://192.168.2.8:3000',
   bottom: true,
-  sidebar: false
+  sidebar: false,
+  usr: null
 
 }
  
@@ -22,6 +23,9 @@ const mutations = {
 	},
   setSidebar (state, flag) {
     state.sidebar = flag
+  },
+  setUsr (state, usr){
+    state.usr = Object.assign({}, usr)
   }
 }
 

@@ -36,6 +36,10 @@ export const add_room = ({ commit }, payload) => {
 	})
 }
 
+export const remove_room = ({ commit }, roomId) => {
+	commit(types.REMOVE_ROOM, roomId)
+}
+
 //推送消息
 //usrList增加此人
 export const login = ({ commit }, payload) => {

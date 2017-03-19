@@ -9,14 +9,14 @@
         <div class="chat_wrap" v-for="msg in msgs" >
           <mt-badge size="small" type="primary" color="#ccc"
                     v-if = "msg.type == 3 || msg.type == 4" class="sys_tip">
-            <strong>{{ msg.content }}
+            <strong>{{ msg.content }}</strong>
           </mt-badge>
           <div :class="{ 'item me': msg.type == 0, 
                          'item other' : msg.type == 1}" 
             v-if = "msg.type != 3 && msg.type != 4">
             <div class="avator">
               <div class="name"><strong>{{ msg.owner }}</strong></div>
-              <img src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" alt="avator" width='50' height='50'>
+              <img :src="msg.avator" alt="avator" width='50' height='50'>
 
             </div>
             <div class="chat_content">

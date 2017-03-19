@@ -4,7 +4,7 @@ export function getAllMsgs (cb) {
 	cb(chatData.msgs)
 }
 
-export function createMsg ({name, content, roomId, type}, cb) {
+export function createMsg ({name, content, avator, roomId, type}, cb) {
 	const timestamp = Date.now()
 	const id = 'm_' + timestamp
 	const msg = {
@@ -13,6 +13,7 @@ export function createMsg ({name, content, roomId, type}, cb) {
 		timestamp,
 		roomId,
 		type,
+		avator,
 		owner: name
 	}
 

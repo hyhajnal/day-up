@@ -13,15 +13,29 @@
       </bar>
     </div>
 
+    <div class="overlay" @click="closeSidebar" v-if="sidebar"></div>
+
     <div class="side-lay" :class="{'active': sidebar}">
-      <div class="overlay" @click="closeSidebar"></div>
-      <img src="images/1.jpg" alt="" width="60" height="60">
+      <img v-if="usr && usr.avator" :src="usr.avator" alt="" width="60" height="60" >
+      <img v-if="usr && !usr.avator" src="/images/1.jpg" alt="" width="60" height="60">
+      <p v-if="usr">{{ usr.name }}</p>
+      <div class="info">
+        <div class="info_item">
+          <span>当前积分</span>
+          <div>346</div>
+        </div>
+        <div class="info_item">
+          <span>计划匹配</span>
+          <div>67%</div>
+        </div>
+      </div>
       <ul class="side-list">
         <li v-for="(item, index) in sideList"  @click="goRoute(index)" 
         :class="{'active':item.active}">
           <i :class="'iconfont '+ item.icon"></i>{{item.content}}
         </li>
       </ul>
+      <p @click="logout">退出</p>
     </div>
   </div>
 </template>
@@ -48,6 +62,9 @@ export default {
     },
     sidebar () {
       return this.$store.state.sidebar
+    },
+    usr(){
+      return this.$store.state.usr
     }
   },
   /*watch: {
@@ -72,16 +89,24 @@ export default {
     },
     closeSidebar() {
       this.$store.commit('setSidebar', false)
+    },
+    logout(){
+      this.$store.commit('setSidebar', false)
+      this.$store.commit('setUsr', null)
+      window.sessionStorage.clear()
+      this.$router.replace('/login')
     }
   }
 }
 </script>
 
 
-<style lang="scss" >
-  @import "../static/css/help/base.scss";
+<style lang="scss">
+  
   $width:100vw;
   $height:100vh;
+  $move: $width / 1.5;  //sidebar所占大小
+
   .slide-fade-enter-active {
     transition: all .8s ease;
   }
@@ -94,46 +119,56 @@ export default {
   .header{
     background-color: #2b2e48 !important;
   }
-  .page,.side-lay{
-    transition: all .8s ease;
+  .page,.side-lay,.overlay{
+    transition: all 1s ease;
   }
   .side-lay{
     position: absolute;
     top: 0;
-    left: -$width / 2;
-    width:$width / 2;
+    left: -$move;
+    width:$move;
     height:$height;
-    /* background:linear-gradient(-45deg,orange,#2b2e48) 0 0 no-repeat; */
     background:#2b2b2b;
-    /* background-size:cover; */
-    z-index: 2000;
     color:#fff;
+    transform: translate3d(0, 0, 100px); 
     text-align:center;
       img{
         border-radius:100%;
-        margin:40px 0;
+        margin:40px 0 0;
+      }
+
+      .info{
+        display: flex;
+        justify-content:space-around;
+        margin-bottom: 1.5rem;
+        .info_item span{
+          font-size: .8rem;
+        }
       }
   }
   .side-lay.active{
-    transform: translateX($width / 2);
-    .overlay{
+    transform: translate3d($move, 0, 100px); //ios塌陷bug
+  }
+
+  .overlay{
       position: absolute;
       width: $width;
       height: $height;
       top: 0;
-      left: $width / 2;
+      left:0;
       background: rgba(0,0,0,0.6);
-    }
+      transform: translate3d(0, 0, 99px); //ios塌陷bug
   }
 
   .page.active{
-    transform: translateX($width / 2);
+    overflow: hidden;
+    transform: perspective(400px) rotateY(-16deg) translate3d($move, 0, 0) scale(0.8);
   }
 
 
   .side-list{
     li{
-      padding:15px 20px;
+      padding:12px 20px;
       text-align:left;
       i{
         margin-right:10px; margin-left:20px;
@@ -142,6 +177,6 @@ export default {
     .active{
         border-left:4px solid #ED5565;
         background:#222;
-      }
+    }
   }
 </style>

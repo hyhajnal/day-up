@@ -21,6 +21,10 @@ export default {
 		createRoom(state, room)
 	},
 
+	[types.REMOVE_ROOM] (state, roomId){
+
+	},
+
 	[types.LOGOUT] (state, { msg }) {
 		if(localStorage.getItem('usrName') != msg.owner){
 			addMsg(state, msg)
@@ -80,15 +84,15 @@ function login(state, msg){
 
 function logout(state, msg){
 
-	const usr = localStorage.getItem('usrName')
-	const usrList = state.rooms[msg.roomId].usr
+	// const usr = localStorage.getItem('usrName')
+	// const usrList = state.rooms[msg.roomId].usr
 
-	const index = usrList.findIndex(function(usr, index, arr){
-		return usr.id == usr
-	})
-	usrList.splice(index, 1)
+	// const index = usrList.findIndex(function(usr, index, arr){
+	// 	return usr.id == usr
+	// })
+	// usrList.splice(index, 1)
 
-	if(localStorage.getItem('usrName') == msg.owner){
+	if(JSON.parse(sessionStorage.getItem('usr')).name == msg.owner){
 		/*Vue.delete( object, key )*/
 		del(state.rooms, msg.roomId)
 	}

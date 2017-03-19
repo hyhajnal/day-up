@@ -15,6 +15,7 @@ var routes = require("./routes/index")
 var sockets = require('./socket/index')
 var compression = require('compression') //开启gzip  
 
+
 var db = 'mongodb://localhost/example'
 
 //mongoose.Promise = global.Promise;

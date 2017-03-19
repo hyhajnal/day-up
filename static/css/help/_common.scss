@@ -44,12 +44,16 @@ input,textarea, select{
 /**
  * 消除transition闪屏
  */
-.transition_issue {
+.transition_bug {
     /* .... */
     /*设置内嵌的元素在 3D 空间如何呈现：保留 3D*/
     -webkit-transform-style: preserve-3d;
     /*（设置进行转换的元素的背面在面对用户时是否可见：隐藏）*/
     -webkit-backface-visibility: hidden;
+
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 
@@ -160,11 +164,6 @@ button{
   border:none;
 }
 
-input{
-  -webkit-appearence:none;
-  -moz-appearence:none;
-  outline:none;
-}
 
 .page {
   position: absolute;
@@ -194,7 +193,7 @@ input{
   padding-bottom:2.5rem;
 }
 
-.icon-side, .icon-mima, .icon-add{
+.icon-side, .icon-add{
   display:inline-block;
   height:2.5rem;
   width:2.5rem;

@@ -46,14 +46,14 @@
 	export default {
 		mounted() {
 			this.$store.commit('setBottom', true)
-		    if(!localStorage.getItem('usrId')){
-		  	    MessageBox.prompt('请输入姓名').then(({ value, action }) => {
-		        	localStorage.setItem('usrId', value + Date.now())
-		        	localStorage.setItem('usrName',value)
-		      	}).catch( ( cancle ) => {
-		      		console.log(cancle)
-		      	})
-		    }
+		    // if(!sessionStorage.getItem('usrId')){
+		  	 //    MessageBox.prompt('请输入姓名').then(({ value, action }) => {
+		    //     	localStorage.setItem('usrId', value + Date.now())
+		    //     	localStorage.setItem('usrName',value)
+		    //   	}).catch( ( cancle ) => {
+		    //   		console.log(cancle)
+		    //   	})
+		    // }
 		    Csocket.init()
 	    },
 	    data() {

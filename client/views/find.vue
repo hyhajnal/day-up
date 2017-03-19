@@ -69,6 +69,7 @@
           <item></item>
         </grid>
       </div>
+    </div>
     <!-- </mt-loadmore> -->
 </div>    
 </template>

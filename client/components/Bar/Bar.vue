@@ -11,7 +11,6 @@ export default{
 }
 </script>
 <style lang="scss">
-@import "../../../static/css/help/base.scss";
 .bar {
   display: table;
   table-layout: fixed;

@@ -116,6 +116,7 @@ export default {
   }
   li{
     height: 4rem;
+    @include border(bottom,#ccc)
     .grid{
       width:100%;
       height:100%;

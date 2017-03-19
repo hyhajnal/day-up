@@ -29,10 +29,10 @@
 		  </mt-tab-container-item>
 
 		  <mt-tab-container-item id="2">
-		    <mt-cell v-for="n in 4" :title="'测试 ' + n" is-link>
+		    <mt-cell v-for="n in 4" :title="'测试 ' + n" is-link></mt-cell>
 		  </mt-tab-container-item>
 		  <mt-tab-container-item id="3">
-		    <mt-cell v-for="n in 6" :title="'选项 ' + n" is-link>
+		    <mt-cell v-for="n in 6" :title="'选项 ' + n" is-link></mt-cell>
 		  </mt-tab-container-item>
 		</mt-tab-container>
 
