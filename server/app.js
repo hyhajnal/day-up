@@ -4,27 +4,31 @@ var webpack = require('webpack')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var config = require('../config')
+var auth = require('./common/auth')
 var opn = require('opn')
 //http-proxy-middleware(代理转发中间件)
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('../build/webpack.dev.conf')
+//日志
 var log4js = require('log4js')
+var logger = require('./common/logger')
 var Promise = require('bluebird')
-
 var routes = require("./routes/index")
 var sockets = require('./socket/index')
-var compression = require('compression') //开启gzip  
-
-
-var db = 'mongodb://localhost/example'
+//开启gzip  
+var compression = require('compression')
+var redis = require('redis')
+/*    redisClient = redis.createClient() */
+var session = require('express-session')
+var RedisStore = require('connect-redis')(session)
 
 //mongoose.Promise = global.Promise;
 //to solve this problem:Mongoose: mpromise (mongoose's default promise library) is deprecated, plug in your own promise library instead: http://mongoosejs.com/docs/promises.html
 
-//use bluebird
+//bluebird将mongooseAPI转换成Promise
 Promise.promisifyAll(mongoose)
 
-mongoose.connect(db)
+mongoose.connect(config.dev.db)
 
 
 // default port where dev server listens for incoming traffic
@@ -35,13 +39,30 @@ var proxyTable = config.dev.proxyTable
 
 var app = express()
 
+//开启gzip
+app.use(compression())
 
-app.use(compression()) //开启gzip
-//socket.io
-/*var server = app.listen(3000)
-var io = require('socket.io').listen(server)
+/*redisClient.on('ready', function(err){
+  console.log('ready')
+})
+*/
 
-sockets(io)*/
+
+app.use(require('cookie-parser')(config.dev.session_secret))
+//redis存储session
+app.use(session({
+  secret: config.dev.session_secret, //要与cookie-parser保持一致
+  store: new RedisStore({
+    port: config.dev.redis_port,
+    host: config.dev.redis_host,
+    db: config.dev.redis_db,
+    pass: config.dev.redis_password,
+  }),
+  logErrors: true,
+  resave: false,
+  saveUninitialized: false,
+}))
+
 
 
 var compiler = webpack(webpackConfig)
@@ -68,33 +89,16 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 
-//配置日志输出
-log4js.configure({
-  appenders: [
-    { type: 'console' },//控制台输出
-    { 
-      type: 'file', //文件输出
-      filename: 'log/access.log',
-      maxLogSize: 1024,
-      backups: 3,
-      category: 'normal'
-    }
-  ]
-})
 
-//设置日志的默认输出为INFO，则不会打印出比INFO等级低的日志信息
-/*
-  *http responses 3xx, level = WARN
-  *http responses 4xx & 5xx, level = ERROR
-  *else, level = INFO
-*/
-var logger = log4js.getLogger('noraml')
-logger.setLevel('INFO') 
+//配置API输出时的日志
 app.use(log4js.connectLogger(logger, { level: 'auto', format: ':method :url' }))
 
 
 app.use(devMiddleware)
 app.use(hotMiddleware)
+
+//判断用户的登录状态
+//app.use(auth.authUser)
 routes(app)
 
 // proxy api requests
@@ -114,17 +118,17 @@ app.use(express.static(path.join(__dirname, '../static')))
 
 var server = app.listen(port, function (err) {
   if (err) {
-    console.log(err)
+    logger.error(err)
     return
   }
   var uri = 'http://localhost:' + port
-  console.log('Listening at ' + uri + '\n')
+  logger.info('Listening at ' + uri + '\n')
   opn(uri)
 })
 
 
 //socket.io
-/*var server = app.listen(3000)*/
+//var server = app.listen(3000)
 var io = require('socket.io').listen(server)
 
 sockets(io)

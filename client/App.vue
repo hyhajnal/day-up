@@ -16,8 +16,8 @@
     <div class="overlay" @click="closeSidebar" v-if="sidebar"></div>
 
     <div class="side-lay" :class="{'active': sidebar}">
-      <img v-if="usr && usr.avator" :src="usr.avator" alt="" width="60" height="60" >
-      <img v-if="usr && !usr.avator" src="/images/1.jpg" alt="" width="60" height="60">
+      <img v-if="usr && usr.avator" :src="usr.avator" alt="" width="60" height="60" @click="changeAvator()">
+      <img v-if="usr && !usr.avator" src="/images/404.png" alt="" width="60" height="60" @click="changeAvator()">
       <p v-if="usr">{{ usr.name }}</p>
       <div class="info">
         <div class="info_item">
@@ -53,7 +53,8 @@ export default {
         {icon:'icon-me',path:'/info',content: "我", active: false},
         {icon:'icon-people',path:'/time',content: "习惯", active: false},
         {icon:'icon-shouji',path:'/tip',content: "提示音", active: false}
-      ]
+      ],
+      avator:''
     }
   },
   computed: {
@@ -86,6 +87,10 @@ export default {
       })
       this.sideList[index].active = true
       this.$router.replace({ path:this.sideList[index].path} )
+    },
+    changeAvator () {
+      this.$store.commit('setSidebar', false)
+      this.$router.replace({ path:'img'} )
     },
     closeSidebar() {
       this.$store.commit('setSidebar', false)

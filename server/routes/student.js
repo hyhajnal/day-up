@@ -4,6 +4,24 @@ var http = require('http')
 var https = require('https')
 var util = require('util')
 var StuCtrl = require('../controller/student')
+var logger = require('../common/logger')
+var auth = require('../common/auth')
+var multer     = require('multer')
+
+//var upload = multer({ dest: 'uploads/' }) //解析multipart-form
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'static/uploads')
+  },
+  filename: function (req, file, cb) {
+    console.log(file)
+    console.log(req.body.oldPath)
+    var fileFormat = (file.mimetype).split("/")
+    var timestamp = Date.now()
+    cb(null, timestamp + '-' + req.session.user._id + '.' + fileFormat[1])
+  }
+})
+var upload = multer({ storage: storage })
 
 var stuFun = function(app) {
 
@@ -11,16 +29,18 @@ var stuFun = function(app) {
 
     app.post('/server/student/register',StuCtrl.register)
 
-	app.get('/server/student/tasks',StuCtrl.getTasksByDate)
+    app.post('/server/student/postImg', upload.single('img'), StuCtrl.postImg)
 
-	app.post('/server/student/getLetter', function(reQ,reS,next){
+	app.get('/server/student/tasks',auth.userRequired,StuCtrl.getTasksByDate)
+
+	app.post('/server/student/getLetter',auth.userRequired, function(reQ,reS,next){
 
         
-        //console.log(url.parse('https://api.hanvon.com/rt/ws/v1/hand/single?key=17206102-495d-4ddc-b23a-4cfa28b55d9e&code=83b798e7-cd10-4ce3-bd56-7b9e66ace93d'))
+        //logger.info(url.parse('https://api.hanvon.com/rt/ws/v1/hand/single?key=17206102-495d-4ddc-b23a-4cfa28b55d9e&code=83b798e7-cd10-4ce3-bd56-7b9e66ace93d'))
 
         //POST URL
         var urlstr = 'https://api.hanvon.com/rt/ws/v1/hand/single?key=add26bdb-eafb-4dd9-9c25-2fae836c4ba3&code=83b798e7-cd10-4ce3-bd56-7b9e66ace93d'
-        console.log(reQ.body.dataStr)
+        logger.info('轨迹...',reQ.body.dataStr)
         //const demoStr = "76.55,79.55,51.7,119.35,43.75,129.3,-1,0"
         //POST 内容
         var bodyQueryStr = {
@@ -31,7 +51,7 @@ var stuFun = function(app) {
 
         var contentStr = JSON.stringify(bodyQueryStr)
         var contentLen = Buffer.byteLength(contentStr, 'utf8')
-        //console.log(util.format('post data: %s, with length: %d', contentStr, contentLen))
+        //logger.info(util.format('post data: %s, with length: %d', contentStr, contentLen))
         var httpModule = urlstr.indexOf('https') === 0 ? https : http
         var urlData = url.parse(urlstr)
 
@@ -56,17 +76,17 @@ var stuFun = function(app) {
             httpRes.on('end', function(chunk) {
                 var wholeData = Buffer.concat(buffers)
                 var dataStr = wholeData.toString('utf8')
-                console.log('content ' + wholeData)
+                logger.info('content...',wholeData)
                 var r = JSON.parse(base64decode(dataStr))
-                console.log(r)
+
                 if(r.code == '0'){
                     var letter = tohanzi(r.result)
-                    console.log(letter)
+                    logger.info('字...',letter)
                     reS.json(letter)
                 }
             })
         }).on('error', function(err) {
-            console.log('error ' + err)
+            return next(err)
         })
 
         //写入数据，完成发送
@@ -139,7 +159,7 @@ function tohanzi(data){
     data = data.split(",")
     var str =''
     str = String.fromCharCode(data[0])
-    //console.log(str)
+    //logger.info(str)
     return str
 }
 

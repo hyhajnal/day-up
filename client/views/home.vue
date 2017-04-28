@@ -132,7 +132,7 @@
 	      		let self = this
 	      		let url = this.url+'/server/student/tasks?date='+this.date
 	      		self.loading = true
-		        self.$http.get(url)
+		        self.$http.get(url,{ credientials:true })
 		      	.then((response) => {
 		      		//success
 		      		self.loading = true

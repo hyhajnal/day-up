@@ -14,6 +14,9 @@ const routes = [
   { path: '/img', component(resolve){
         require(['./views/imgtest'], resolve) }
   },
+  { path: '/vido', component(resolve){
+        require(['./views/media/vidio'], resolve) }
+  },
   { path: '/login',
     name: 'login',component(resolve){
         require(['./views/login'], resolve) }

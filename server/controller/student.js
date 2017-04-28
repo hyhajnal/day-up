@@ -10,6 +10,8 @@ var fs         = require("fs")
 var Task 	   = require('../models/Task')
 var DoTask     = require('../models/DoTask')
 var Student    = require('../models/Student')
+var logger     = require('../common/logger')
+var auth       = require('../common/auth')
 
 var ep         = new EventProxy()
 
@@ -26,9 +28,9 @@ function resjson(res,isSuccess,data,msg){
 
 }
 
-function saveImg(username,imgData){
-	console.log('saveImg')
-	ep.emit('test','haha')
+function saveImg(userId,imgData){
+	logger.info('saveImg...')
+	console.log(imgData)
 	if(!imgData || imgData == ''){
 		ep.emit('saveImg',"/images/avator/empty.png")
 		return
@@ -36,7 +38,7 @@ function saveImg(username,imgData){
 	var base64Data = imgData.replace(/^data:image\/\w+;base64,/, "")
     var dataBuffer = new Buffer(base64Data, 'base64')
     var timestamp = new Date().getTime()
-    var imgurl = "/images/avator/"+ username + timestamp +".png"
+    var imgurl = "/images/avator/"+ userId + timestamp +".png"
     fs.writeFile(imgurl, dataBuffer, function(err) {
         if(err){
           ep.emit('saveImg',{err:true})
@@ -51,22 +53,24 @@ module.exports = {
 	login:function(req, res, next){
 		var username = req.body.username
 		var password = req.body.password
-		console.log(req.body)
+		logger.info('登陆传参...',req.body)
 		Student.findOneAsync({
 			name: username
 		})
 		.then(function(student){
-			console.log(student)
+			logger.info('登陆...',student)
 			if(!student){
 				resjson(res,true,null,'用户名不存在')
 			}else if(student.password != password){
 				resjson(res,true,null,'密码不正确')
 			}else{
+				// store session cookie
+      			auth.gen_session(student, req, res)
 				resjson(res,true,student,'登陆成功')
 			}
 		})
 		.catch(function(err){
-			resjson(res,false,null,'服务器出错')
+			return next(err)
 		})
 	},
 
@@ -77,8 +81,7 @@ module.exports = {
 
 		//保存图片
 		saveImg(req.body.username,req.body.avator)
-		ep.all('saveImg','test', function (data,data2) {
-			conosle.log(data2)
+		ep.all('saveImg', function (data) {
 			if(data.err){
 				resjson(res,true,null,'图片保存失败')
 				return
@@ -96,24 +99,57 @@ module.exports = {
 				}else{
 					newStudent.saveAsync()
 					.then(function(student){
-						console.log(student)
+						logger.info('注册....',student)
 						resjson(res,true,student,'注册成功')
 					})
 					.catch(function(err){
 						resjson(res,true,null,'创建失败')
+						return next(err)
 					})
 				}
 			})
 			.catch(function(err){
 				resjson(res,false,null,'服务器出错')
+				return next(err)
 			})
 		})
+	},
+
+
+	postImg: function (req, res, next){
+		var path = '/uploads/'+ req.file.filename
+		console.log(req.file)
+		logger.info('oldPath....',req.body.oldPath)
+		fs.unlinkSync('static' + req.body.oldPath) //删除原图片
+		Student.findByIdAndUpdateAsync({
+			_id: req.session.user._id
+		}, {$set: { avator:path }},{ upsert: true, new: true})
+		.then(function(student){
+			console.log(student)
+			if(student){
+				resjson(res,true,student,'图片上传成功')
+			}else{
+				resjson(res,null,student,'图片上传失败')
+			}
+		})
+		.catch(function(err){
+			resjson(res, false, null, "服务器出错")
+			return next(err)
+		})
+
+	},
+
+	// sign out
+	signout: function (req, res, next) {
+	  req.session.destroy();
+	  res.clearCookie('homework_everyday', { path: '/' });
+	  res.redirect('/');
 	},
 
 	
 	//查询当天或者一段时间的作业及完成情况
 	getTasksByDate: function(req, res, next){ 
-		console.log(req.query.date)
+		logger.info('查询日期...',req.query.date)
 		var date = req.query.date.split('/')
 		var sid = '584c0e7c672750e6d9e6a9ee'
 		var n = 0
@@ -139,7 +175,7 @@ module.exports = {
 						  		ep.emit('task_ready')
 						  })
 						  .catch(function(err){
-						  	 console.log(err)
+						  	return next(err)
 						  })
 					})
 					
@@ -147,12 +183,12 @@ module.exports = {
 				
 
 				ep.after('task_ready', n, function(){
-					console.log(tasks)
+					logger.info('查询作业...',tasks)
 					resjson(res,true,tasks,'')
 				})
 			})
 			.catch(function(err){
-				console.log(err)
+				return next(err)
 				res.send('error')
 			})
 

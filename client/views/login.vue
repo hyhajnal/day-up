@@ -67,8 +67,13 @@ export default {
             let data = response.data
             if(data.success){
               if(data.data){
-                sessionStorage.setItem('usr', JSON.stringify(data.data))
-                this.$store.commit('setUsr', data.data)
+                //sessionStorage.setItem('usr', JSON.stringify(data.data))
+                const user = {
+                  _id: data.data._id,
+                  name: data.data.name,
+                  avator: data.data.avator
+                }
+                this.$store.commit('setUsr', user)
                 this.$router.replace({ path:'/'} )
               }else{
                 MessageBox.alert(data.msg, '提示')
