@@ -14,6 +14,7 @@ exports.userRequired = function (req, res, next) {
 }
 
 function gen_session(user, req, res) {
+  console.log('session',req.session);
   req.session.user = user
   var auth_token = user._id + '$$$$' // 以后可能会存储更多信息，用 $$$$ 来分隔
   var opts = {

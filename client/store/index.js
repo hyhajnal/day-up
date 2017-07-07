@@ -10,7 +10,7 @@ const state = {
 	/*serverHost: 'http://1659x1818m.imwork.net:31744',*/
   /*serverHost: 'http://192.168.1.101:3000',*/
   /*serverHost: 'http://localhost:3000',*/
-  serverHost: 'http://192.168.2.3:3000',
+  serverHost: 'http://localhost:3000',
   bottom: true,
   sidebar: false,
   usr: null

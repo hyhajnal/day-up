@@ -65,7 +65,7 @@ module.exports = {
 				resjson(res,true,null,'密码不正确')
 			}else{
 				// store session cookie
-      			auth.gen_session(student, req, res)
+      	auth.gen_session(student, req, res)
 				resjson(res,true,student,'登陆成功')
 			}
 		})
@@ -86,7 +86,7 @@ module.exports = {
 				resjson(res,true,null,'图片保存失败')
 				return
 			}
-		    newStudent.name = req.body.username
+		  newStudent.name = req.body.username
 			newStudent.password = req.body.password
 			newStudent.avator = data
 
@@ -188,8 +188,8 @@ module.exports = {
 				})
 			})
 			.catch(function(err){
-				return next(err)
 				res.send('error')
+				return next(err)
 			})
 
 	}

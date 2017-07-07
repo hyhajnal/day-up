@@ -107,7 +107,7 @@ export default {
         postLetter(Str) {
             let _this = this
             const postStr = { dataStr: Str + '-1,0'}
-            this.$http.post('http://192.168.2.7:3000/server/student/getLetter',postStr)
+            this.$http.post(`${_this.$store.state.serverHost}/server/student/getLetter`,postStr)
             .then((response) => {
                 const data = response.data
                 console.log(data)

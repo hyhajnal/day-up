@@ -16,7 +16,23 @@
 * 后端 express + mongodb
 * 工具 webpack + sass + loadsh + eventproxy + socket.io 
 
+### 启动
+连接数据库
+``` bash
+sudo mongod
+```
+启动redis
+``` bash
+sudo redis-server
+```
+
+启动客户端
+``` bash
+npm install
+npm run dev
+```
+
 ### demo
-<img width="200" height="355" src="https://github.com/hyhajnal/VueApp/blob/master/gif/0.gif"/>
-<img width="200" height="355" src="https://github.com/hyhajnal/VueApp/blob/master/gif/1.gif"/>
-<img width="200" height="355" src="https://github.com/hyhajnal/VueApp/blob/master/gif/2.gif"/>
+<img width="200" height="355" src="./gif/0.gif"/>
+<img width="200" height="355" src="./gif/1.gif"/>
+<img width="200" height="355" src="./gif/2.gif"/>
